@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"os"
 	"path/filepath"
@@ -29,10 +30,9 @@ func decXlsEncAjf(xlsName string) error {
 	if err != nil {
 		return err
 	}
-	log.Println(xls)
 	ajf, err := xls2ajf(xls)
 	if err != nil {
-		return err
+		return fmt.Errorf("Error converting file %s: %s", xlsName, err)
 	}
 	ext := filepath.Ext(xlsName)
 	ajfName := xlsName[0:len(xlsName)-len(ext)] + ".json"

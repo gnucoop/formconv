@@ -1,0 +1,56 @@
+{
+	"choicesOrigin": [
+		{
+			"type": "fixed",
+			"name": "IMPLEMENTATION_PERIOD",
+			"choicesType": "string",
+			"choices": [
+				{
+					"label": "I YEAR",
+					"value": "1_year"
+				},
+				{
+					"label": "II YEAR",
+					"value": "2_year"
+				},
+				{
+					"label": "III YEAR",
+					"value": "3_year"
+				}
+			]
+		},
+		{
+			"type": "fixed",
+			"name": "MONITORING_VISITS",
+			"choicesType": "string",
+			"choices": [
+				{
+					"label": "Project's Monitoring",
+					"value": "projects_monitoring"
+				},
+				{
+					"label": "Monitoring of productive and trade units of farmers",
+					"value": "monitoring_of_productive_and_trade_units_of_farmers"
+				},
+				{
+					"label": "Irrigation Systems Monitoring",
+					"value": "Irrigation_systems_monitoring"
+				},
+				{
+					"label": "Markets monitoring",
+					"value": "markets_monitoring"
+				}
+			]
+		}
+	],
+	"nodes": [
+		{
+			"id": 1,
+			"parent": 0,
+			"nodeType": 3,
+			"name": "form",
+			"label": "Form",
+			"nodes": []
+		}
+	]
+}

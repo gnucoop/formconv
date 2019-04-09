@@ -2,16 +2,34 @@
 	"choicesOrigin": [
 		{
 			"type": "fixed",
-			"name": "years",
+			"name": "listname3",
 			"choicesType": "string",
 			"choices": [
 				{
-					"label": "1 Year",
-					"value": "1_year"
-				},
+					"label": "label3",
+					"value": "name3"
+				}
+			]
+		},
+		{
+			"type": "fixed",
+			"name": "listname1",
+			"choicesType": "string",
+			"choices": [
 				{
-					"label": "2 Years",
-					"value": "2_years"
+					"label": "label1",
+					"value": "name1"
+				}
+			]
+		},
+		{
+			"type": "fixed",
+			"name": "listname2",
+			"choicesType": "string",
+			"choices": [
+				{
+					"label": "label2",
+					"value": "name2"
 				}
 			]
 		}
@@ -21,22 +39,9 @@
 			"id": 1,
 			"parent": 0,
 			"nodeType": 3,
-			"name": "slide1",
-			"label": "First Slide",
-			"nodes": [
-				{
-					"id": 101,
-					"parent": 1,
-					"nodeType": 0,
-					"fieldType": 4,
-					"name": "yearfield",
-					"label": "Select Years",
-					"choicesOriginRef": "years",
-					"validation": {
-						"notEmpty": true
-					}
-				}
-			]
+			"name": "form",
+			"label": "Form",
+			"nodes": []
 		}
 	]
 }

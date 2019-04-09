@@ -7,6 +7,17 @@ import (
 	"github.com/360EntSecGroup-Skylar/excelize"
 )
 
+type xlsForm struct {
+	survey  survey
+	choices choices
+}
+type survey struct {
+	types, names, labels []string
+}
+type choices struct {
+	listNames, names, labels []string
+}
+
 type excelFile interface {
 	HasSheet(string) bool
 	GetRows(sheet string) ([][]string, error)
@@ -34,17 +45,6 @@ func openExcelFile(name string) (excelFile, error) {
 	}
 	f, err := excelize.OpenFile(name)
 	return (*xlsxFile)(f), err
-}
-
-type xlsForm struct {
-	survey  survey
-	choices choices
-}
-type survey struct {
-	types, names, labels []string
-}
-type choices struct {
-	listNames, names, labels []string
 }
 
 // Types used to define which sheets/columns to read from a file
