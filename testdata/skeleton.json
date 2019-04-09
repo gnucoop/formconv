@@ -1,0 +1,42 @@
+{
+	"choicesOrigin": [
+		{
+			"type": "fixed",
+			"name": "years",
+			"choicesType": "string",
+			"choices": [
+				{
+					"label": "1 Year",
+					"value": "1_year"
+				},
+				{
+					"label": "2 Years",
+					"value": "2_years"
+				}
+			]
+		}
+	],
+	"nodes": [
+		{
+			"id": 1,
+			"parent": 0,
+			"nodeType": 3,
+			"name": "slide1",
+			"label": "First Slide",
+			"nodes": [
+				{
+					"id": 101,
+					"parent": 1,
+					"nodeType": 0,
+					"fieldType": 4,
+					"name": "yearfield",
+					"label": "Select Years",
+					"choicesOriginRef": "years",
+					"validation": {
+						"notEmpty": true
+					}
+				}
+			]
+		}
+	]
+}
