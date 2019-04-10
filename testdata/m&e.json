@@ -52,7 +52,7 @@
 			"label": "Implementation period",
 			"nodes": [
 				{
-					"id": 1001,
+					"id": 1000,
 					"parent": 1,
 					"nodeType": 0,
 					"fieldType": 4,
@@ -70,13 +70,21 @@
 			"label": "Monitoring visits",
 			"nodes": [
 				{
-					"id": 2001,
+					"id": 2000,
 					"parent": 2,
 					"nodeType": 0,
 					"fieldType": 4,
 					"name": "_2_200",
 					"label": "Monitoring visits",
 					"choicesOriginRef": "MONITORING_VISITS"
+				},
+				{
+					"id": 2001,
+					"parent": 2000,
+					"nodeType": 0,
+					"fieldType": 9,
+					"name": "_2_201",
+					"label": "Date of the monitoring visit"
 				},
 				{
 					"id": 2002,

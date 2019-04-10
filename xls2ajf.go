@@ -10,7 +10,6 @@ const (
 	beginGroup = "begin group"
 	endGroup   = "end group"
 	selectOne  = "select_one "
-	text       = "text"
 )
 
 func xls2ajf(xls *xlsForm) (*ajfForm, error) {
@@ -122,6 +121,8 @@ func fieldTypeFrom(typ string) fieldType {
 	switch {
 	case strings.HasPrefix(typ, selectOne):
 		return ftSingleChoice
+	case typ == "date":
+		return ftDateInput
 	default:
 		return ftString
 	}
@@ -134,7 +135,7 @@ func assignIds(ajf *ajfForm) {
 		slide.Parent = i
 		for j := range slide.Fields {
 			field := &slide.Fields[j]
-			field.Id = slide.Id*1000 + j + 1
+			field.Id = slide.Id*1000 + j
 			if j == 0 {
 				field.Parent = slide.Id
 			} else {
