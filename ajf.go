@@ -8,7 +8,7 @@ import (
 )
 
 type ajfForm struct {
-	ChoicesOrigins []choicesOrigin `json:"choicesOrigin"`
+	ChoicesOrigins []choicesOrigin `json:"choicesOrigin,omitempty"`
 	Slides         []slide         `json:"nodes"`
 }
 
@@ -25,10 +25,7 @@ const otFixed originType = "fixed"
 
 type choiceType string
 
-const (
-	ctString choiceType = "string"
-	//ctNumber choiceType = "number"
-)
+const ctString choiceType = "string"
 
 type choice struct {
 	Label string `json:"label"`
@@ -51,8 +48,8 @@ type field struct {
 	FieldType        fieldType       `json:"fieldType"`
 	Name             string          `json:"name"`
 	Label            string          `json:"label"`
-	ChoicesOriginRef string          `json:"choicesOriginRef"`
-	Validation       fieldValidation `json:"validation"`
+	ChoicesOriginRef string          `json:"choicesOriginRef,omitempty"`
+	Validation       fieldValidation `json:"validation"` // make pointer and omitempty?
 }
 
 type nodeType int
@@ -80,7 +77,7 @@ const (
 )
 
 type fieldValidation struct {
-	NotEmpty bool `json:"notEmpty"`
+	NotEmpty bool `json:"notEmpty,omitempty"`
 }
 
 func encAjfToFile(form *ajfForm, fileName string) (err error) {

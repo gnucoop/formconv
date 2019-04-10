@@ -1,10 +1,15 @@
 package main
 
-import "errors"
+import (
+	"errors"
+	"fmt"
+	"strings"
+)
 
 const (
 	beginGroup = "begin group"
 	endGroup   = "end group"
+	selectOne  = "select_one "
 )
 
 func xls2ajf(xls *xlsForm) (*ajfForm, error) {
@@ -13,29 +18,42 @@ func xls2ajf(xls *xlsForm) (*ajfForm, error) {
 		return nil, err
 	}
 	var ajf ajfForm
-	ajf.ChoicesOrigins = buildChoicesOrigins(&xls.choices)
+	var choicesMap map[string][]choice
+	ajf.ChoicesOrigins, choicesMap = buildChoicesOrigins(&xls.choices)
 
 	groupDepth := 0
-	slideId := 1
-	//var currentSlide *slide
 	for i, typ := range xls.survey.types {
-		switch typ {
-		case beginGroup:
+		switch {
+		case typ == beginGroup:
 			groupDepth++
 			if groupDepth == 1 {
 				ajf.Slides = append(ajf.Slides, slide{
-					Id:       slideId,
+					Id:       len(ajf.Slides) + 1,
 					Parent:   0,
 					NodeType: ntSlide,
 					Name:     xls.survey.names[i],
 					Label:    xls.survey.labels[i],
 					Fields:   make([]field, 0),
 				})
-				slideId++
-				//currentSlide = &ajf.Slides[len(ajf.Slides)-1]
 			}
-		case endGroup:
+		case typ == endGroup:
 			groupDepth--
+		case strings.HasPrefix(typ, selectOne):
+			choiceName := typ[len(selectOne):]
+			if _, present := choicesMap[choiceName]; !present {
+				return nil, fmt.Errorf("Undefined single choice %s", choiceName)
+			}
+			currentSlide := &ajf.Slides[len(ajf.Slides)-1]
+			currentSlide.Fields = append(currentSlide.Fields, field{
+				Id:               currentSlide.Id*1000 + len(currentSlide.Fields) + 1,
+				Parent:           currentSlide.Id,
+				NodeType:         ntField,
+				FieldType:        ftSingleChoice,
+				Name:             xls.survey.names[i],
+				Label:            xls.survey.labels[i],
+				ChoicesOriginRef: choiceName,
+				// Validation
+			})
 		}
 	}
 	return &ajf, nil
@@ -73,17 +91,17 @@ func checkGroups(xls *xlsForm) (*xlsForm, error) {
 	return xls, nil
 }
 
-func buildChoicesOrigins(choices *choices) []choicesOrigin {
-	lists := make(map[string][]choice)
-	for i, listName := range choices.listNames {
-		lists[listName] = append(lists[listName], choice{
+func buildChoicesOrigins(choices *choices) ([]choicesOrigin, map[string][]choice) {
+	choicesMap := make(map[string][]choice)
+	for i, name := range choices.listNames {
+		choicesMap[name] = append(choicesMap[name], choice{
 			Label: choices.labels[i],
 			Value: choices.names[i],
 		})
 	}
 	// We want empty slices to be json-encoded as [], not null:
 	co := make([]choicesOrigin, 0)
-	for name, list := range lists {
+	for name, list := range choicesMap {
 		co = append(co, choicesOrigin{
 			Type:        otFixed,
 			Name:        name,
@@ -91,5 +109,5 @@ func buildChoicesOrigins(choices *choices) []choicesOrigin {
 			Choices:     list,
 		})
 	}
-	return co
+	return co, choicesMap
 }

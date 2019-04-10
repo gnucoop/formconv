@@ -48,8 +48,27 @@
 			"id": 1,
 			"parent": 0,
 			"nodeType": 3,
-			"name": "form",
-			"label": "Form",
+			"name": "_1",
+			"label": "Implementation period",
+			"nodes": [
+				{
+					"id": 1001,
+					"parent": 1,
+					"nodeType": 0,
+					"fieldType": 4,
+					"name": "_1_100",
+					"label": "Please select one of the following",
+					"choicesOriginRef": "IMPLEMENTATION_PERIOD",
+					"validation": {}
+				}
+			]
+		},
+		{
+			"id": 2,
+			"parent": 0,
+			"nodeType": 3,
+			"name": "_2",
+			"label": "Monitoring visits",
 			"nodes": []
 		}
 	]
