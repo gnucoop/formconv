@@ -11,8 +11,6 @@ const (
 	endGroup   = "end group"
 	selectOne  = "select_one "
 	text       = "text"
-
-	slideIdMult = 1000
 )
 
 func xls2ajf(xls *xlsForm) (*ajfForm, error) {
@@ -32,8 +30,6 @@ func xls2ajf(xls *xlsForm) (*ajfForm, error) {
 			groupDepth++
 			if groupDepth == 1 {
 				ajf.Slides = append(ajf.Slides, slide{
-					Id:       len(ajf.Slides) + 1,
-					Parent:   0,
 					NodeType: ntSlide,
 					Name:     xls.survey.names[i],
 					Label:    xls.survey.labels[i],
@@ -50,13 +46,7 @@ func xls2ajf(xls *xlsForm) (*ajfForm, error) {
 			continue
 		}
 		// default:
-		parent := curSlide.Id
-		if len(curSlide.Fields) > 0 {
-			parent = curSlide.Fields[len(curSlide.Fields)-1].Id
-		}
 		curSlide.Fields = append(curSlide.Fields, field{
-			Id:        curSlide.Id*slideIdMult + len(curSlide.Fields) + 1,
-			Parent:    parent,
 			NodeType:  ntField,
 			FieldType: fieldTypeFrom(typ),
 			Name:      xls.survey.names[i],
@@ -71,6 +61,7 @@ func xls2ajf(xls *xlsForm) (*ajfForm, error) {
 			curSlide.Fields[len(curSlide.Fields)-1].ChoicesOriginRef = choiceName
 		}
 	}
+	assignIds(&ajf)
 	return &ajf, nil
 }
 
@@ -133,5 +124,22 @@ func fieldTypeFrom(typ string) fieldType {
 		return ftSingleChoice
 	default:
 		return ftString
+	}
+}
+
+func assignIds(ajf *ajfForm) {
+	for i := range ajf.Slides {
+		slide := &ajf.Slides[i]
+		slide.Id = i + 1
+		slide.Parent = i
+		for j := range slide.Fields {
+			field := &slide.Fields[j]
+			field.Id = slide.Id*1000 + j + 1
+			if j == 0 {
+				field.Parent = slide.Id
+			} else {
+				field.Parent = slide.Fields[j-1].Id
+			}
+		}
 	}
 }
