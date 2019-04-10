@@ -30,12 +30,12 @@ func TestDecodeXlsx(t *testing.T) {
 		t.Fatal(err)
 	}
 	expected := &xlsForm{
-		survey{
+		surveySheet{
 			types:  []string{"type1", "type2"},
 			names:  []string{"name1", "name2"},
 			labels: []string{"label1", "label2"},
 		},
-		choices{
+		choicesSheet{
 			listNames: []string{"listname1", "listname2", "listname3"},
 			names:     []string{"name1", "name2", "name3"},
 			labels:    []string{"label1", "label2", "label3"},
@@ -43,5 +43,22 @@ func TestDecodeXlsx(t *testing.T) {
 	}
 	if !reflect.DeepEqual(xls, expected) {
 		t.Fatalf("Error decoding %s: expected %v, got %v", fileName, expected, xls)
+	}
+}
+
+func TestBuildChoicesOrigins(t *testing.T) {
+	choices := choicesSheet{
+		listNames: []string{"list1", "list2", "list1"},
+		names:     []string{"elem1a", "elem2a", "elem1b"},
+		labels:    []string{"label1a", "label2a", "label1b"},
+	}
+	_, choicesMap := buildChoicesOrigins(&choices)
+	expected := map[string][]choice{
+		"list1": {{"elem1a", "label1a"}, {"elem1b", "label1b"}},
+		"list2": {{"elem2a", "label2a"}},
+	}
+	if !reflect.DeepEqual(choicesMap, expected) {
+		t.Fatalf("Error building choices origins of %v: expected %v, got %v",
+			&choices, expected, choicesMap)
 	}
 }

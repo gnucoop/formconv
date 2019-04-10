@@ -95,16 +95,17 @@ func checkGroups(xls *xlsForm) (*xlsForm, error) {
 		xls.survey.types = append([]string{beginGroup}, append(xls.survey.types, endGroup)...)
 		xls.survey.names = append([]string{"form"}, append(xls.survey.names, "")...)
 		xls.survey.labels = append([]string{"Form"}, append(xls.survey.labels, "")...)
+		// WARNING: has to be done for all the other slices in survey
 	}
 	return xls, nil
 }
 
-func buildChoicesOrigins(choices *choices) ([]choicesOrigin, map[string][]choice) {
+func buildChoicesOrigins(choices *choicesSheet) ([]choicesOrigin, map[string][]choice) {
 	choicesMap := make(map[string][]choice)
 	for i, name := range choices.listNames {
 		choicesMap[name] = append(choicesMap[name], choice{
-			Label: choices.labels[i],
 			Value: choices.names[i],
+			Label: choices.labels[i],
 		})
 	}
 	var co []choicesOrigin

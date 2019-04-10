@@ -8,13 +8,13 @@ import (
 )
 
 type xlsForm struct {
-	survey  survey
-	choices choices
+	survey  surveySheet
+	choices choicesSheet
 }
-type survey struct {
+type surveySheet struct {
 	types, names, labels, required []string
 }
-type choices struct {
+type choicesSheet struct {
 	listNames, names, labels []string
 }
 

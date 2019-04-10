@@ -28,8 +28,8 @@ type choiceType string
 const ctString choiceType = "string"
 
 type choice struct {
-	Label string `json:"label"`
 	Value string `json:"value"`
+	Label string `json:"label"`
 }
 
 type slide struct {
