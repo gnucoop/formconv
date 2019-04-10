@@ -8,7 +8,7 @@ import (
 )
 
 type ajfForm struct {
-	ChoicesOrigins []choicesOrigin `json:"choicesOrigin,omitempty"`
+	ChoicesOrigins []choicesOrigin `json:"choicesOrigins,omitempty"`
 	Slides         []slide         `json:"nodes"`
 }
 
