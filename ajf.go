@@ -42,14 +42,14 @@ type slide struct {
 }
 
 type field struct {
-	Id               int             `json:"id"`
-	Parent           int             `json:"parent"`
-	NodeType         nodeType        `json:"nodeType"` // always ntField
-	FieldType        fieldType       `json:"fieldType"`
-	Name             string          `json:"name"`
-	Label            string          `json:"label"`
-	ChoicesOriginRef string          `json:"choicesOriginRef,omitempty"`
-	Validation       fieldValidation `json:"validation"` // make pointer and omitempty?
+	Id               int              `json:"id"`
+	Parent           int              `json:"parent"`
+	NodeType         nodeType         `json:"nodeType"` // always ntField
+	FieldType        fieldType        `json:"fieldType"`
+	Name             string           `json:"name"`
+	Label            string           `json:"label"`
+	ChoicesOriginRef string           `json:"choicesOriginRef,omitempty"`
+	Validation       *fieldValidation `json:"validation,omitempty"`
 }
 
 type nodeType int

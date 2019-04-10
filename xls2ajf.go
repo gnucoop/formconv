@@ -10,6 +10,9 @@ const (
 	beginGroup = "begin group"
 	endGroup   = "end group"
 	selectOne  = "select_one "
+	text       = "text"
+
+	slideIdMult = 1000
 )
 
 func xls2ajf(xls *xlsForm) (*ajfForm, error) {
@@ -22,9 +25,10 @@ func xls2ajf(xls *xlsForm) (*ajfForm, error) {
 	ajf.ChoicesOrigins, choicesMap = buildChoicesOrigins(&xls.choices)
 
 	groupDepth := 0
+	var curSlide *slide
 	for i, typ := range xls.survey.types {
-		switch {
-		case typ == beginGroup:
+		switch typ {
+		case beginGroup:
 			groupDepth++
 			if groupDepth == 1 {
 				ajf.Slides = append(ajf.Slides, slide{
@@ -35,25 +39,36 @@ func xls2ajf(xls *xlsForm) (*ajfForm, error) {
 					Label:    xls.survey.labels[i],
 					Fields:   make([]field, 0),
 				})
+				curSlide = &ajf.Slides[len(ajf.Slides)-1]
 			}
-		case typ == endGroup:
+			continue
+		case endGroup:
 			groupDepth--
-		case strings.HasPrefix(typ, selectOne):
+			if groupDepth == 0 {
+				curSlide = nil
+			}
+			continue
+		}
+		// default:
+		parent := curSlide.Id
+		if len(curSlide.Fields) > 0 {
+			parent = curSlide.Fields[len(curSlide.Fields)-1].Id
+		}
+		curSlide.Fields = append(curSlide.Fields, field{
+			Id:        curSlide.Id*slideIdMult + len(curSlide.Fields) + 1,
+			Parent:    parent,
+			NodeType:  ntField,
+			FieldType: fieldTypeFrom(typ),
+			Name:      xls.survey.names[i],
+			Label:     xls.survey.labels[i],
+			// Validation
+		})
+		if strings.HasPrefix(typ, selectOne) {
 			choiceName := typ[len(selectOne):]
 			if _, present := choicesMap[choiceName]; !present {
 				return nil, fmt.Errorf("Undefined single choice %s", choiceName)
 			}
-			currentSlide := &ajf.Slides[len(ajf.Slides)-1]
-			currentSlide.Fields = append(currentSlide.Fields, field{
-				Id:               currentSlide.Id*1000 + len(currentSlide.Fields) + 1,
-				Parent:           currentSlide.Id,
-				NodeType:         ntField,
-				FieldType:        ftSingleChoice,
-				Name:             xls.survey.names[i],
-				Label:            xls.survey.labels[i],
-				ChoicesOriginRef: choiceName,
-				// Validation
-			})
+			curSlide.Fields[len(curSlide.Fields)-1].ChoicesOriginRef = choiceName
 		}
 	}
 	return &ajf, nil
@@ -110,4 +125,13 @@ func buildChoicesOrigins(choices *choices) ([]choicesOrigin, map[string][]choice
 		})
 	}
 	return co, choicesMap
+}
+
+func fieldTypeFrom(typ string) fieldType {
+	switch {
+	case strings.HasPrefix(typ, selectOne):
+		return ftSingleChoice
+	default:
+		return ftString
+	}
 }

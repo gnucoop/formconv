@@ -58,8 +58,7 @@
 					"fieldType": 4,
 					"name": "_1_100",
 					"label": "Please select one of the following",
-					"choicesOriginRef": "IMPLEMENTATION_PERIOD",
-					"validation": {}
+					"choicesOriginRef": "IMPLEMENTATION_PERIOD"
 				}
 			]
 		},
@@ -69,7 +68,41 @@
 			"nodeType": 3,
 			"name": "_2",
 			"label": "Monitoring visits",
-			"nodes": []
+			"nodes": [
+				{
+					"id": 2001,
+					"parent": 2,
+					"nodeType": 0,
+					"fieldType": 4,
+					"name": "_2_200",
+					"label": "Monitoring visits",
+					"choicesOriginRef": "MONITORING_VISITS"
+				},
+				{
+					"id": 2002,
+					"parent": 2001,
+					"nodeType": 0,
+					"fieldType": 0,
+					"name": "_2_202",
+					"label": "Name of monitoring visitor"
+				},
+				{
+					"id": 2003,
+					"parent": 2002,
+					"nodeType": 0,
+					"fieldType": 0,
+					"name": "_2_203",
+					"label": "Position of monitoring visitor"
+				},
+				{
+					"id": 2004,
+					"parent": 2003,
+					"nodeType": 0,
+					"fieldType": 0,
+					"name": "_2_204",
+					"label": "Main conclusions of the monitoring visit"
+				}
+			]
 		}
 	]
 }
