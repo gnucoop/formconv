@@ -107,8 +107,7 @@ func buildChoicesOrigins(choices *choices) ([]choicesOrigin, map[string][]choice
 			Value: choices.names[i],
 		})
 	}
-	// We want empty slices to be json-encoded as [], not null:
-	co := make([]choicesOrigin, 0)
+	var co []choicesOrigin
 	for name, list := range choicesMap {
 		co = append(co, choicesOrigin{
 			Type:        otFixed,
