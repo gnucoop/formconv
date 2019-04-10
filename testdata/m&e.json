@@ -58,7 +58,10 @@
 					"fieldType": 4,
 					"name": "_1_100",
 					"label": "Please select one of the following",
-					"choicesOriginRef": "IMPLEMENTATION_PERIOD"
+					"choicesOriginRef": "IMPLEMENTATION_PERIOD",
+					"validation": {
+						"notEmpty": true
+					}
 				}
 			]
 		},
@@ -76,7 +79,10 @@
 					"fieldType": 4,
 					"name": "_2_200",
 					"label": "Monitoring visits",
-					"choicesOriginRef": "MONITORING_VISITS"
+					"choicesOriginRef": "MONITORING_VISITS",
+					"validation": {
+						"notEmpty": true
+					}
 				},
 				{
 					"id": 2001,
@@ -84,7 +90,10 @@
 					"nodeType": 0,
 					"fieldType": 9,
 					"name": "_2_201",
-					"label": "Date of the monitoring visit"
+					"label": "Date of the monitoring visit",
+					"validation": {
+						"notEmpty": true
+					}
 				},
 				{
 					"id": 2002,
@@ -92,7 +101,10 @@
 					"nodeType": 0,
 					"fieldType": 0,
 					"name": "_2_202",
-					"label": "Name of monitoring visitor"
+					"label": "Name of monitoring visitor",
+					"validation": {
+						"notEmpty": true
+					}
 				},
 				{
 					"id": 2003,
@@ -100,7 +112,10 @@
 					"nodeType": 0,
 					"fieldType": 0,
 					"name": "_2_203",
-					"label": "Position of monitoring visitor"
+					"label": "Position of monitoring visitor",
+					"validation": {
+						"notEmpty": true
+					}
 				},
 				{
 					"id": 2004,
@@ -108,7 +123,10 @@
 					"nodeType": 0,
 					"fieldType": 0,
 					"name": "_2_204",
-					"label": "Main conclusions of the monitoring visit"
+					"label": "Main conclusions of the monitoring visit",
+					"validation": {
+						"notEmpty": true
+					}
 				}
 			]
 		}

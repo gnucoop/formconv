@@ -12,7 +12,7 @@ type xlsForm struct {
 	choices choices
 }
 type survey struct {
-	types, names, labels []string
+	types, names, labels, required []string
 }
 type choices struct {
 	listNames, names, labels []string
@@ -75,6 +75,7 @@ func decXlsFromFile(fileName string) (*xlsForm, error) {
 			{"type", &form.survey.types, true},
 			{"name", &form.survey.names, true},
 			{"label", &form.survey.labels, true},
+			{"required", &form.survey.required, false},
 		},
 	}, {
 		name:      "choices",

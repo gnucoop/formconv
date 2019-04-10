@@ -50,14 +50,17 @@ func xls2ajf(xls *xlsForm) (*ajfForm, error) {
 			FieldType: fieldTypeFrom(typ),
 			Name:      xls.survey.names[i],
 			Label:     xls.survey.labels[i],
-			// Validation
 		})
+		curField := &curSlide.Fields[len(curSlide.Fields)-1]
 		if strings.HasPrefix(typ, selectOne) {
 			choiceName := typ[len(selectOne):]
 			if _, present := choicesMap[choiceName]; !present {
 				return nil, fmt.Errorf("Undefined single choice %s", choiceName)
 			}
-			curSlide.Fields[len(curSlide.Fields)-1].ChoicesOriginRef = choiceName
+			curField.ChoicesOriginRef = choiceName
+		}
+		if xls.survey.required != nil && xls.survey.required[i] == "yes" {
+			curField.Validation = &fieldValidation{NotEmpty: true}
 		}
 	}
 	assignIds(&ajf)
