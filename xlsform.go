@@ -3,20 +3,100 @@ package main
 import (
 	"fmt"
 	"path/filepath"
+	"reflect"
 
 	"github.com/360EntSecGroup-Skylar/excelize"
 )
 
 type XlsForm struct {
-	survey  surveySheet
-	choices choicesSheet
+	Survey  []SurveyRow
+	Choices []ChoicesRow
 }
-type surveySheet struct {
-	types, names, labels, required []string
-	// relevant, constraint, default?, readonly? calculation?
+type SurveyRow struct {
+	Type, Name, Label,
+	Required, Default, Relevant, Constraint, Readonly string
 }
-type choicesSheet struct {
-	listNames, names, labels []string
+type ChoicesRow struct {
+	ListName, Name, Label string
+}
+
+// Defines which sheets/columns to read from an excel file.
+// Names must appear in the same order as the fields of XlsForm.
+var sheetInfos = []sheetInfo{{
+	name:      "survey",
+	mandatory: true,
+	columns: []columnInfo{
+		{name: "type", mandatory: true},
+		{name: "name", mandatory: true},
+		{name: "label", mandatory: true},
+		{name: "required"},
+		{name: "default"},
+		{name: "relevant"},
+		{name: "constraint"},
+		{name: "readonly"},
+	}}, {
+	name:      "choices",
+	mandatory: true,
+	columns: []columnInfo{
+		{name: "list name", mandatory: true},
+		{name: "name", mandatory: true},
+		{name: "label", mandatory: true},
+	},
+}}
+
+type sheetInfo struct {
+	name      string
+	mandatory bool
+	columns   []columnInfo
+}
+type columnInfo struct {
+	name      string
+	mandatory bool
+}
+
+func DecXlsFromFile(fileName string) (*XlsForm, error) {
+	f, err := openExcelFile(fileName)
+	if err != nil {
+		return nil, fmt.Errorf("Could not open excel file %s: %s", fileName, err)
+	}
+	defer f.Close()
+
+	var form XlsForm
+	formVal := reflect.ValueOf(&form).Elem()
+	for i, sheet := range sheetInfos {
+		if !sheet.mandatory && !f.HasSheet(sheet.name) {
+			continue
+		}
+		rows, err := f.GetRows(sheet.name)
+		if err != nil {
+			return nil, fmt.Errorf("Couldn't get sheet %q from file %s: %s", sheet.name, fileName, err)
+		}
+		rows = deleteEmpty(rows)
+		if len(rows) == 0 {
+			return nil, fmt.Errorf("Empty sheet %q in file %s", sheet.name, fileName)
+		}
+		head := rows[0]
+		rows = rows[1:]
+		colIndices := make([]int, len(sheet.columns))
+		for i, colInfo := range sheet.columns {
+			colIndices[i] = indexOfString(head, colInfo.name)
+			if colInfo.mandatory && colIndices[i] == -1 {
+				return nil, fmt.Errorf("Error in file %s, sheet %q: column %q is mandatory",
+					fileName, sheet.name, colInfo.name)
+			}
+		}
+		sheetSlice := formVal.Field(i)
+		for _, row := range rows {
+			rowVal := reflect.New(sheetSlice.Type().Elem()).Elem()
+			for j := range sheet.columns {
+				if colIndices[j] != -1 {
+					rowVal.Field(j).Set(reflect.ValueOf(row[colIndices[j]]))
+				}
+			}
+			sheetSlice.Set(reflect.Append(sheetSlice, rowVal))
+		}
+	}
+	return &form, nil
 }
 
 type excelFile interface {
@@ -48,68 +128,6 @@ func openExcelFile(name string) (excelFile, error) {
 	return (*xlsxFile)(f), err
 }
 
-// Types used to define which sheets/columns to read from a file
-// and where to store the columns.
-type sheet struct {
-	name      string
-	columns   []column
-	mandatory bool
-}
-type column struct {
-	name      string
-	dest      *[]string
-	mandatory bool
-}
-
-func DecXlsFromFile(fileName string) (*XlsForm, error) {
-	f, err := openExcelFile(fileName)
-	if err != nil {
-		return nil, fmt.Errorf("Could not open excel file %s: %s", fileName, err)
-	}
-	defer f.Close()
-
-	var form XlsForm
-	sheets := []sheet{{
-		name:      "survey",
-		mandatory: true,
-		columns: []column{
-			{"type", &form.survey.types, true},
-			{"name", &form.survey.names, true},
-			{"label", &form.survey.labels, true},
-			{"required", &form.survey.required, false},
-		},
-	}, {
-		name:      "choices",
-		mandatory: true,
-		columns: []column{
-			{"list_name", &form.choices.listNames, true},
-			{"name", &form.choices.names, true},
-			{"label", &form.choices.labels, true},
-		},
-	}}
-	for _, sheet := range sheets {
-		if !sheet.mandatory && !f.HasSheet(sheet.name) {
-			continue
-		}
-		rows, err := f.GetRows(sheet.name)
-		if err != nil {
-			return nil, fmt.Errorf("Couldn't get sheet %q from file %s: %s",
-				sheet.name, fileName, err)
-		}
-		rows = deleteEmpty(rows)
-		cols := transpose(rows)
-		cols = deleteEmpty(cols)
-		for _, column := range sheet.columns {
-			*column.dest = findCol(cols, column.name)
-			if column.mandatory && *column.dest == nil {
-				return nil, fmt.Errorf("Error in file %s, sheet %q: column %q is mandatory",
-					fileName, sheet.name, column.name)
-			}
-		}
-	}
-	return &form, nil
-}
-
 func deleteEmpty(rows [][]string) [][]string {
 	filteredRows := make([][]string, 0, len(rows))
 	for _, row := range rows {
@@ -127,27 +145,11 @@ func deleteEmpty(rows [][]string) [][]string {
 	return filteredRows
 }
 
-func transpose(rows [][]string) [][]string {
-	if len(rows) == 0 {
-		return nil
-	}
-	cols := make([][]string, len(rows[0]))
-	for i := range cols {
-		cols[i] = make([]string, len(rows))
-	}
-	for i, row := range rows {
-		for j, cell := range row {
-			cols[j][i] = cell
+func indexOfString(row []string, name string) int {
+	for i, cell := range row {
+		if cell == name {
+			return i
 		}
 	}
-	return cols
-}
-
-func findCol(cols [][]string, name string) []string {
-	for _, col := range cols {
-		if len(col) > 0 && col[0] == name {
-			return col[1:]
-		}
-	}
-	return nil
+	return -1
 }

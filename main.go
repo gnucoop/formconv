@@ -30,7 +30,7 @@ func decXlsEncAjf(xlsName string) error {
 	if err != nil {
 		return err
 	}
-	ajf, err := xls2ajf(xls)
+	ajf, err := Xls2ajf(xls)
 	if err != nil {
 		return fmt.Errorf("Error converting file %s: %s", xlsName, err)
 	}
