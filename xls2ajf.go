@@ -12,27 +12,27 @@ const (
 	selectOne  = "select_one "
 )
 
-func xls2ajf(xls *xlsForm) (*ajfForm, error) {
+func xls2ajf(xls *XlsForm) (*AjfForm, error) {
 	xls, err := checkGroups(xls)
 	if err != nil {
 		return nil, err
 	}
-	var ajf ajfForm
-	var choicesMap map[string][]choice
+	var ajf AjfForm
+	var choicesMap map[string][]Choice
 	ajf.ChoicesOrigins, choicesMap = buildChoicesOrigins(&xls.choices)
 
 	groupDepth := 0
-	var curSlide *slide
+	var curSlide *Slide
 	for i, typ := range xls.survey.types {
 		switch typ {
 		case beginGroup:
 			groupDepth++
 			if groupDepth == 1 {
-				ajf.Slides = append(ajf.Slides, slide{
-					NodeType: ntSlide,
+				ajf.Slides = append(ajf.Slides, Slide{
+					NodeType: NtSlide,
 					Name:     xls.survey.names[i],
 					Label:    xls.survey.labels[i],
-					Fields:   make([]field, 0),
+					Fields:   make([]Field, 0),
 				})
 				curSlide = &ajf.Slides[len(ajf.Slides)-1]
 			}
@@ -45,8 +45,8 @@ func xls2ajf(xls *xlsForm) (*ajfForm, error) {
 			continue
 		}
 		// default:
-		curSlide.Fields = append(curSlide.Fields, field{
-			NodeType:  ntField,
+		curSlide.Fields = append(curSlide.Fields, Field{
+			NodeType:  NtField,
 			FieldType: fieldTypeFrom(typ),
 			Name:      xls.survey.names[i],
 			Label:     xls.survey.labels[i],
@@ -60,7 +60,7 @@ func xls2ajf(xls *xlsForm) (*ajfForm, error) {
 			curField.ChoicesOriginRef = choiceName
 		}
 		if xls.survey.required != nil && xls.survey.required[i] == "yes" {
-			curField.Validation = &fieldValidation{NotEmpty: true}
+			curField.Validation = &FieldValidation{NotEmpty: true}
 		}
 	}
 	assignIds(&ajf)
@@ -69,7 +69,7 @@ func xls2ajf(xls *xlsForm) (*ajfForm, error) {
 
 var notBalancedErr = errors.New("Groups are not balanced")
 
-func checkGroups(xls *xlsForm) (*xlsForm, error) {
+func checkGroups(xls *XlsForm) (*XlsForm, error) {
 	groupDepth := 0
 	ungroupedItems := false
 	for _, typ := range xls.survey.types {
@@ -100,38 +100,38 @@ func checkGroups(xls *xlsForm) (*xlsForm, error) {
 	return xls, nil
 }
 
-func buildChoicesOrigins(choices *choicesSheet) ([]choicesOrigin, map[string][]choice) {
-	choicesMap := make(map[string][]choice)
+func buildChoicesOrigins(choices *choicesSheet) ([]ChoicesOrigin, map[string][]Choice) {
+	choicesMap := make(map[string][]Choice)
 	for i, name := range choices.listNames {
-		choicesMap[name] = append(choicesMap[name], choice{
+		choicesMap[name] = append(choicesMap[name], Choice{
 			Value: choices.names[i],
 			Label: choices.labels[i],
 		})
 	}
-	var co []choicesOrigin
+	var co []ChoicesOrigin
 	for name, list := range choicesMap {
-		co = append(co, choicesOrigin{
-			Type:        otFixed,
+		co = append(co, ChoicesOrigin{
+			Type:        OtFixed,
 			Name:        name,
-			ChoicesType: ctString,
+			ChoicesType: CtString,
 			Choices:     list,
 		})
 	}
 	return co, choicesMap
 }
 
-func fieldTypeFrom(typ string) fieldType {
+func fieldTypeFrom(typ string) FieldType {
 	switch {
 	case strings.HasPrefix(typ, selectOne):
-		return ftSingleChoice
+		return FtSingleChoice
 	case typ == "date":
-		return ftDateInput
+		return FtDateInput
 	default:
-		return ftString
+		return FtString
 	}
 }
 
-func assignIds(ajf *ajfForm) {
+func assignIds(ajf *AjfForm) {
 	for i := range ajf.Slides {
 		slide := &ajf.Slides[i]
 		slide.Id = i + 1

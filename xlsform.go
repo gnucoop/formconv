@@ -7,12 +7,13 @@ import (
 	"github.com/360EntSecGroup-Skylar/excelize"
 )
 
-type xlsForm struct {
+type XlsForm struct {
 	survey  surveySheet
 	choices choicesSheet
 }
 type surveySheet struct {
 	types, names, labels, required []string
+	// relevant, constraint, default?, readonly? calculation?
 }
 type choicesSheet struct {
 	listNames, names, labels []string
@@ -60,14 +61,14 @@ type column struct {
 	mandatory bool
 }
 
-func decXlsFromFile(fileName string) (*xlsForm, error) {
+func DecXlsFromFile(fileName string) (*XlsForm, error) {
 	f, err := openExcelFile(fileName)
 	if err != nil {
 		return nil, fmt.Errorf("Could not open excel file %s: %s", fileName, err)
 	}
 	defer f.Close()
 
-	var form xlsForm
+	var form XlsForm
 	sheets := []sheet{{
 		name:      "survey",
 		mandatory: true,

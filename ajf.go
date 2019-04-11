@@ -7,80 +7,80 @@ import (
 	"os"
 )
 
-type ajfForm struct {
-	ChoicesOrigins []choicesOrigin `json:"choicesOrigins,omitempty"`
-	Slides         []slide         `json:"nodes"`
+type AjfForm struct {
+	ChoicesOrigins []ChoicesOrigin `json:"choicesOrigins,omitempty"`
+	Slides         []Slide         `json:"nodes"`
 }
 
-type choicesOrigin struct {
-	Type        originType `json:"type"`
+type ChoicesOrigin struct {
+	Type        OriginType `json:"type"`
 	Name        string     `json:"name"`
-	ChoicesType choiceType `json:"choicesType"`
-	Choices     []choice   `json:"choices"`
+	ChoicesType ChoiceType `json:"choicesType"`
+	Choices     []Choice   `json:"choices"`
 }
 
-type originType string
+type OriginType string
 
-const otFixed originType = "fixed"
+const OtFixed OriginType = "fixed"
 
-type choiceType string
+type ChoiceType string
 
-const ctString choiceType = "string"
+const CtString ChoiceType = "string"
 
-type choice struct {
+type Choice struct {
 	Value string `json:"value"`
 	Label string `json:"label"`
 }
 
-type slide struct {
+type Slide struct {
 	Id       int      `json:"id"`
 	Parent   int      `json:"parent"`
-	NodeType nodeType `json:"nodeType"` // always ntSlide
+	NodeType NodeType `json:"nodeType"` // always ntSlide
 	Name     string   `json:"name"`
 	Label    string   `json:"label"`
-	Fields   []field  `json:"nodes"`
+	Fields   []Field  `json:"nodes"`
 }
 
-type field struct {
+type Field struct {
 	Id               int              `json:"id"`
 	Parent           int              `json:"parent"`
-	NodeType         nodeType         `json:"nodeType"` // always ntField
-	FieldType        fieldType        `json:"fieldType"`
+	NodeType         NodeType         `json:"nodeType"` // always ntField
+	FieldType        FieldType        `json:"fieldType"`
 	Name             string           `json:"name"`
 	Label            string           `json:"label"`
 	ChoicesOriginRef string           `json:"choicesOriginRef,omitempty"`
-	Validation       *fieldValidation `json:"validation,omitempty"`
+	Validation       *FieldValidation `json:"validation,omitempty"`
 }
 
-type nodeType int
+type NodeType int
 
 const (
-	ntField nodeType = 0
-	ntSlide nodeType = 3
+	NtField NodeType = 0
+	NtSlide NodeType = 3
 )
 
-type fieldType int
+type FieldType int
 
 const (
-	ftString fieldType = iota
-	ftText
-	ftNumber
-	ftBoolean
-	ftSingleChoice
-	ftMultipleChoice
-	ftFormula
-	ftEmpty
-	ftDate
-	ftDateInput
-	//ftTime
-	//ftTable
+	FtString FieldType = iota
+	FtText
+	FtNumber
+	FtBoolean
+	FtSingleChoice
+	FtMultipleChoice
+	FtFormula
+	FtEmpty
+	FtDate
+	FtDateInput
+	//FtTime
+	//FtTable
 )
 
-type fieldValidation struct {
+type FieldValidation struct {
 	NotEmpty bool `json:"notEmpty,omitempty"`
 }
 
-func encAjfToFile(form *ajfForm, fileName string) (err error) {
+func EncAjfToFile(form *AjfForm, fileName string) (err error) {
 	var f *os.File
 	f, err = os.Create(fileName)
 	if err != nil {

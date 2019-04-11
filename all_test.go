@@ -25,11 +25,11 @@ func TestDeleteEmpty(t *testing.T) {
 
 func TestDecodeXlsx(t *testing.T) {
 	fileName := "testdata/skeleton.xlsx"
-	xls, err := decXlsFromFile(fileName)
+	xls, err := DecXlsFromFile(fileName)
 	if err != nil {
 		t.Fatal(err)
 	}
-	expected := &xlsForm{
+	expected := &XlsForm{
 		surveySheet{
 			types:  []string{"type1", "type2"},
 			names:  []string{"name1", "name2"},
@@ -53,7 +53,7 @@ func TestBuildChoicesOrigins(t *testing.T) {
 		labels:    []string{"label1a", "label2a", "label1b"},
 	}
 	_, choicesMap := buildChoicesOrigins(&choices)
-	expected := map[string][]choice{
+	expected := map[string][]Choice{
 		"list1": {{"elem1a", "label1a"}, {"elem1b", "label1b"}},
 		"list2": {{"elem2a", "label2a"}},
 	}

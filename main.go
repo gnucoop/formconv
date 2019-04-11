@@ -26,7 +26,7 @@ xls2ajf form1.xlsx form2.xlsx`)
 }
 
 func decXlsEncAjf(xlsName string) error {
-	xls, err := decXlsFromFile(xlsName)
+	xls, err := DecXlsFromFile(xlsName)
 	if err != nil {
 		return err
 	}
@@ -36,7 +36,7 @@ func decXlsEncAjf(xlsName string) error {
 	}
 	ext := filepath.Ext(xlsName)
 	ajfName := xlsName[0:len(xlsName)-len(ext)] + ".json"
-	err = encAjfToFile(ajf, ajfName)
+	err = EncAjfToFile(ajf, ajfName)
 	if err != nil {
 		return err
 	}
