@@ -22,27 +22,30 @@ type ChoicesRow struct {
 
 // Defines which sheets/columns to read from an excel file.
 // Names must appear in the same order as the fields of XlsForm.
-var sheetInfos = []sheetInfo{{
-	name:      "survey",
-	mandatory: true,
-	columns: []columnInfo{
-		{name: "type", mandatory: true},
-		{name: "name", mandatory: true},
-		{name: "label", mandatory: true},
-		{name: "required"},
-		{name: "default"},
-		{name: "relevant"},
-		{name: "constraint"},
-		{name: "readonly"},
-	}}, {
-	name:      "choices",
-	mandatory: true,
-	columns: []columnInfo{
-		{name: "list name", mandatory: true},
-		{name: "name", mandatory: true},
-		{name: "label", mandatory: true},
+var sheetInfos = []sheetInfo{
+	{
+		name:      "survey",
+		mandatory: true,
+		columns: []columnInfo{
+			{name: "type", mandatory: true},
+			{name: "name", mandatory: true},
+			{name: "label", mandatory: true},
+			{name: "required"},
+			{name: "default"},
+			{name: "relevant"},
+			{name: "constraint"},
+			{name: "readonly"},
+		},
+	}, {
+		name:      "choices",
+		mandatory: true,
+		columns: []columnInfo{
+			{name: "list name", mandatory: true},
+			{name: "name", mandatory: true},
+			{name: "label", mandatory: true},
+		},
 	},
-}}
+}
 
 type sheetInfo struct {
 	name      string
