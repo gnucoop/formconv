@@ -49,6 +49,7 @@ type Field struct {
 	Name             string           `json:"name"`
 	Label            string           `json:"label"`
 	ChoicesOriginRef string           `json:"choicesOriginRef,omitempty"`
+	HTML             string           `json:"HTML,omitempty"`
 	Validation       *FieldValidation `json:"validation,omitempty"`
 }
 
