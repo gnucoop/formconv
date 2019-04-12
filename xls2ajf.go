@@ -165,9 +165,9 @@ func fieldTypeFrom(typ string) FieldType {
 	case strings.HasPrefix(typ, rank):
 		fallthrough
 	case unsupportedField[typ]:
-		panic("unsupported")
+		panic("unsupported type: " + typ)
 	default:
-		panic("unrecognized")
+		panic("unrecognized type: " + typ)
 	}
 }
 
