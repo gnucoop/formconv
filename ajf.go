@@ -73,8 +73,7 @@ const (
 	FtEmpty
 	FtDate
 	FtDateInput
-	//FtTime
-	//FtTable
+	FtTime
 )
 
 type FieldValidation struct {

@@ -35,9 +35,7 @@ func Xls2ajf(xls *XlsForm) (*AjfForm, error) {
 			if groupDepth == 0 {
 				curSlide = nil
 			}
-		case stringField[row.Type] || supportedField[row.Type] ||
-			isSingleChoice(row.Type) || isMultipleChoice(row.Type):
-
+		case supportedField[row.Type] || isSelectOne(row.Type) || isSelectMultiple(row.Type):
 			curSlide.Fields = append(curSlide.Fields, Field{
 				NodeType:  NtField,
 				FieldType: fieldTypeFrom(row.Type),
@@ -121,10 +119,6 @@ func buildChoicesOrigins(rows []ChoicesRow) ([]ChoicesOrigin, map[string][]Choic
 	return co, choicesMap
 }
 
-func isSingleChoice(typ string) bool   { return strings.HasPrefix(typ, "select_one ") }
-func isMultipleChoice(typ string) bool { return strings.HasPrefix(typ, "select_multiple ") }
-func isRank(typ string) bool           { return strings.HasPrefix(typ, "rank ") }
-
 const (
 	beginGroup  = "begin group"
 	endGroup    = "end group"
@@ -132,42 +126,48 @@ const (
 	endRepeat   = "end repeat"
 )
 
-var (
-	stringField = map[string]bool{
-		"text": true, "geopoint": true, "geotrace": true, "geoshape": true, "time": true, "datetime": true,
-	}
-	supportedField = map[string]bool{
-		"integer": true, "decimal": true, "note": true, "date": true, "calculate": true, "acknowledge": true, // select_one, select_multiple
-	}
-	unsupportedField = map[string]bool{
-		"range": true, "image": true, "audio": true, "video": true, "file": true, "barcode": true, "hidden": true, "xml-external": true, // rank
-	}
-	metadata = map[string]bool{
-		"start": true, "end": true, "today": true, "deviceid": true, "subscriberid": true, "simserial": true, "phonenumber": true, "username": true, "email": true,
-	}
-)
+var supportedField = map[string]bool{
+	"decimal": true, "text": true, "select_one boolean": true, "note": true,
+	"date": true, "time": true, "calculate": true, // select_one, select_multiple
+}
+
+func isSelectOne(typ string) bool {
+	return strings.HasPrefix(typ, "select_one ") && typ != "select_one boolean"
+}
+func isSelectMultiple(typ string) bool { return strings.HasPrefix(typ, "select_multiple ") }
+
+var unsupportedField = map[string]bool{
+	"integer": true, "range": true, "geopoint": true, "geotrace": true, "geoshape": true,
+	"datetime": true, "image": true, "audio": true, "video": true, "file": true,
+	"barcode": true, "acknowledge": true, "hidden": true, "xml-external": true, // rank
+	// metadata:
+	"start": true, "end": true, "today": true, "deviceid": true, "subscriberid": true,
+	"simserial": true, "phonenumber": true, "username": true, "email": true,
+}
+
+func isRank(typ string) bool { return strings.HasPrefix(typ, "rank ") }
 
 func fieldTypeFrom(typ string) FieldType {
 	switch {
-	case typ == "integer" || typ == "decimal":
+	case typ == "decimal":
 		return FtNumber
-	case stringField[typ]:
+	case typ == "text":
 		return FtString
-	case isSingleChoice(typ):
+	case typ == "select_one boolean":
+		return FtBoolean
+	case isSelectOne(typ):
 		return FtSingleChoice
-	case isMultipleChoice(typ):
+	case isSelectMultiple(typ):
 		return FtMultipleChoice
 	case typ == "note":
 		return FtEmpty
 	case typ == "date":
 		return FtDateInput
+	case typ == "time":
+		return FtTime
 	case typ == "calculate":
 		return FtFormula
-	case typ == "acknowledge":
-		return FtBoolean
-	case isRank(typ):
-		fallthrough
-	case unsupportedField[typ]:
+	case unsupportedField[typ] || isRank(typ):
 		panic("unsupported type: " + typ)
 	default:
 		panic("unrecognized type: " + typ)
