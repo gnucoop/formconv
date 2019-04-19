@@ -22,8 +22,8 @@ func TestDecodeXlsx(t *testing.T) {
 	}
 	expected := &XlsForm{
 		[]SurveyRow{
-			{Type: "type1", Name: "name1", Label: "label1"},
-			{Type: "type2", Name: "name2", Label: "label2"},
+			{Type: "type1", Name: "name1", Label: "label1", Required: "yes"},
+			{Type: "type2", Name: "name2", Label: "label2", Required: "yes"},
 		},
 		[]ChoicesRow{
 			{ListName: "listname1", Name: "name1", Label: "label1"},
@@ -37,18 +37,26 @@ func TestDecodeXlsx(t *testing.T) {
 }
 
 func TestBuildChoicesOrigins(t *testing.T) {
-	choices := []ChoicesRow{
+	choicesSheet := []ChoicesRow{
 		{"list1", "elem1a", "label1a"},
 		{"list2", "elem2a", "label2a"},
 		{"list1", "elem1b", "label1b"},
 	}
-	_, choicesMap := buildChoicesOrigins(choices)
-	expected := map[string][]Choice{
-		"list1": {{"elem1a", "label1a"}, {"elem1b", "label1b"}},
-		"list2": {{"elem2a", "label2a"}},
-	}
-	if !reflect.DeepEqual(choicesMap, expected) {
+	choices, _ := buildChoicesOrigins(choicesSheet)
+	expected1 := []ChoicesOrigin{{
+		Type:        OtFixed,
+		Name:        "list1",
+		ChoicesType: CtString,
+		Choices:     []Choice{{"elem1a", "label1a"}, {"elem1b", "label1b"}},
+	}, {
+		Type:        OtFixed,
+		Name:        "list2",
+		ChoicesType: CtString,
+		Choices:     []Choice{{"elem2a", "label2a"}},
+	}}
+	expected2 := []ChoicesOrigin{expected1[1], expected1[0]}
+	if !reflect.DeepEqual(choices, expected1) && !reflect.DeepEqual(choices, expected2) {
 		t.Fatalf("Error building choices origins of %v: expected %v, got %v",
-			&choices, expected, choicesMap)
+			&choicesSheet, expected1, choices)
 	}
 }
