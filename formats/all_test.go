@@ -14,6 +14,28 @@ func TestDeleteEmpty(t *testing.T) {
 	}
 }
 
+func TestDecodeXls(t *testing.T) {
+	fileName := "testdata/skeleton.xls"
+	xls, err := DecXlsFromFile(fileName)
+	if err != nil {
+		t.Fatal(err)
+	}
+	expected := &XlsForm{
+		[]SurveyRow{
+			{Type: "type1", Name: "name1", Label: "label1", Required: "yes"},
+			{Type: "type2", Name: "name2", Label: "label2", Required: "yes"},
+		},
+		[]ChoicesRow{
+			{ListName: "listname1", Name: "name1", Label: "label1"},
+			{ListName: "listname2", Name: "name2", Label: "label2"},
+			{ListName: "listname3", Name: "name3", Label: "label3"},
+		},
+	}
+	if !reflect.DeepEqual(xls, expected) {
+		t.Fatalf("Error decoding %s: expected %v, got %v", fileName, expected, xls)
+	}
+}
+
 func TestDecodeXlsx(t *testing.T) {
 	fileName := "testdata/skeleton.xlsx"
 	xls, err := DecXlsFromFile(fileName)

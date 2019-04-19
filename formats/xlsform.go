@@ -2,10 +2,12 @@ package formats
 
 import (
 	"fmt"
+	"io"
 	"path/filepath"
 	"reflect"
 
 	"github.com/360EntSecGroup-Skylar/excelize"
+	"github.com/extrame/xls"
 )
 
 type XlsForm struct {
@@ -108,27 +110,76 @@ type excelFile interface {
 	Close() error
 }
 
-type xlsxFile excelize.File
+type xlsxFile struct {
+	excelize.File
+}
 
 func (f *xlsxFile) HasSheet(sheet string) bool {
-	return (*excelize.File)(f).GetSheetIndex(sheet) != 0
-}
-func (f *xlsxFile) GetRows(sheet string) ([][]string, error) {
-	return (*excelize.File)(f).GetRows(sheet)
+	return f.GetSheetIndex(sheet) != 0
 }
 func (f *xlsxFile) Close() error {
 	return fmt.Errorf("Closing files is not supported by excelize")
 }
 
-// Support for old .xls files can be added here.
+type xlsFile struct {
+	xls.WorkBook
+	io.Closer
+}
+
+func (f *xlsFile) indexOf(sheet string) int {
+	for i := 0; i < f.NumSheets(); i++ {
+		if f.GetSheet(i).Name == sheet {
+			return i
+		}
+	}
+	return -1
+}
+func (f *xlsFile) HasSheet(sheet string) bool {
+	return f.indexOf(sheet) != -1
+}
+func (f *xlsFile) GetRows(sheet string) ([][]string, error) {
+	i := f.indexOf(sheet)
+	if i == -1 {
+		return nil, fmt.Errorf("No sheet %q", sheet)
+	}
+	s := f.GetSheet(i)
+	rows := make([][]string, s.MaxRow+1)
+	numCols := 0
+	for i := range rows {
+		if row := s.Row(i); row != nil && row.LastCol()+1 > numCols {
+			numCols = row.LastCol() + 1
+		}
+	}
+	for i := range rows {
+		rows[i] = make([]string, numCols)
+		row := s.Row(i)
+		if row == nil {
+			continue
+		}
+		for j := range rows[i] {
+			rows[i][j] = row.Col(j)
+		}
+	}
+	return rows, nil
+}
 
 func openExcelFile(name string) (excelFile, error) {
-	ext := filepath.Ext(name)
-	if ext != ".xlsx" {
+	switch ext := filepath.Ext(name); ext {
+	case ".xls":
+		w, c, err := xls.OpenWithCloser(name, "utf-8")
+		if err != nil {
+			return nil, err
+		}
+		return &xlsFile{*w, c}, nil
+	case ".xlsx":
+		f, err := excelize.OpenFile(name)
+		if err != nil {
+			return nil, err
+		}
+		return &xlsxFile{*f}, nil
+	default:
 		return nil, fmt.Errorf("Unsupported excel file type: %s", ext)
 	}
-	f, err := excelize.OpenFile(name)
-	return (*xlsxFile)(f), err
 }
 
 func deleteEmpty(rows [][]string) [][]string {
