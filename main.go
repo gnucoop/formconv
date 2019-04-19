@@ -5,6 +5,8 @@ import (
 	"log"
 	"os"
 	"path/filepath"
+
+	"bitbucket.org/gnucoop/xls2ajf/formats"
 )
 
 func main() {
@@ -26,17 +28,17 @@ xls2ajf form1.xlsx form2.xlsx`)
 }
 
 func decXlsEncAjf(xlsName string) error {
-	xls, err := DecXlsFromFile(xlsName)
+	xls, err := formats.DecXlsFromFile(xlsName)
 	if err != nil {
 		return err
 	}
-	ajf, err := Xls2ajf(xls)
+	ajf, err := formats.Xls2ajf(xls)
 	if err != nil {
 		return fmt.Errorf("Error converting file %s: %s", xlsName, err)
 	}
 	ext := filepath.Ext(xlsName)
 	ajfName := xlsName[0:len(xlsName)-len(ext)] + ".json"
-	err = EncAjfToFile(ajf, ajfName)
+	err = formats.EncAjfToFile(ajf, ajfName)
 	if err != nil {
 		return err
 	}
