@@ -2,11 +2,8 @@ package formats
 
 import (
 	"fmt"
-	"io"
-	"path/filepath"
 	"reflect"
 
-	"github.com/360EntSecGroup-Skylar/excelize"
 	"github.com/extrame/xls"
 )
 
@@ -60,148 +57,73 @@ type columnInfo struct {
 }
 
 func DecXlsFromFile(fileName string) (*XlsForm, error) {
-	f, err := openExcelFile(fileName)
+	f, closer, err := xls.OpenWithCloser(fileName, "utf-8")
 	if err != nil {
 		return nil, fmt.Errorf("Could not open excel file %s: %s", fileName, err)
 	}
-	defer f.Close()
+	defer closer.Close()
 
 	var form XlsForm
 	formVal := reflect.ValueOf(&form).Elem()
-	for i, sheet := range sheetInfos {
-		if !sheet.mandatory && !f.HasSheet(sheet.name) {
-			continue
+	for i, sheetInfo := range sheetInfos {
+		sheet := getSheet(f, sheetInfo.name)
+		if sheet == nil && sheetInfo.mandatory {
+			return nil, fmt.Errorf("Missing mandatory sheet %q in file %s", sheetInfo.name, fileName)
 		}
-		rows, err := f.GetRows(sheet.name)
-		if err != nil {
-			return nil, fmt.Errorf("Couldn't get sheet %q from file %s: %s", sheet.name, fileName, err)
+		if sheet == nil {
+			continue // not mandatory, skip
 		}
-		rows = deleteEmpty(rows)
-		if len(rows) == 0 {
-			return nil, fmt.Errorf("Empty sheet %q in file %s", sheet.name, fileName)
+		headIndex, head := getFirstRow(sheet)
+		if head == nil {
+			return nil, fmt.Errorf("Empty sheet %q in file %s", sheetInfo.name, fileName)
 		}
-		head := rows[0]
-		rows = rows[1:]
-		colIndices := make([]int, len(sheet.columns))
-		for i, colInfo := range sheet.columns {
-			colIndices[i] = indexOfString(head, colInfo.name)
-			if colInfo.mandatory && colIndices[i] == -1 {
+		colIndices := make([]int, len(sheetInfo.columns))
+		for i, colInfo := range sheetInfo.columns {
+			colIndices[i] = columnIndex(head, colInfo.name)
+			if colIndices[i] == -1 && colInfo.mandatory {
 				return nil, fmt.Errorf("Error in file %s, sheet %q: column %q is mandatory",
-					fileName, sheet.name, colInfo.name)
+					fileName, sheetInfo.name, colInfo.name)
 			}
 		}
-		sheetSlice := formVal.Field(i)
-		for _, row := range rows {
-			rowVal := reflect.New(sheetSlice.Type().Elem()).Elem()
-			for j := range sheet.columns {
+		destSlice := formVal.Field(i)
+		for i := headIndex + 1; i <= int(sheet.MaxRow); i++ {
+			row := sheet.Row(i)
+			if row == nil {
+				continue // empty rows come out as nil
+			}
+			destRow := reflect.New(destSlice.Type().Elem()).Elem()
+			for j := range sheetInfo.columns {
 				if colIndices[j] != -1 {
-					rowVal.Field(j).Set(reflect.ValueOf(row[colIndices[j]]))
+					destRow.Field(j).Set(reflect.ValueOf(row.Col(colIndices[j])))
 				}
 			}
-			sheetSlice.Set(reflect.Append(sheetSlice, rowVal))
+			destSlice.Set(reflect.Append(destSlice, destRow))
 		}
 	}
 	return &form, nil
 }
 
-type excelFile interface {
-	HasSheet(string) bool
-	GetRows(sheet string) ([][]string, error)
-	Close() error
-}
-
-type xlsxFile struct {
-	excelize.File
-}
-
-func (f *xlsxFile) HasSheet(sheet string) bool {
-	return f.GetSheetIndex(sheet) != 0
-}
-func (f *xlsxFile) Close() error {
-	return fmt.Errorf("Closing files is not supported by excelize")
-}
-
-type xlsFile struct {
-	xls.WorkBook
-	io.Closer
-}
-
-func (f *xlsFile) indexOf(sheet string) int {
-	for i := 0; i < f.NumSheets(); i++ {
-		if f.GetSheet(i).Name == sheet {
-			return i
+func getSheet(w *xls.WorkBook, sheet string) *xls.WorkSheet {
+	for i := 0; i < w.NumSheets(); i++ {
+		if s := w.GetSheet(i); s.Name == sheet {
+			return s
 		}
 	}
-	return -1
-}
-func (f *xlsFile) HasSheet(sheet string) bool {
-	return f.indexOf(sheet) != -1
-}
-func (f *xlsFile) GetRows(sheet string) ([][]string, error) {
-	i := f.indexOf(sheet)
-	if i == -1 {
-		return nil, fmt.Errorf("No sheet %q", sheet)
-	}
-	s := f.GetSheet(i)
-	rows := make([][]string, s.MaxRow+1)
-	numCols := 0
-	for i := range rows {
-		if row := s.Row(i); row != nil && row.LastCol()+1 > numCols {
-			numCols = row.LastCol() + 1
-		}
-	}
-	for i := range rows {
-		rows[i] = make([]string, numCols)
-		row := s.Row(i)
-		if row == nil {
-			continue
-		}
-		for j := range rows[i] {
-			rows[i][j] = row.Col(j)
-		}
-	}
-	return rows, nil
+	return nil
 }
 
-func openExcelFile(name string) (excelFile, error) {
-	switch ext := filepath.Ext(name); ext {
-	case ".xls":
-		w, c, err := xls.OpenWithCloser(name, "utf-8")
-		if err != nil {
-			return nil, err
-		}
-		return &xlsFile{*w, c}, nil
-	case ".xlsx":
-		f, err := excelize.OpenFile(name)
-		if err != nil {
-			return nil, err
-		}
-		return &xlsxFile{*f}, nil
-	default:
-		return nil, fmt.Errorf("Unsupported excel file type: %s", ext)
-	}
-}
-
-func deleteEmpty(rows [][]string) [][]string {
-	filteredRows := make([][]string, 0, len(rows))
-	for _, row := range rows {
-		empty := true
-		for _, cell := range row {
-			if cell != "" {
-				empty = false
-				break
-			}
-		}
-		if !empty {
-			filteredRows = append(filteredRows, row)
+func getFirstRow(sheet *xls.WorkSheet) (int, *xls.Row) {
+	for i := 0; i <= int(sheet.MaxRow); i++ {
+		if row := sheet.Row(i); row != nil {
+			return i, row
 		}
 	}
-	return filteredRows
+	return -1, nil
 }
 
-func indexOfString(row []string, name string) int {
-	for i, cell := range row {
-		if cell == name {
+func columnIndex(row *xls.Row, cell string) int {
+	for i := row.FirstCol(); i <= row.LastCol(); i++ {
+		if row.Col(i) == cell {
 			return i
 		}
 	}
