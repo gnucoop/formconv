@@ -35,7 +35,7 @@ func Xls2ajf(xls *XlsForm) (*AjfForm, error) {
 			if groupDepth == 0 {
 				curSlide = nil
 			}
-		case supportedField[row.Type] || isSelectOne(row.Type) || isSelectMultiple(row.Type):
+		case isSupportedField(row.Type):
 			curSlide.Fields = append(curSlide.Fields, Field{
 				NodeType:  NtField,
 				FieldType: fieldTypeFrom(row.Type),
@@ -56,7 +56,7 @@ func Xls2ajf(xls *XlsForm) (*AjfForm, error) {
 			if row.Required == "yes" {
 				curField.Validation = &FieldValidation{NotEmpty: true}
 			}
-		case unsupportedField[row.Type] || isRank(row.Type):
+		case isUnsupportedField(row.Type):
 			return nil, fmt.Errorf("Field type %q is not supported", row.Type)
 		case row.Type == beginRepeat || row.Type == endRepeat:
 			return nil, fmt.Errorf("Repeats are not supported")
@@ -127,25 +127,29 @@ const (
 )
 
 var supportedField = map[string]bool{
-	"decimal": true, "text": true, "select_one boolean": true, "note": true,
-	"date": true, "time": true, "calculate": true, // select_one, select_multiple
+	"decimal": true, "text": true, "select_one yes_no": true, "note": true,
+	"date": true, "time": true, "calculate": true,
 }
 
+func isSupportedField(typ string) bool {
+	return supportedField[typ] || isSelectOne(typ) || isSelectMultiple(typ)
+}
 func isSelectOne(typ string) bool {
-	return strings.HasPrefix(typ, "select_one ") && typ != "select_one boolean"
+	return strings.HasPrefix(typ, "select_one ") && typ != "select_one yes_no"
 }
 func isSelectMultiple(typ string) bool { return strings.HasPrefix(typ, "select_multiple ") }
 
 var unsupportedField = map[string]bool{
 	"integer": true, "range": true, "geopoint": true, "geotrace": true, "geoshape": true,
 	"datetime": true, "image": true, "audio": true, "video": true, "file": true,
-	"barcode": true, "acknowledge": true, "hidden": true, "xml-external": true, // rank
+	"barcode": true, "acknowledge": true, "hidden": true, "xml-external": true,
 	// metadata:
 	"start": true, "end": true, "today": true, "deviceid": true, "subscriberid": true,
 	"simserial": true, "phonenumber": true, "username": true, "email": true,
 }
 
-func isRank(typ string) bool { return strings.HasPrefix(typ, "rank ") }
+func isUnsupportedField(typ string) bool { return unsupportedField[typ] || isRank(typ) }
+func isRank(typ string) bool             { return strings.HasPrefix(typ, "rank ") }
 
 func fieldTypeFrom(typ string) FieldType {
 	switch {
@@ -153,7 +157,7 @@ func fieldTypeFrom(typ string) FieldType {
 		return FtNumber
 	case typ == "text":
 		return FtString
-	case typ == "select_one boolean":
+	case typ == "select_one yes_no":
 		return FtBoolean
 	case isSelectOne(typ):
 		return FtSingleChoice
@@ -167,7 +171,7 @@ func fieldTypeFrom(typ string) FieldType {
 		return FtTime
 	case typ == "calculate":
 		return FtFormula
-	case unsupportedField[typ] || isRank(typ):
+	case isUnsupportedField(typ):
 		panic("unsupported type: " + typ)
 	default:
 		panic("unrecognized type: " + typ)
