@@ -5,12 +5,17 @@ import (
 	"testing"
 )
 
-func TestDecodeXls(t *testing.T) {
-	fileName := "testdata/skeleton.xls"
-	xls, err := DecXlsFromFile(fileName)
-	if err != nil {
-		t.Fatal(err)
+func TestDeleteEmpty(t *testing.T) {
+	rows := [][]string{{"1", "2", "3"}, {"", "", ""}, {"a", "b", "c"}}
+	filtered := deleteEmpty(rows)
+	expected := [][]string{{"1", "2", "3"}, {"a", "b", "c"}}
+	if !reflect.DeepEqual(filtered, expected) {
+		t.Fatalf("Error deleting empty rows from %v: expected %v, got %v", rows, expected, filtered)
 	}
+}
+
+func TestDecodeXls(t *testing.T) {
+	fileName := "testdata/skeleton"
 	expected := &XlsForm{
 		[]SurveyRow{
 			{Type: "type1", Name: "name1", Label: "label1", Required: "yes"},
@@ -22,8 +27,14 @@ func TestDecodeXls(t *testing.T) {
 			{ListName: "listname3", Name: "name3", Label: "label3"},
 		},
 	}
-	if !reflect.DeepEqual(xls, expected) {
-		t.Fatalf("Error decoding %s: expected %v, got %v", fileName, expected, xls)
+	for _, ext := range []string{".xls", ".xlsx"} {
+		xls, err := DecXlsFromFile(fileName + ext)
+		if err != nil {
+			t.Fatal(err)
+		}
+		if !reflect.DeepEqual(xls, expected) {
+			t.Fatalf("Error decoding %s: expected %v, got %v", fileName+ext, expected, xls)
+		}
 	}
 }
 
