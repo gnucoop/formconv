@@ -15,42 +15,41 @@ func Xls2ajf(xls *XlsForm) (*AjfForm, error) {
 	var choicesMap map[string][]Choice
 	ajf.ChoicesOrigins, choicesMap = buildChoicesOrigins(xls.Choices)
 
-	groupDepth := 0
-	var curGroup *Node
+	curNodes := &ajf.Slides
+	nodesStack := []*[]Node{curNodes}
 	for _, row := range survey {
 		switch {
 		case row.Type == beginGroup:
-			groupDepth++
-			if groupDepth == 1 {
-				ajf.Slides = append(ajf.Slides, Node{
-					Name:  row.Name,
-					Label: row.Label,
-					Type:  NtSlide,
-					Nodes: make([]Node, 0),
-				})
-				curGroup = &ajf.Slides[len(ajf.Slides)-1]
+			nodeType := NtGroup
+			if len(nodesStack) == 1 {
+				nodeType = NtSlide
 			}
+			*curNodes = append(*curNodes, Node{
+				Name:  row.Name,
+				Label: row.Label,
+				Type:  nodeType,
+				Nodes: make([]Node, 0), // This becomes the new curNodes:
+			})
+			curNodes = &(*curNodes)[len(*curNodes)-1].Nodes
+			nodesStack = append(nodesStack, curNodes)
 		case row.Type == endGroup:
-			groupDepth--
-			if groupDepth == 0 {
-				curGroup = nil
-			}
+			nodesStack = nodesStack[0 : len(nodesStack)-1]
+			curNodes = nodesStack[len(nodesStack)-1]
 		case isSupportedField(row.Type):
-			curGroup.Nodes = append(curGroup.Nodes, Node{
+			*curNodes = append(*curNodes, Node{
 				Name:      row.Name,
 				Label:     row.Label,
 				Type:      NtField,
 				FieldType: fieldTypeFrom(row.Type),
 			})
-			curField := &curGroup.Nodes[len(curGroup.Nodes)-1]
+			curField := &(*curNodes)[len(*curNodes)-1]
 			if *curField.FieldType == FtSingleChoice || *curField.FieldType == FtMultipleChoice {
 				choiceName := row.Type[strings.Index(row.Type, " ")+1:]
 				if _, present := choicesMap[choiceName]; !present {
 					return nil, fmt.Errorf("Undefined choice %s", choiceName)
 				}
 				curField.ChoicesOriginRef = choiceName
-			}
-			if *curField.FieldType == FtNote {
+			} else if *curField.FieldType == FtNote {
 				curField.HTML = row.Label
 			}
 			if row.Required == "yes" {
