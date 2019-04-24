@@ -1,0 +1,16 @@
+# github.com/360EntSecGroup-Skylar/excelize v0.0.0-20190423053424-29b2854e5356
+github.com/360EntSecGroup-Skylar/excelize
+# github.com/extrame/goyymmdd v0.0.0-20181026012948-914eb450555b
+github.com/extrame/goyymmdd
+# github.com/extrame/ole2 v0.0.0-20160812065207-d69429661ad7
+github.com/extrame/ole2
+# github.com/extrame/xls v0.0.2-0.20180905092746-539786826ced
+github.com/extrame/xls
+# github.com/mohae/deepcopy v0.0.0-20170929034955-c48cc78d4826
+github.com/mohae/deepcopy
+# golang.org/x/text v0.3.0
+golang.org/x/text/encoding/charmap
+golang.org/x/text/encoding
+golang.org/x/text/encoding/internal
+golang.org/x/text/encoding/internal/identifier
+golang.org/x/text/transform
