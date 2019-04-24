@@ -9,7 +9,7 @@ import (
 
 type AjfForm struct {
 	ChoicesOrigins []ChoicesOrigin `json:"choicesOrigins,omitempty"`
-	Slides         []Slide         `json:"nodes"`
+	Slides         []Node          `json:"nodes"`
 }
 
 type ChoicesOrigin struct {
@@ -32,48 +32,41 @@ type Choice struct {
 	Label string `json:"label"`
 }
 
-type Slide struct {
+type Node struct {
 	Id       int      `json:"id"`
-	Parent   int      `json:"parent"`
-	NodeType NodeType `json:"nodeType"` // always ntSlide
+	Previous int      `json:"parent"`
 	Name     string   `json:"name"`
 	Label    string   `json:"label"`
-	Fields   []Field  `json:"nodes"`
-}
+	Type     NodeType `json:"nodeType"`
 
-type Field struct {
-	Id               int              `json:"id"`
-	Parent           int              `json:"parent"`
-	NodeType         NodeType         `json:"nodeType"` // always ntField
-	FieldType        FieldType        `json:"fieldType"`
-	Name             string           `json:"name"`
-	Label            string           `json:"label"`
+	FieldType        *FieldType       `json:"fieldType,omitempty"`
 	ChoicesOriginRef string           `json:"choicesOriginRef,omitempty"`
 	HTML             string           `json:"HTML,omitempty"`
 	Validation       *FieldValidation `json:"validation,omitempty"`
+	Nodes            []Node           `json:"nodes,omitempty"`
 }
 
 type NodeType int
 
 const (
-	NtField NodeType = 0
-	NtSlide NodeType = 3
+	NtField NodeType = iota
+	_
+	NtGroup
+	NtSlide
 )
 
 type FieldType int
 
-const (
-	FtString FieldType = iota
-	FtText
-	FtNumber
-	FtBoolean
-	FtSingleChoice
-	FtMultipleChoice
-	FtFormula
-	FtEmpty
-	FtDate
-	FtDateInput
-	FtTime
+var (
+	FtString         FieldType = 0
+	FtNumber         FieldType = 2
+	FtBoolean        FieldType = 3
+	FtSingleChoice   FieldType = 4
+	FtMultipleChoice FieldType = 5
+	FtFormula        FieldType = 6
+	FtNote           FieldType = 7
+	FtDate           FieldType = 9
+	FtTime           FieldType = 10
 )
 
 type FieldValidation struct {

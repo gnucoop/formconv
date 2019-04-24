@@ -16,41 +16,41 @@ func Xls2ajf(xls *XlsForm) (*AjfForm, error) {
 	ajf.ChoicesOrigins, choicesMap = buildChoicesOrigins(xls.Choices)
 
 	groupDepth := 0
-	var curSlide *Slide
+	var curGroup *Node
 	for _, row := range survey {
 		switch {
 		case row.Type == beginGroup:
 			groupDepth++
 			if groupDepth == 1 {
-				ajf.Slides = append(ajf.Slides, Slide{
-					NodeType: NtSlide,
-					Name:     row.Name,
-					Label:    row.Label,
-					Fields:   make([]Field, 0),
+				ajf.Slides = append(ajf.Slides, Node{
+					Name:  row.Name,
+					Label: row.Label,
+					Type:  NtSlide,
+					Nodes: make([]Node, 0),
 				})
-				curSlide = &ajf.Slides[len(ajf.Slides)-1]
+				curGroup = &ajf.Slides[len(ajf.Slides)-1]
 			}
 		case row.Type == endGroup:
 			groupDepth--
 			if groupDepth == 0 {
-				curSlide = nil
+				curGroup = nil
 			}
 		case isSupportedField(row.Type):
-			curSlide.Fields = append(curSlide.Fields, Field{
-				NodeType:  NtField,
-				FieldType: fieldTypeFrom(row.Type),
+			curGroup.Nodes = append(curGroup.Nodes, Node{
 				Name:      row.Name,
 				Label:     row.Label,
+				Type:      NtField,
+				FieldType: fieldTypeFrom(row.Type),
 			})
-			curField := &curSlide.Fields[len(curSlide.Fields)-1]
-			if curField.FieldType == FtSingleChoice || curField.FieldType == FtMultipleChoice {
+			curField := &curGroup.Nodes[len(curGroup.Nodes)-1]
+			if *curField.FieldType == FtSingleChoice || *curField.FieldType == FtMultipleChoice {
 				choiceName := row.Type[strings.Index(row.Type, " ")+1:]
 				if _, present := choicesMap[choiceName]; !present {
 					return nil, fmt.Errorf("Undefined choice %s", choiceName)
 				}
 				curField.ChoicesOriginRef = choiceName
 			}
-			if curField.FieldType == FtEmpty {
+			if *curField.FieldType == FtNote {
 				curField.HTML = row.Label
 			}
 			if row.Required == "yes" {
@@ -151,26 +151,26 @@ var unsupportedField = map[string]bool{
 func isUnsupportedField(typ string) bool { return unsupportedField[typ] || isRank(typ) }
 func isRank(typ string) bool             { return strings.HasPrefix(typ, "rank ") }
 
-func fieldTypeFrom(typ string) FieldType {
+func fieldTypeFrom(typ string) *FieldType {
 	switch {
 	case typ == "decimal":
-		return FtNumber
+		return &FtNumber
 	case typ == "text":
-		return FtString
+		return &FtString
 	case typ == "select_one yes_no":
-		return FtBoolean
+		return &FtBoolean
 	case isSelectOne(typ):
-		return FtSingleChoice
+		return &FtSingleChoice
 	case isSelectMultiple(typ):
-		return FtMultipleChoice
+		return &FtMultipleChoice
 	case typ == "note":
-		return FtEmpty
+		return &FtNote
 	case typ == "date":
-		return FtDateInput
+		return &FtDate
 	case typ == "time":
-		return FtTime
+		return &FtTime
 	case typ == "calculate":
-		return FtFormula
+		return &FtFormula
 	case isUnsupportedField(typ):
 		panic("unsupported type: " + typ)
 	default:
@@ -182,14 +182,14 @@ func assignIds(ajf *AjfForm) {
 	for i := range ajf.Slides {
 		slide := &ajf.Slides[i]
 		slide.Id = i + 1
-		slide.Parent = i
-		for j := range slide.Fields {
-			field := &slide.Fields[j]
+		slide.Previous = i
+		for j := range slide.Nodes {
+			field := &slide.Nodes[j]
 			field.Id = slide.Id*1000 + j
 			if j == 0 {
-				field.Parent = slide.Id
+				field.Previous = slide.Id
 			} else {
-				field.Parent = slide.Fields[j-1].Id
+				field.Previous = slide.Nodes[j-1].Id
 			}
 		}
 	}
