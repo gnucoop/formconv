@@ -118,13 +118,10 @@ type excelFile interface {
 type xlsxFile struct{ excelize.File }
 
 func (f *xlsxFile) IndexOfSheet(name string) int {
-	if i := f.GetSheetIndex(name); i != 0 {
-		return i
-	}
-	return -1
+	return f.GetSheetIndex(name) - 1
 }
 func (f *xlsxFile) Rows(sheet int) ([][]string, error) {
-	name := f.GetSheetName(sheet)
+	name := f.GetSheetName(sheet + 1)
 	if name == "" {
 		return nil, fmt.Errorf("Invalid sheet index: %d", sheet)
 	}
