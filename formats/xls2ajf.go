@@ -27,7 +27,7 @@ func Xls2ajf(xls *XlsForm) (*AjfForm, error) {
 	for i := range ajf.Slides {
 		ajf.Slides[i].Type = NtSlide
 	}
-	assignIds(&ajf)
+	assignIds(ajf.Slides, 0)
 	return &ajf, nil
 }
 
@@ -195,20 +195,19 @@ func checkChoicesRef(node *Node, choicesMap map[string][]Choice) error {
 	return nil
 }
 
-func assignIds(ajf *AjfForm) {
-	for i := range ajf.Slides {
-		slide := &ajf.Slides[i]
-		slide.Id = i + 1
-		slide.Previous = i
-		for j := range slide.Nodes {
-			field := &slide.Nodes[j]
-			field.Id = slide.Id*1000 + j
-			if j == 0 {
-				field.Previous = slide.Id
-			} else {
-				field.Previous = slide.Nodes[j-1].Id
-			}
-		}
+const idMultiplier = 1000
+
+func assignIds(nodes []Node, parent int) {
+	if len(nodes) == 0 {
+		return
+	}
+	nodes[0].Previous = parent
+	nodes[0].Id = parent*idMultiplier + 1
+	assignIds(nodes[0].Nodes, nodes[0].Id)
+	for i := 1; i < len(nodes); i++ {
+		nodes[i].Previous = nodes[i-1].Id
+		nodes[i].Id = nodes[i-1].Id + 1
+		assignIds(nodes[i].Nodes, nodes[i].Id)
 	}
 }
 
