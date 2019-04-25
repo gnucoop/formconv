@@ -45,16 +45,16 @@
 	],
 	"nodes": [
 		{
-			"id": 1,
 			"parent": 0,
+			"id": 1,
 			"name": "_1",
 			"label": "Implementation period",
 			"nodeType": 3,
 			"nodes": [
 				{
-					"id": 1001,
 					"parent": 1,
-					"name": "_1_100",
+					"id": 1001,
+					"name": "_1001",
 					"label": "Please select one of the following",
 					"nodeType": 0,
 					"fieldType": 4,
@@ -66,16 +66,16 @@
 			]
 		},
 		{
-			"id": 2,
 			"parent": 1,
+			"id": 2,
 			"name": "_2",
 			"label": "Monitoring visits",
 			"nodeType": 3,
 			"nodes": [
 				{
-					"id": 2001,
 					"parent": 2,
-					"name": "_2_200",
+					"id": 2001,
+					"name": "_2001",
 					"label": "Monitoring visits",
 					"nodeType": 0,
 					"fieldType": 4,
@@ -85,9 +85,9 @@
 					}
 				},
 				{
-					"id": 2002,
 					"parent": 2001,
-					"name": "_2_201",
+					"id": 2002,
+					"name": "_2002",
 					"label": "Date of the monitoring visit",
 					"nodeType": 0,
 					"fieldType": 9,
@@ -96,9 +96,9 @@
 					}
 				},
 				{
-					"id": 2003,
 					"parent": 2002,
-					"name": "_2_202",
+					"id": 2003,
+					"name": "_2003",
 					"label": "Name of monitoring visitor",
 					"nodeType": 0,
 					"fieldType": 0,
@@ -107,9 +107,9 @@
 					}
 				},
 				{
-					"id": 2004,
 					"parent": 2003,
-					"name": "_2_203",
+					"id": 2004,
+					"name": "_2004",
 					"label": "Position of monitoring visitor",
 					"nodeType": 0,
 					"fieldType": 0,
@@ -118,9 +118,9 @@
 					}
 				},
 				{
-					"id": 2005,
 					"parent": 2004,
-					"name": "_2_204",
+					"id": 2005,
+					"name": "_2005",
 					"label": "Main conclusions of the monitoring visit",
 					"nodeType": 0,
 					"fieldType": 0,

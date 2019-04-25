@@ -33,8 +33,8 @@ type Choice struct {
 }
 
 type Node struct {
-	Id       int      `json:"id"`
 	Previous int      `json:"parent"`
+	Id       int      `json:"id"`
 	Name     string   `json:"name"`
 	Label    string   `json:"label"`
 	Type     NodeType `json:"nodeType"`
