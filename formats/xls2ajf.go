@@ -15,7 +15,7 @@ func Xls2ajf(xls *XlsForm) (*AjfForm, error) {
 	if err != nil {
 		return nil, err
 	}
-	global, err := buildGroup(survey, 0)
+	global, err := buildGroup(survey)
 	if err != nil {
 		return nil, err
 	}
@@ -86,22 +86,22 @@ func preprocessGroups(survey []SurveyRow) ([]SurveyRow, error) {
 	return survey, nil
 }
 
-func buildGroup(survey []SurveyRow, previous int) (Node, error) {
-	// survey[0] is a beginGroup row
+func buildGroup(survey []SurveyRow) (Node, error) {
+	if survey[0].Type != beginGroup {
+		panic("not a group")
+	}
 	group := Node{
-		Id:       previous + 1,
-		Previous: previous,
-		Name:     survey[0].Name,
-		Label:    survey[0].Label,
-		Type:     NtGroup,
-		Nodes:    make([]Node, 0),
+		Name:  survey[0].Name,
+		Label: survey[0].Label,
+		Type:  NtGroup,
+		Nodes: make([]Node, 0),
 	}
 	for i := 1; i < len(survey); i++ {
 		row := survey[i]
 		switch {
 		case row.Type == beginGroup:
 			end := groupEnd(survey, i)
-			child, err := buildGroup(survey[i:end], previous+1)
+			child, err := buildGroup(survey[i:end])
 			if err != nil {
 				return Node{}, err
 			}
@@ -112,7 +112,7 @@ func buildGroup(survey []SurveyRow, previous int) (Node, error) {
 				panic("unexpected end of group")
 			}
 		case isSupportedField(row.Type):
-			field := buildField(&row, previous+1)
+			field := buildField(&row)
 			group.Nodes = append(group.Nodes, field)
 		case isUnsupportedField(row.Type):
 			return Node{}, fmt.Errorf("Field type %q is not supported", row.Type)
@@ -141,13 +141,11 @@ func groupEnd(survey []SurveyRow, group int) int {
 	panic("group end not found")
 }
 
-func buildField(row *SurveyRow, previous int) Node {
+func buildField(row *SurveyRow) Node {
 	field := Node{
-		Id:       previous + 1,
-		Previous: previous,
-		Name:     row.Name,
-		Label:    row.Label,
-		Type:     NtField,
+		Name:  row.Name,
+		Label: row.Label,
+		Type:  NtField,
 	}
 	switch {
 	case row.Type == "decimal":
@@ -197,6 +195,23 @@ func checkChoicesRef(node *Node, choicesMap map[string][]Choice) error {
 	return nil
 }
 
+func assignIds(ajf *AjfForm) {
+	for i := range ajf.Slides {
+		slide := &ajf.Slides[i]
+		slide.Id = i + 1
+		slide.Previous = i
+		for j := range slide.Nodes {
+			field := &slide.Nodes[j]
+			field.Id = slide.Id*1000 + j
+			if j == 0 {
+				field.Previous = slide.Id
+			} else {
+				field.Previous = slide.Nodes[j-1].Id
+			}
+		}
+	}
+}
+
 const (
 	beginGroup  = "begin group"
 	endGroup    = "end group"
@@ -228,20 +243,3 @@ var unsupportedField = map[string]bool{
 
 func isUnsupportedField(typ string) bool { return unsupportedField[typ] || isRank(typ) }
 func isRank(typ string) bool             { return strings.HasPrefix(typ, "rank ") }
-
-func assignIds(ajf *AjfForm) {
-	for i := range ajf.Slides {
-		slide := &ajf.Slides[i]
-		slide.Id = i + 1
-		slide.Previous = i
-		for j := range slide.Nodes {
-			field := &slide.Nodes[j]
-			field.Id = slide.Id*1000 + j
-			if j == 0 {
-				field.Previous = slide.Id
-			} else {
-				field.Previous = slide.Nodes[j-1].Id
-			}
-		}
-	}
-}
