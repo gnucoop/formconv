@@ -37,3 +37,17 @@ Choices sheet:
 |mealtime  |breakfast |Breakfast |
 |mealtime  |lunch     |Lunch     |
 |mealtime  |dinner    |Dinner    |
+
+## Question types
+
+The following table lists the supported question types.
+
+|Question type   |ajf field type  |Description     |
+|----------------|----------------|----------------|
+|decimal         |number          |64-bit floating point number |
+|text            |string          |Free text response |
+|select_one      |single choice   |Single choice answer |
+|select_multiple |multiple choice |Multiple choice answer |
+|note            |empty           |Inserts an HTML note in the form |
+|date            |date input      |A date          |
+|time            |time            |Time            |
