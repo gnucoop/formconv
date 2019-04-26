@@ -79,7 +79,7 @@ func preprocessGroups(survey []SurveyRow) ([]SurveyRow, error) {
 		survey = append([]SurveyRow{{Type: beginGroup, Name: "form", Label: "Form"}}, survey...)
 		survey = append(survey, SurveyRow{Type: endGroup})
 	}
-	// Wrap everything into a global phony group,
+	// Wrap everything into a global group,
 	// it allows building the form with a single call to buildGroup.
 	survey = append([]SurveyRow{{Type: beginGroup, Name: "global", Label: "Global"}}, survey...)
 	survey = append(survey, SurveyRow{Type: endGroup})
