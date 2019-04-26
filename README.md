@@ -55,6 +55,7 @@ The following table lists the supported question types.
 ## Grouping
 
 Questions can be grouped, as shown in the introductory example; groups can be nested.
+
 Ajf forms have the peculiarity of being organized in slides, which has implications on how groups are handled.
 Top-level groups are translated to slides, while inner groups are translated to ajf group nodes.
 When the form contains ungrouped questions, the whole form will be wrapped in a single group/slide.
