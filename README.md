@@ -42,7 +42,7 @@ Choices sheet:
 
 The following table lists the supported question types.
 
-|Question type   |ajf field type  |Description     |
+|Question type   |Ajf field type  |Description     |
 |----------------|----------------|----------------|
 |decimal         |number          |64-bit floating point number |
 |text            |string          |Free text response |

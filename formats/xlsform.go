@@ -2,12 +2,11 @@ package formats
 
 import (
 	"fmt"
-	"io"
 	"path/filepath"
 	"reflect"
 
-	"github.com/360EntSecGroup-Skylar/excelize"
 	"github.com/extrame/xls"
+	"github.com/tealeg/xlsx"
 )
 
 type XlsForm struct {
@@ -60,26 +59,20 @@ type columnInfo struct {
 }
 
 func DecXlsFromFile(fileName string) (*XlsForm, error) {
-	f, err := openExcelFile(fileName)
+	wb, err := readWorkBook(fileName)
 	if err != nil {
-		return nil, fmt.Errorf("Could not open excel file %s: %s", fileName, err)
+		return nil, fmt.Errorf("Could not read excel file %s: %s", fileName, err)
 	}
-	defer f.Close()
 
 	var form XlsForm
 	formVal := reflect.ValueOf(&form).Elem()
 	for i, sheetInfo := range sheetInfos {
-		sheetIndex := f.IndexOfSheet(sheetInfo.name)
-		if sheetIndex == -1 && sheetInfo.mandatory {
+		rows := wb.Rows(sheetInfo.name)
+		if rows == nil && sheetInfo.mandatory {
 			return nil, fmt.Errorf("Missing mandatory sheet %q in file %s", sheetInfo.name, fileName)
 		}
-		if sheetIndex == -1 {
+		if rows == nil {
 			continue // not mandatory, skip
-		}
-		rows, err := f.Rows(sheetIndex)
-		if err != nil {
-			return nil, fmt.Errorf("Couldn't get sheet %q from file %s: %s",
-				sheetInfo.name, fileName, err)
 		}
 		rows = deleteEmpty(rows)
 		if len(rows) == 0 {
@@ -109,56 +102,51 @@ func DecXlsFromFile(fileName string) (*XlsForm, error) {
 	return &form, nil
 }
 
-type excelFile interface {
-	IndexOfSheet(name string) int
-	Rows(sheet int) ([][]string, error)
-	Close() error
+type workBook interface {
+	Rows(sheetName string) [][]string
 }
 
-type xlsxFile struct{ excelize.File }
+type xlsxWorkBook xlsx.File
 
-func (f *xlsxFile) IndexOfSheet(name string) int {
-	return f.GetSheetIndex(name) - 1
-}
-func (f *xlsxFile) Rows(sheet int) ([][]string, error) {
-	name := f.GetSheetName(sheet + 1)
-	if name == "" {
-		return nil, fmt.Errorf("Invalid sheet index: %d", sheet)
+func (wb *xlsxWorkBook) Rows(sheetName string) [][]string {
+	sheet, ok := wb.Sheet[sheetName]
+	if !ok {
+		return nil
 	}
-	return f.GetRows(name)
-}
-func (f *xlsxFile) Close() error {
-	return fmt.Errorf("Closing files is not supported by excelize")
-}
-
-type xlsFile struct {
-	xls.WorkBook
-	io.Closer
-}
-
-func (f *xlsFile) IndexOfSheet(name string) int {
-	for i := 0; i < f.NumSheets(); i++ {
-		if f.GetSheet(i).Name == name {
-			return i
+	rows := make([][]string, sheet.MaxRow+1)
+	numCols := sheet.MaxCol + 1
+	for i := range rows {
+		rows[i] = make([]string, numCols)
+		for j := range rows[i] {
+			rows[i][j] = sheet.Cell(i, j).Value
 		}
 	}
-	return -1
+	return rows
 }
-func (f *xlsFile) Rows(sheet int) ([][]string, error) {
-	s := f.GetSheet(sheet)
-	if s == nil {
-		return nil, fmt.Errorf("Invalid sheet index: %d", sheet)
+
+type xlsWorkBook xls.WorkBook
+
+func (wb *xlsWorkBook) Rows(sheetName string) [][]string {
+	var sheet *xls.WorkSheet
+	for i := 0; i < (*xls.WorkBook)(wb).NumSheets(); i++ {
+		if s := (*xls.WorkBook)(wb).GetSheet(i); s.Name == sheetName {
+			sheet = s
+			break
+		}
 	}
-	rows := make([][]string, s.MaxRow+1)
+	if sheet == nil {
+		return nil
+	}
+	rows := make([][]string, sheet.MaxRow+1)
 	numCols := 0
 	for i := range rows {
-		if row := s.Row(i); row != nil && row.LastCol()+1 > numCols {
+		if row := sheet.Row(i); row != nil && row.LastCol()+1 > numCols {
 			numCols = row.LastCol() + 1
 		}
 	}
 	for i := range rows {
 		rows[i] = make([]string, numCols)
-		row := s.Row(i)
+		row := sheet.Row(i)
 		if row == nil {
 			continue
 		}
@@ -166,26 +154,22 @@ func (f *xlsFile) Rows(sheet int) ([][]string, error) {
 			rows[i][j] = row.Col(j)
 		}
 	}
-	return rows, nil
+	return rows
 }
 
-func openExcelFile(name string) (excelFile, error) {
-	switch ext := filepath.Ext(name); ext {
+func readWorkBook(fileName string) (workBook, error) {
+	switch ext := filepath.Ext(fileName); ext {
 	case ".xls":
-		w, c, err := xls.OpenWithCloser(name, "utf-8")
-		if err != nil {
-			return nil, err
-		}
-		return &xlsFile{*w, c}, nil
+		wb, err := xls.Open(fileName, "utf-8")
+		return (*xlsWorkBook)(wb), err
 	case ".xlsx":
-		f, err := excelize.OpenFile(name)
-		if err != nil {
-			return nil, err
-		}
-		return &xlsxFile{*f}, nil
+		f, err := xlsx.OpenFile(fileName)
+		return (*xlsxWorkBook)(f), err
 	default:
 		return nil, fmt.Errorf("Unsupported excel file type: %s", ext)
 	}
+	// Not sure if the libraries close the files themselves or
+	// if/how we are supposed to do it.
 }
 
 func deleteEmpty(rows [][]string) [][]string {
