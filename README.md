@@ -8,7 +8,7 @@ and used as:
 ```xls2ajf form1.xls form2.xls form3.xlsx```
 
 xls2ajf implements a subset of the xlsform specification.
-Implemented features are listed in this document.
+Supported features are listed in this document.
 
 ## Introduction to xlsforms
 
@@ -42,15 +42,16 @@ Choices sheet:
 
 The following table lists the supported question types.
 
-|Question type   |Ajf field type  |Description     |
-|----------------|----------------|----------------|
-|decimal         |number          |64-bit floating point number |
-|text            |string          |Free text response |
-|select_one      |single choice   |Single choice answer |
-|select_multiple |multiple choice |Multiple choice answer |
-|note            |empty           |Inserts an HTML note in the form |
-|date            |date input      |A date          |
-|time            |time            |Time            |
+|Question type     |Ajf field type  |Description     |
+|------------------|----------------|----------------|
+|decimal           |number          |64-bit floating point number |
+|text              |string          |Free text response |
+|select_one        |single choice   |Single choice answer |
+|select_multiple   |multiple choice |Multiple choice answer |
+|select_one yes_no |boolean         |Boolean yes/no answer |
+|note              |empty           |Inserts an HTML note in the form |
+|date              |date input      |A date          |
+|time              |time            |Time            |
 
 ## Grouping
 
