@@ -42,6 +42,7 @@ type Node struct {
 	FieldType        *FieldType       `json:"fieldType,omitempty"`
 	ChoicesOriginRef string           `json:"choicesOriginRef,omitempty"`
 	HTML             string           `json:"HTML,omitempty"`
+	MaxReps          *int             `json:"maxReps,omitempty"`
 	Validation       *FieldValidation `json:"validation,omitempty"`
 	Nodes            []Node           `json:"nodes,omitempty"`
 }
@@ -53,6 +54,7 @@ const (
 	_
 	NtGroup
 	NtSlide
+	NtRepeatingSlide
 )
 
 type FieldType int

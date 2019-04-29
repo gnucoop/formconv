@@ -60,3 +60,17 @@ Questions can be grouped, as shown in the introductory example; groups can be ne
 Ajf forms have the peculiarity of being organized in slides, which has implications on how groups are handled.
 Top-level groups are translated to slides, while inner groups are translated to ajf group nodes.
 When the form contains ungrouped questions, the whole form will be wrapped in a single group/slide.
+
+## Repeats
+
+Repeats give the user the possibility to repeat a group of questions:
+
+|type         |name         |label        |repeat_count |
+|-------------|-------------|-------------|-------------|
+|begin repeat |child_repeat |Answer the following questions for each one of your childs |20 |
+|text         |name         |Child's name |             |
+|decimal      |birthweight  |Child's birthweight |      |
+|end repeat   |             |             |             |
+
+When specified, `repeat_count` defines an upper bound to how many times the group can be repeated.
+Repeats cannot be nested inside other repeats or groups.

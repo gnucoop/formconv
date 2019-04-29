@@ -1,0 +1,74 @@
+{
+	"choicesOrigins": [
+		{
+			"type": "fixed",
+			"name": "listname1",
+			"choicesType": "string",
+			"choices": [
+				{
+					"value": "name1",
+					"label": "label1"
+				}
+			]
+		},
+		{
+			"type": "fixed",
+			"name": "listname2",
+			"choicesType": "string",
+			"choices": [
+				{
+					"value": "name2",
+					"label": "label2"
+				}
+			]
+		},
+		{
+			"type": "fixed",
+			"name": "listname3",
+			"choicesType": "string",
+			"choices": [
+				{
+					"value": "name3",
+					"label": "label3"
+				}
+			]
+		}
+	],
+	"nodes": [
+		{
+			"parent": 0,
+			"id": 1,
+			"name": "first repeat",
+			"label": "First Repeat",
+			"nodeType": 4,
+			"nodes": [
+				{
+					"parent": 1,
+					"id": 1001,
+					"name": "whatever",
+					"label": "Some Text",
+					"nodeType": 0,
+					"fieldType": 0
+				}
+			]
+		},
+		{
+			"parent": 1,
+			"id": 2,
+			"name": "second repeat",
+			"label": "Second Repeat",
+			"nodeType": 4,
+			"maxReps": 7,
+			"nodes": [
+				{
+					"parent": 2,
+					"id": 2001,
+					"name": "number",
+					"label": "A number",
+					"nodeType": 0,
+					"fieldType": 2
+				}
+			]
+		}
+	]
+}
