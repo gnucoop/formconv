@@ -1,7 +1,6 @@
 package formats
 
 import (
-	"errors"
 	"fmt"
 	"strconv"
 	"strings"
@@ -11,16 +10,16 @@ func Xls2ajf(xls *XlsForm) (*AjfForm, error) {
 	var ajf AjfForm
 	var choicesMap map[string][]Choice
 	ajf.ChoicesOrigins, choicesMap = buildChoicesOrigins(xls.Choices)
+	err := checkChoicesRef(xls.Survey, choicesMap)
+	if err != nil {
+		return nil, err
+	}
 
 	survey, err := preprocessGroups(xls.Survey)
 	if err != nil {
 		return nil, err
 	}
 	global, err := buildGroup(survey)
-	if err != nil {
-		return nil, err
-	}
-	err = checkChoicesRef(&global, choicesMap)
 	if err != nil {
 		return nil, err
 	}
@@ -54,7 +53,23 @@ func buildChoicesOrigins(rows []ChoicesRow) ([]ChoicesOrigin, map[string][]Choic
 	return co, choicesMap
 }
 
-var notBalancedErr = errors.New("Groups are not balanced")
+func checkChoicesRef(survey []SurveyRow, choicesMap map[string][]Choice) error {
+	for _, row := range survey {
+		if (isSelectOne(row.Type) || isSelectMultiple(row.Type)) && row.Type != "select_one yes_no" {
+			c := choiceName(row.Type)
+			if _, ok := choicesMap[c]; !ok {
+				return fmtSourceErr(row.LineNum, "Undefined single or multiple choice %q.", c)
+			}
+		}
+	}
+	return nil
+}
+
+func choiceName(rowType string) string { return rowType[strings.Index(rowType, " ")+1:] }
+
+func fmtSourceErr(lineNumber int, format string, a ...interface{}) error {
+	return fmt.Errorf("(line %d) "+format, append([]interface{}{lineNumber}, a...)...)
+}
 
 func preprocessGroups(survey []SurveyRow) ([]SurveyRow, error) {
 	const (
@@ -70,18 +85,18 @@ func preprocessGroups(survey []SurveyRow) ([]SurveyRow, error) {
 			stack = append(stack, group)
 		case endGroup:
 			if len(stack) == 0 || stack[len(stack)-1] != group {
-				return nil, notBalancedErr
+				return nil, fmtSourceErr(row.LineNum, "Unexpected end of group.")
 			}
 			stack = stack[0 : len(stack)-1]
 		case beginRepeat:
 			if len(stack) != 0 {
-				return nil, fmt.Errorf("Repeats can't be nested")
+				return nil, fmtSourceErr(row.LineNum, "Repeats can't be nested.")
 			}
 			stack = append(stack, repeat)
 			repeats = true
 		case endRepeat:
 			if len(stack) == 0 || stack[len(stack)-1] != repeat {
-				return nil, notBalancedErr
+				return nil, fmtSourceErr(row.LineNum, "Unexpected end of repeat.")
 			}
 			stack = stack[0 : len(stack)-1]
 		default:
@@ -90,12 +105,12 @@ func preprocessGroups(survey []SurveyRow) ([]SurveyRow, error) {
 			}
 		}
 	}
-	if len(stack) != 0 {
-		return nil, notBalancedErr
+	if len(stack) > 0 {
+		return nil, fmt.Errorf("Some group/repeat wasn't closed.")
 	}
 	if ungroupedQuestions {
 		if repeats {
-			return nil, fmt.Errorf("Can't have repeats and ungrouped questions together")
+			return nil, fmt.Errorf("Can't have repeats and ungrouped questions in the same file.")
 		}
 		// Wrap everything into a slide.
 		survey = append([]SurveyRow{{Type: beginGroup, Name: "form", Label: "Form"}}, survey...)
@@ -109,21 +124,22 @@ func preprocessGroups(survey []SurveyRow) ([]SurveyRow, error) {
 }
 
 func buildGroup(survey []SurveyRow) (Node, error) {
-	if survey[0].Type != beginGroup && survey[0].Type != beginRepeat {
+	row := survey[0]
+	if row.Type != beginGroup && row.Type != beginRepeat {
 		panic("not a group")
 	}
 	group := Node{
-		Name:  survey[0].Name,
-		Label: survey[0].Label,
+		Name:  row.Name,
+		Label: row.Label,
 		Type:  NtGroup,
 		Nodes: make([]Node, 0),
 	}
-	if survey[0].Type == beginRepeat {
+	if row.Type == beginRepeat {
 		group.Type = NtRepeatingSlide
-		if survey[0].RepeatCount != "" {
-			reps, err := strconv.ParseUint(survey[0].RepeatCount, 10, 16)
+		if row.RepeatCount != "" {
+			reps, err := strconv.ParseUint(row.RepeatCount, 10, 16)
 			if err != nil {
-				return Node{}, fmt.Errorf("repeat_count is not an uint16: %s", err)
+				return Node{}, fmtSourceErr(row.LineNum, "repeat_count is not an uint16.")
 			}
 			group.MaxReps = new(int)
 			*group.MaxReps = int(reps)
@@ -148,9 +164,9 @@ func buildGroup(survey []SurveyRow) (Node, error) {
 			field := buildField(&row)
 			group.Nodes = append(group.Nodes, field)
 		case isUnsupportedField(row.Type):
-			return Node{}, fmt.Errorf("Field type %q is not supported", row.Type)
+			return Node{}, fmtSourceErr(row.LineNum, "Questions of type %q are not supported.", row.Type)
 		default:
-			return Node{}, fmt.Errorf("Invalid type %q in survey", row.Type)
+			return Node{}, fmtSourceErr(row.LineNum, "Invalid type %q in survey.", row.Type)
 		}
 	}
 	return group, nil
@@ -187,10 +203,10 @@ func buildField(row *SurveyRow) Node {
 		field.FieldType = &FtBoolean
 	case isSelectOne(row.Type):
 		field.FieldType = &FtSingleChoice
-		field.ChoicesOriginRef = row.Type[strings.Index(row.Type, " ")+1:]
+		field.ChoicesOriginRef = choiceName(row.Type)
 	case isSelectMultiple(row.Type):
 		field.FieldType = &FtMultipleChoice
-		field.ChoicesOriginRef = row.Type[strings.Index(row.Type, " ")+1:]
+		field.ChoicesOriginRef = choiceName(row.Type)
 	case row.Type == "note":
 		field.FieldType = &FtNote
 		field.HTML = row.Label
@@ -209,21 +225,6 @@ func buildField(row *SurveyRow) Node {
 		field.Validation = &FieldValidation{NotEmpty: true}
 	}
 	return field
-}
-
-func checkChoicesRef(node *Node, choicesMap map[string][]Choice) error {
-	if node.Type == NtField && (*node.FieldType == FtSingleChoice || *node.FieldType == FtMultipleChoice) {
-		if _, ok := choicesMap[node.ChoicesOriginRef]; !ok {
-			return fmt.Errorf("Invalid single or multiple choice %q", node.ChoicesOriginRef)
-		}
-	}
-	for i := range node.Nodes {
-		err := checkChoicesRef(&node.Nodes[i], choicesMap)
-		if err != nil {
-			return err
-		}
-	}
-	return nil
 }
 
 const idMultiplier = 1000

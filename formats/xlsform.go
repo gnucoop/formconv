@@ -10,18 +10,17 @@ import (
 )
 
 type XlsForm struct {
-	Survey   []SurveyRow
-	Choices  []ChoicesRow
-	FileName string
+	Survey  []SurveyRow
+	Choices []ChoicesRow
 }
 type SurveyRow struct {
 	Type, Name, Label,
 	Relevant, Constraint, Calculation, Required, RepeatCount string
-	LineNumber int
+	LineNum int
 }
 type ChoicesRow struct {
 	ListName, Name, Label string
-	LineNumber            int
+	LineNum               int
 }
 
 // Defines which sheets/columns to read from an excel file.
@@ -61,34 +60,32 @@ type columnInfo struct {
 	mandatory bool
 }
 
-func DecXlsFromFile(filePath string) (*XlsForm, error) {
-	_, fileName := filepath.Split(filePath)
-	wb, err := readWorkBook(filePath)
+func DecXlsFromFile(fileName string) (*XlsForm, error) {
+	wb, err := readWorkBook(fileName)
 	if err != nil {
-		return nil, fmt.Errorf("Could not read excel file %s: %s", fileName, err)
+		return nil, err
 	}
 
-	form := XlsForm{FileName: fileName}
+	var form XlsForm
 	formVal := reflect.ValueOf(&form).Elem()
 	for s, sheetInfo := range sheetInfos {
 		rows := wb.Rows(sheetInfo.name)
 		if rows == nil && sheetInfo.mandatory {
-			return nil, fmt.Errorf("Missing mandatory sheet %q in file %s", sheetInfo.name, fileName)
+			return nil, fmt.Errorf("Missing mandatory sheet %q.", sheetInfo.name)
 		}
 		if rows == nil {
 			continue // not mandatory, skip
 		}
 		headIndex := firstNonempty(rows)
 		if headIndex == -1 {
-			return nil, fmt.Errorf("Empty sheet %q in file %s", sheetInfo.name, fileName)
+			return nil, fmt.Errorf("Empty sheet %q.", sheetInfo.name)
 		}
 		head := rows[headIndex]
 		colIndices := make([]int, len(sheetInfo.columns))
 		for j, colInfo := range sheetInfo.columns {
 			colIndices[j] = indexOfString(head, colInfo.name)
 			if colIndices[j] == -1 && colInfo.mandatory {
-				return nil, fmt.Errorf("Error in file %s, sheet %q: column %q is mandatory",
-					fileName, sheetInfo.name, colInfo.name)
+				return nil, fmt.Errorf("Column %q in sheet %q is mandatory.", colInfo.name, sheetInfo.name)
 			}
 		}
 		destSlice := formVal.Field(s)
@@ -98,7 +95,7 @@ func DecXlsFromFile(filePath string) (*XlsForm, error) {
 				continue
 			}
 			destRow := reflect.New(destSlice.Type().Elem()).Elem()
-			destRow.FieldByName("LineNumber").Set(reflect.ValueOf(i + 1))
+			destRow.FieldByName("LineNum").Set(reflect.ValueOf(i + 1))
 			for j := range sheetInfo.columns {
 				if colIndices[j] != -1 {
 					destRow.Field(j).Set(reflect.ValueOf(row[colIndices[j]]))
@@ -174,7 +171,7 @@ func readWorkBook(fileName string) (workBook, error) {
 		f, err := xlsx.OpenFile(fileName)
 		return (*xlsxWorkBook)(f), err
 	default:
-		return nil, fmt.Errorf("Unsupported excel file type: %s", ext)
+		return nil, fmt.Errorf("Unsupported excel file type %s.", ext)
 	}
 	// Not sure if the libraries close the files themselves or
 	// if/how we are supposed to do it.

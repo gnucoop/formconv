@@ -9,13 +9,13 @@ func TestDecodeXls(t *testing.T) {
 	fileName := "testdata/skeleton"
 	expected := &XlsForm{
 		Survey: []SurveyRow{
-			{LineNumber: 2, Type: "type1", Name: "name1", Label: "label1", Required: "yes"},
-			{LineNumber: 3, Type: "type2", Name: "name2", Label: "label2", Required: "yes"},
+			{LineNum: 2, Type: "type1", Name: "name1", Label: "label1", Required: "yes"},
+			{LineNum: 3, Type: "type2", Name: "name2", Label: "label2", Required: "yes"},
 		},
 		Choices: []ChoicesRow{
-			{LineNumber: 4, ListName: "listname1", Name: "name1", Label: "label1"},
-			{LineNumber: 6, ListName: "listname2", Name: "name2", Label: "label2"},
-			{LineNumber: 8, ListName: "listname3", Name: "name3", Label: "label3"},
+			{LineNum: 4, ListName: "listname1", Name: "name1", Label: "label1"},
+			{LineNum: 6, ListName: "listname2", Name: "name2", Label: "label2"},
+			{LineNum: 8, ListName: "listname3", Name: "name3", Label: "label3"},
 		},
 	}
 	for _, ext := range []string{".xls", ".xlsx"} {
@@ -23,7 +23,6 @@ func TestDecodeXls(t *testing.T) {
 		if err != nil {
 			t.Fatal(err)
 		}
-		expected.FileName = "skeleton" + ext
 		if !reflect.DeepEqual(xls, expected) {
 			t.Fatalf("Error decoding %s: expected %v, got %v", fileName+ext, expected, xls)
 		}

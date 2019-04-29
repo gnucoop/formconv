@@ -3,7 +3,6 @@ package formats
 import (
 	"bufio"
 	"encoding/json"
-	"fmt"
 	"os"
 )
 
@@ -79,7 +78,7 @@ func EncAjfToFile(form *AjfForm, fileName string) (err error) {
 	var f *os.File
 	f, err = os.Create(fileName)
 	if err != nil {
-		return fmt.Errorf("Could not create file %s: %s", fileName, err)
+		return err
 	}
 	defer func() {
 		f.Close()
@@ -93,11 +92,11 @@ func EncAjfToFile(form *AjfForm, fileName string) (err error) {
 	enc.SetIndent("", "\t")
 	err = enc.Encode(form)
 	if err != nil {
-		return fmt.Errorf("Could not encode ajf form: %s", err)
+		return err
 	}
 	err = w.Flush()
 	if err != nil {
-		return fmt.Errorf("Error flushing form to file %s: %s", fileName, err)
+		return err
 	}
 	return nil
 }

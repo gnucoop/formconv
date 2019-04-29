@@ -28,19 +28,21 @@ xls2ajf form1.xls form2.xls`)
 }
 
 func decXlsEncAjf(xlsName string) error {
+	_, xlsShort := filepath.Split(xlsName)
 	xls, err := formats.DecXlsFromFile(xlsName)
 	if err != nil {
-		return err
+		return fmt.Errorf("Error decoding file %s: %s", xlsShort, err)
 	}
 	ajf, err := formats.Xls2ajf(xls)
 	if err != nil {
-		return fmt.Errorf("Error converting file %s: %s", xlsName, err)
+		return fmt.Errorf("Error converting file %s: %s", xlsShort, err)
 	}
 	ext := filepath.Ext(xlsName)
 	ajfName := xlsName[0:len(xlsName)-len(ext)] + ".json"
+	_, ajfShort := filepath.Split(ajfName)
 	err = formats.EncAjfToFile(ajf, ajfName)
 	if err != nil {
-		return err
+		return fmt.Errorf("Error encoding file %s: %s", ajfShort, err)
 	}
 	return nil
 }
