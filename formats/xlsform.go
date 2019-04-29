@@ -10,15 +10,18 @@ import (
 )
 
 type XlsForm struct {
-	Survey  []SurveyRow
-	Choices []ChoicesRow
+	Survey   []SurveyRow
+	Choices  []ChoicesRow
+	FileName string
 }
 type SurveyRow struct {
 	Type, Name, Label,
 	Relevant, Constraint, Calculation, Required, RepeatCount string
+	LineNumber int
 }
 type ChoicesRow struct {
 	ListName, Name, Label string
+	LineNumber            int
 }
 
 // Defines which sheets/columns to read from an excel file.
@@ -58,15 +61,16 @@ type columnInfo struct {
 	mandatory bool
 }
 
-func DecXlsFromFile(fileName string) (*XlsForm, error) {
-	wb, err := readWorkBook(fileName)
+func DecXlsFromFile(filePath string) (*XlsForm, error) {
+	_, fileName := filepath.Split(filePath)
+	wb, err := readWorkBook(filePath)
 	if err != nil {
 		return nil, fmt.Errorf("Could not read excel file %s: %s", fileName, err)
 	}
 
-	var form XlsForm
+	form := XlsForm{FileName: fileName}
 	formVal := reflect.ValueOf(&form).Elem()
-	for i, sheetInfo := range sheetInfos {
+	for s, sheetInfo := range sheetInfos {
 		rows := wb.Rows(sheetInfo.name)
 		if rows == nil && sheetInfo.mandatory {
 			return nil, fmt.Errorf("Missing mandatory sheet %q in file %s", sheetInfo.name, fileName)
@@ -74,12 +78,11 @@ func DecXlsFromFile(fileName string) (*XlsForm, error) {
 		if rows == nil {
 			continue // not mandatory, skip
 		}
-		rows = deleteEmpty(rows)
-		if len(rows) == 0 {
+		headIndex := firstNonempty(rows)
+		if headIndex == -1 {
 			return nil, fmt.Errorf("Empty sheet %q in file %s", sheetInfo.name, fileName)
 		}
-		head := rows[0]
-		rows = rows[1:]
+		head := rows[headIndex]
 		colIndices := make([]int, len(sheetInfo.columns))
 		for j, colInfo := range sheetInfo.columns {
 			colIndices[j] = indexOfString(head, colInfo.name)
@@ -88,9 +91,14 @@ func DecXlsFromFile(fileName string) (*XlsForm, error) {
 					fileName, sheetInfo.name, colInfo.name)
 			}
 		}
-		destSlice := formVal.Field(i)
-		for _, row := range rows {
+		destSlice := formVal.Field(s)
+		for i := headIndex + 1; i < len(rows); i++ {
+			row := rows[i]
+			if isEmpty(row) {
+				continue
+			}
 			destRow := reflect.New(destSlice.Type().Elem()).Elem()
+			destRow.FieldByName("LineNumber").Set(reflect.ValueOf(i + 1))
 			for j := range sheetInfo.columns {
 				if colIndices[j] != -1 {
 					destRow.Field(j).Set(reflect.ValueOf(row[colIndices[j]]))
@@ -172,21 +180,22 @@ func readWorkBook(fileName string) (workBook, error) {
 	// if/how we are supposed to do it.
 }
 
-func deleteEmpty(rows [][]string) [][]string {
-	filteredRows := make([][]string, 0, len(rows))
-	for _, row := range rows {
-		empty := true
-		for _, cell := range row {
-			if cell != "" {
-				empty = false
-				break
-			}
-		}
-		if !empty {
-			filteredRows = append(filteredRows, row)
+func isEmpty(row []string) bool {
+	for _, cell := range row {
+		if cell != "" {
+			return false
 		}
 	}
-	return filteredRows
+	return true
+}
+
+func firstNonempty(rows [][]string) int {
+	for i, row := range rows {
+		if !isEmpty(row) {
+			return i
+		}
+	}
+	return -1
 }
 
 func indexOfString(row []string, name string) int {
