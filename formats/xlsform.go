@@ -172,29 +172,34 @@ func (wb *xlsWorkBook) Rows(sheetName string) [][]string {
 	return rows
 }
 
-func openWorkBook(fileName string) (workBook, error) {
+func openWorkBook(fileName string) (wb workBook, err error) {
 	f, err := os.Open(fileName)
 	if err != nil {
 		return nil, err
 	}
+	defer func() {
+		if err != nil {
+			f.Close()
+		}
+	}()
 	info, err := f.Stat()
 	if err != nil {
 		return nil, err
 	}
-	size := info.Size()
+
 	switch ext := filepath.Ext(fileName); ext {
 	case ".xls":
 		wb, err := xls.OpenReader(f, "utf-8")
 		if err != nil {
 			return nil, err
 		}
-		return &xlsWorkBook{*wb, f}, err
+		return &xlsWorkBook{*wb, f}, nil
 	case ".xlsx":
-		wb, err := xlsx.OpenReaderAt(f, size)
+		wb, err := xlsx.OpenReaderAt(f, info.Size())
 		if err != nil {
 			return nil, err
 		}
-		return &xlsxWorkBook{*wb, f}, err
+		return &xlsxWorkBook{*wb, f}, nil
 	default:
 		return nil, fmt.Errorf("Unsupported excel file type %s.", ext)
 	}

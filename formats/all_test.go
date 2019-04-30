@@ -59,7 +59,21 @@ func TestBuildChoicesOrigins(t *testing.T) {
 	}
 }
 
-func BenchmarkPicaps(b *testing.B) {
+func BenchmarkDecXls(b *testing.B) {
+	for n := 0; n < b.N; n++ {
+		_, err := DecXlsFromFile("testdata/Picaps_baseline_form.xls")
+		check(err, b)
+	}
+}
+
+func BenchmarkDecXlsx(b *testing.B) {
+	for n := 0; n < b.N; n++ {
+		_, err := DecXlsFromFile("testdata/Picaps_baseline_form.xlsx")
+		check(err, b)
+	}
+}
+
+func BenchmarkXls2ajf(b *testing.B) {
 	xls, err := DecXlsFromFile("testdata/Picaps_baseline_form.xlsx")
 	check(err, b)
 	b.ResetTimer()
