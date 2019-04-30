@@ -7,6 +7,11 @@ import (
 )
 
 func Xls2ajf(xls *XlsForm) (*AjfForm, error) {
+	err = checkTypes(xls.Survey)
+	if err != nil {
+		return nil, err
+	}
+
 	var ajf AjfForm
 	var choicesMap map[string][]Choice
 	ajf.ChoicesOrigins, choicesMap = buildChoicesOrigins(xls.Choices)
@@ -15,10 +20,6 @@ func Xls2ajf(xls *XlsForm) (*AjfForm, error) {
 		return nil, err
 	}
 
-	err = checkTypes(xls.Survey)
-	if err != nil {
-		return nil, err
-	}
 	survey, err := preprocessGroups(xls.Survey)
 	if err != nil {
 		return nil, err
