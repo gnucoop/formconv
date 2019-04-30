@@ -5,6 +5,13 @@ import (
 	"testing"
 )
 
+func check(err error, t testing.TB) {
+	t.Helper()
+	if err != nil {
+		t.Fatal(err)
+	}
+}
+
 func TestDecodeXls(t *testing.T) {
 	fileName := "testdata/skeleton"
 	expected := &XlsForm{
@@ -20,9 +27,7 @@ func TestDecodeXls(t *testing.T) {
 	}
 	for _, ext := range []string{".xls", ".xlsx"} {
 		xls, err := DecXlsFromFile(fileName + ext)
-		if err != nil {
-			t.Fatal(err)
-		}
+		check(err, t)
 		if !reflect.DeepEqual(xls, expected) {
 			t.Fatalf("Error decoding %s: expected %v, got %v", fileName+ext, expected, xls)
 		}
@@ -51,5 +56,15 @@ func TestBuildChoicesOrigins(t *testing.T) {
 	if !reflect.DeepEqual(choices, expected1) && !reflect.DeepEqual(choices, expected2) {
 		t.Fatalf("Error building choices origins of %v: expected %v, got %v",
 			&choicesSheet, expected1, choices)
+	}
+}
+
+func BenchmarkPicaps(b *testing.B) {
+	xls, err := DecXlsFromFile("testdata/Picaps_baseline_form.xlsx")
+	check(err, b)
+	b.ResetTimer()
+	for n := 0; n < b.N; n++ {
+		_, err = Xls2ajf(xls)
+		check(err, b)
 	}
 }

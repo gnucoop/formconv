@@ -46,7 +46,7 @@ func buildChoicesOrigins(rows []ChoicesRow) ([]ChoicesOrigin, map[string][]Choic
 			Label: row.Label,
 		})
 	}
-	var co []ChoicesOrigin
+	co := make([]ChoicesOrigin, 0, len(choicesMap))
 	for name, list := range choicesMap {
 		co = append(co, ChoicesOrigin{
 			Type:        OtFixed,
@@ -152,7 +152,7 @@ func buildGroup(survey []SurveyRow) (Node, error) {
 		Name:  row.Name,
 		Label: row.Label,
 		Type:  NtGroup,
-		Nodes: make([]Node, 0),
+		Nodes: make([]Node, 0, 8),
 	}
 	if row.Type == beginRepeat {
 		group.Type = NtRepeatingSlide
