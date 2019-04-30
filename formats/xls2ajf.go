@@ -15,6 +15,10 @@ func Xls2ajf(xls *XlsForm) (*AjfForm, error) {
 		return nil, err
 	}
 
+	err = checkTypes(xls.Survey)
+	if err != nil {
+		return nil, err
+	}
 	survey, err := preprocessGroups(xls.Survey)
 	if err != nil {
 		return nil, err
@@ -55,10 +59,10 @@ func buildChoicesOrigins(rows []ChoicesRow) ([]ChoicesOrigin, map[string][]Choic
 
 func checkChoicesRef(survey []SurveyRow, choicesMap map[string][]Choice) error {
 	for _, row := range survey {
-		if (isSelectOne(row.Type) || isSelectMultiple(row.Type)) && row.Type != "select_one yes_no" {
+		if isSelectOne(row.Type) || isSelectMultiple(row.Type) {
 			c := choiceName(row.Type)
 			if _, ok := choicesMap[c]; !ok {
-				return fmtSourceErr(row.LineNum, "Undefined single or multiple choice %q.", c)
+				return fmtSrcErr(row.LineNum, "Undefined single or multiple choice %q.", c)
 			}
 		}
 	}
@@ -67,51 +71,66 @@ func checkChoicesRef(survey []SurveyRow, choicesMap map[string][]Choice) error {
 
 func choiceName(rowType string) string { return rowType[strings.Index(rowType, " ")+1:] }
 
-func fmtSourceErr(lineNumber int, format string, a ...interface{}) error {
-	return fmt.Errorf("(line %d) "+format, append([]interface{}{lineNumber}, a...)...)
+func fmtSrcErr(lineNum int, format string, a ...interface{}) error {
+	return fmt.Errorf("(line %d) "+format, append([]interface{}{lineNum}, a...)...)
+}
+
+func checkTypes(survey []SurveyRow) error {
+	for _, row := range survey {
+		switch {
+		case isSupportedField(row.Type):
+			continue
+		case isUnsupportedField(row.Type):
+			return fmtSrcErr(row.LineNum, "Questions of type %q are not supported.", row.Type)
+		case row.Type == beginGroup || row.Type == endGroup:
+			continue
+		case row.Type == beginRepeat || row.Type == endRepeat:
+			continue
+		case row.Type == "":
+			return fmtSrcErr(row.LineNum, "Empty type in non-empty survey row.", row.Type)
+		default:
+			return fmtSrcErr(row.LineNum, "Invalid type %q in survey.", row.Type)
+		}
+	}
+	return nil
 }
 
 func preprocessGroups(survey []SurveyRow) ([]SurveyRow, error) {
-	const (
-		group = iota
-		repeat
-	)
-	var stack []int
-	ungroupedQuestions := false
-	repeats := false
-	for _, row := range survey {
+	var stack []*SurveyRow
+	ungroupedQLine := -1
+	repeatLine := -1
+	for i := range survey {
+		row := &survey[i]
 		switch row.Type {
-		case beginGroup:
-			stack = append(stack, group)
-		case endGroup:
-			if len(stack) == 0 || stack[len(stack)-1] != group {
-				return nil, fmtSourceErr(row.LineNum, "Unexpected end of group.")
-			}
-			stack = stack[0 : len(stack)-1]
 		case beginRepeat:
-			if len(stack) != 0 {
-				return nil, fmtSourceErr(row.LineNum, "Repeats can't be nested.")
+			if len(stack) > 0 {
+				return nil, fmtSrcErr(row.LineNum, "Repeats can't be nested.")
 			}
-			stack = append(stack, repeat)
-			repeats = true
-		case endRepeat:
-			if len(stack) == 0 || stack[len(stack)-1] != repeat {
-				return nil, fmtSourceErr(row.LineNum, "Unexpected end of repeat.")
+			repeatLine = row.LineNum
+			fallthrough
+		case beginGroup:
+			stack = append(stack, row)
+		case endRepeat, endGroup:
+			if len(stack) == 0 || stack[len(stack)-1].Type[len("begin"):] != row.Type[len("end"):] {
+				return nil, fmtSrcErr(row.LineNum, "Unexpected end of group/repeat.")
 			}
 			stack = stack[0 : len(stack)-1]
 		default:
 			if len(stack) == 0 {
-				ungroupedQuestions = true
+				ungroupedQLine = row.LineNum
 			}
 		}
 	}
 	if len(stack) > 0 {
-		return nil, fmt.Errorf("Some group/repeat wasn't closed.")
+		return nil, fmtSrcErr(stack[len(stack)-1].LineNum, "Unclosed group/repeat.")
 	}
-	if ungroupedQuestions {
-		if repeats {
-			return nil, fmt.Errorf("Can't have repeats and ungrouped questions in the same file.")
-		}
+	if ungroupedQLine != -1 && repeatLine != -1 {
+		return nil, fmt.Errorf(
+			"Can't have ungrouped questions (line %d) and repeats (line %d) in the same file.",
+			ungroupedQLine, repeatLine,
+		)
+	}
+	if ungroupedQLine != -1 {
 		// Wrap everything into a slide.
 		survey = append([]SurveyRow{{Type: beginGroup, Name: "form", Label: "Form"}}, survey...)
 		survey = append(survey, SurveyRow{Type: endGroup})
@@ -139,7 +158,7 @@ func buildGroup(survey []SurveyRow) (Node, error) {
 		if row.RepeatCount != "" {
 			reps, err := strconv.ParseUint(row.RepeatCount, 10, 16)
 			if err != nil {
-				return Node{}, fmtSourceErr(row.LineNum, "repeat_count is not an uint16.")
+				return Node{}, fmtSrcErr(row.LineNum, "repeat_count is not an uint16.")
 			}
 			group.MaxReps = new(int)
 			*group.MaxReps = int(reps)
@@ -148,6 +167,9 @@ func buildGroup(survey []SurveyRow) (Node, error) {
 	for i := 1; i < len(survey); i++ {
 		row := survey[i]
 		switch {
+		case isSupportedField(row.Type):
+			field := buildField(&row)
+			group.Nodes = append(group.Nodes, field)
 		case row.Type == beginGroup || row.Type == beginRepeat:
 			end := groupEnd(survey, i)
 			child, err := buildGroup(survey[i:end])
@@ -160,13 +182,8 @@ func buildGroup(survey []SurveyRow) (Node, error) {
 			if i != len(survey)-1 {
 				panic("unexpected end of group")
 			}
-		case isSupportedField(row.Type):
-			field := buildField(&row)
-			group.Nodes = append(group.Nodes, field)
-		case isUnsupportedField(row.Type):
-			return Node{}, fmtSourceErr(row.LineNum, "Questions of type %q are not supported.", row.Type)
 		default:
-			return Node{}, fmtSourceErr(row.LineNum, "Invalid type %q in survey.", row.Type)
+			panic("unexpected row type")
 		}
 	}
 	return group, nil
@@ -216,10 +233,8 @@ func buildField(row *SurveyRow) Node {
 		field.FieldType = &FtTime
 	case row.Type == "calculate":
 		field.FieldType = &FtFormula
-	case isUnsupportedField(row.Type):
-		panic("unsupported row type: " + row.Type)
 	default:
-		panic("unrecognized row type: " + row.Type)
+		panic("unexpected row type")
 	}
 	if row.Required == "yes" {
 		field.Validation = &FieldValidation{NotEmpty: true}
