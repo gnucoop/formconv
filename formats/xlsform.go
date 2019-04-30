@@ -2,6 +2,8 @@ package formats
 
 import (
 	"fmt"
+	"io"
+	"os"
 	"path/filepath"
 	"reflect"
 
@@ -61,10 +63,11 @@ type columnInfo struct {
 }
 
 func DecXlsFromFile(fileName string) (*XlsForm, error) {
-	wb, err := readWorkBook(fileName)
+	wb, err := openWorkBook(fileName)
 	if err != nil {
 		return nil, err
 	}
+	defer wb.Close()
 
 	var form XlsForm
 	formVal := reflect.ValueOf(&form).Elem()
@@ -109,9 +112,13 @@ func DecXlsFromFile(fileName string) (*XlsForm, error) {
 
 type workBook interface {
 	Rows(sheetName string) [][]string
+	Close() error
 }
 
-type xlsxWorkBook xlsx.File
+type xlsxWorkBook struct {
+	xlsx.File
+	io.Closer
+}
 
 func (wb *xlsxWorkBook) Rows(sheetName string) [][]string {
 	sheet, ok := wb.Sheet[sheetName]
@@ -129,12 +136,15 @@ func (wb *xlsxWorkBook) Rows(sheetName string) [][]string {
 	return rows
 }
 
-type xlsWorkBook xls.WorkBook
+type xlsWorkBook struct {
+	xls.WorkBook
+	io.Closer
+}
 
 func (wb *xlsWorkBook) Rows(sheetName string) [][]string {
 	var sheet *xls.WorkSheet
-	for i := 0; i < (*xls.WorkBook)(wb).NumSheets(); i++ {
-		if s := (*xls.WorkBook)(wb).GetSheet(i); s.Name == sheetName {
+	for i := 0; i < wb.NumSheets(); i++ {
+		if s := wb.GetSheet(i); s.Name == sheetName {
 			sheet = s
 			break
 		}
@@ -162,19 +172,32 @@ func (wb *xlsWorkBook) Rows(sheetName string) [][]string {
 	return rows
 }
 
-func readWorkBook(fileName string) (workBook, error) {
+func openWorkBook(fileName string) (workBook, error) {
+	f, err := os.Open(fileName)
+	if err != nil {
+		return nil, err
+	}
+	info, err := f.Stat()
+	if err != nil {
+		return nil, err
+	}
+	size := info.Size()
 	switch ext := filepath.Ext(fileName); ext {
 	case ".xls":
-		wb, err := xls.Open(fileName, "utf-8")
-		return (*xlsWorkBook)(wb), err
+		wb, err := xls.OpenReader(f, "utf-8")
+		if err != nil {
+			return nil, err
+		}
+		return &xlsWorkBook{*wb, f}, err
 	case ".xlsx":
-		f, err := xlsx.OpenFile(fileName)
-		return (*xlsxWorkBook)(f), err
+		wb, err := xlsx.OpenReaderAt(f, size)
+		if err != nil {
+			return nil, err
+		}
+		return &xlsxWorkBook{*wb, f}, err
 	default:
 		return nil, fmt.Errorf("Unsupported excel file type %s.", ext)
 	}
-	// Not sure if the libraries close the files themselves or
-	// if/how we are supposed to do it.
 }
 
 func isEmpty(row []string) bool {
