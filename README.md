@@ -1,4 +1,4 @@
-xls2ajf compiles [xlsform](http://xlsform.org/en/) excel files to ajf, a json-based format used at gnucoop to describe forms.
+xls2ajf compiles [xlsform](http://xlsform.org/en/) excel files (both .xls and .xlsx) to ajf, a json-based format used at gnucoop to describe forms.
 The tool can be installed with:
 
 ```go get bitbucket.org/gnucoop/xls2ajf```
