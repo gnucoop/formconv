@@ -2,163 +2,20 @@
 	"choicesOrigins": [
 		{
 			"type": "fixed",
-			"name": "family_link_choice",
+			"name": "animals_choice",
 			"choicesType": "string",
 			"choices": [
 				{
-					"value": "mother",
-					"label": ""
+					"value": "cow",
+					"label": "Cow"
 				},
 				{
-					"value": "father",
-					"label": ""
+					"value": "goat",
+					"label": "Goat"
 				},
 				{
-					"value": "son",
-					"label": ""
-				},
-				{
-					"value": "uncle",
-					"label": ""
-				},
-				{
-					"value": "nephew",
-					"label": ""
-				},
-				{
-					"value": "brother_in_law",
-					"label": ""
-				},
-				{
-					"value": "son in law",
-					"label": ""
-				},
-				{
-					"value": "mother_in_law",
-					"label": ""
-				},
-				{
-					"value": "father_in_law",
-					"label": ""
-				}
-			]
-		},
-		{
-			"type": "fixed",
-			"name": "job_type_choice",
-			"choicesType": "string",
-			"choices": [
-				{
-					"value": "formal",
-					"label": ""
-				},
-				{
-					"value": "informal",
-					"label": ""
-				}
-			]
-		},
-		{
-			"type": "fixed",
-			"name": "children_caring_choice",
-			"choicesType": "string",
-			"choices": [
-				{
-					"value": "csps",
-					"label": ""
-				},
-				{
-					"value": "hospital",
-					"label": ""
-				},
-				{
-					"value": "traditional_healtcare",
-					"label": ""
-				}
-			]
-		},
-		{
-			"type": "fixed",
-			"name": "scale_choice",
-			"choicesType": "string",
-			"choices": [
-				{
-					"value": "0",
-					"label": ""
-				},
-				{
-					"value": "10",
-					"label": ""
-				},
-				{
-					"value": "20",
-					"label": ""
-				},
-				{
-					"value": "30",
-					"label": ""
-				},
-				{
-					"value": "40",
-					"label": ""
-				},
-				{
-					"value": "50",
-					"label": ""
-				},
-				{
-					"value": "60",
-					"label": ""
-				},
-				{
-					"value": "70",
-					"label": ""
-				},
-				{
-					"value": "80",
-					"label": ""
-				},
-				{
-					"value": "90",
-					"label": ""
-				},
-				{
-					"value": "100",
-					"label": ""
-				}
-			]
-		},
-		{
-			"type": "fixed",
-			"name": "status_choice",
-			"choicesType": "string",
-			"choices": [
-				{
-					"value": "Married",
-					"label": ""
-				},
-				{
-					"value": "widow",
-					"label": ""
-				},
-				{
-					"value": "divorced",
-					"label": ""
-				}
-			]
-		},
-		{
-			"type": "fixed",
-			"name": "school_level_choice",
-			"choicesType": "string",
-			"choices": [
-				{
-					"value": "primary",
-					"label": ""
-				},
-				{
-					"value": "secondary",
-					"label": ""
+					"value": "chicken",
+					"label": "Chicken"
 				}
 			]
 		},
@@ -169,95 +26,92 @@
 			"choices": [
 				{
 					"value": "yes_delivery",
-					"label": ""
+					"label": "Yes Delivery"
 				},
 				{
 					"value": "yes_after_years",
-					"label": ""
+					"label": "Yes After Years"
 				},
 				{
 					"value": "no",
-					"label": ""
+					"label": "No"
 				}
 			]
 		},
 		{
 			"type": "fixed",
-			"name": "animals_choice",
+			"name": "children_caring_choice",
 			"choicesType": "string",
 			"choices": [
 				{
-					"value": "cow",
-					"label": ""
+					"value": "csps",
+					"label": "Csps"
 				},
 				{
-					"value": "goat",
-					"label": ""
+					"value": "hospital",
+					"label": "Hospital"
 				},
 				{
-					"value": "chicken",
-					"label": ""
+					"value": "traditional_healtcare",
+					"label": "Traditional Healtcare"
 				}
 			]
 		},
 		{
 			"type": "fixed",
-			"name": "main_activity_choice",
+			"name": "family_link_choice",
 			"choicesType": "string",
 			"choices": [
 				{
-					"value": "agriculture",
-					"label": ""
+					"value": "mother",
+					"label": "Mother"
 				},
 				{
-					"value": "breeding",
-					"label": ""
+					"value": "father",
+					"label": "Father"
 				},
 				{
-					"value": "craft",
-					"label": ""
+					"value": "son",
+					"label": "Son"
 				},
 				{
-					"value": "trade",
-					"label": ""
+					"value": "uncle",
+					"label": "Uncle"
 				},
 				{
-					"value": "education",
-					"label": ""
+					"value": "nephew",
+					"label": "Nephew"
 				},
 				{
-					"value": "other",
-					"label": ""
+					"value": "brother_in_law",
+					"label": "Brother In Law"
+				},
+				{
+					"value": "son in law",
+					"label": "Son In Law"
+				},
+				{
+					"value": "mother_in_law",
+					"label": "Mother In Law"
+				},
+				{
+					"value": "father_in_law",
+					"label": "Father In Law"
 				}
 			]
 		},
 		{
 			"type": "fixed",
-			"name": "yn",
+			"name": "job_type_choice",
 			"choicesType": "string",
 			"choices": [
 				{
-					"value": "yes",
-					"label": ""
+					"value": "formal",
+					"label": "Formal"
 				},
 				{
-					"value": "no",
-					"label": ""
-				}
-			]
-		},
-		{
-			"type": "fixed",
-			"name": "mf",
-			"choicesType": "string",
-			"choices": [
-				{
-					"value": "m",
-					"label": ""
-				},
-				{
-					"value": "f",
-					"label": ""
+					"value": "informal",
+					"label": "Informal"
 				}
 			]
 		},
@@ -268,15 +122,161 @@
 			"choices": [
 				{
 					"value": "french",
-					"label": ""
+					"label": "French"
 				},
 				{
 					"value": "moore",
-					"label": ""
+					"label": "Moore"
 				},
 				{
 					"value": "lyele-nuni ",
-					"label": ""
+					"label": "Lyele-Nuni"
+				}
+			]
+		},
+		{
+			"type": "fixed",
+			"name": "main_activity_choice",
+			"choicesType": "string",
+			"choices": [
+				{
+					"value": "agriculture",
+					"label": "Agriculture"
+				},
+				{
+					"value": "breeding",
+					"label": "Breeding"
+				},
+				{
+					"value": "craft",
+					"label": "Craft"
+				},
+				{
+					"value": "trade",
+					"label": "Trade"
+				},
+				{
+					"value": "education",
+					"label": "Education"
+				},
+				{
+					"value": "other",
+					"label": "Other"
+				}
+			]
+		},
+		{
+			"type": "fixed",
+			"name": "mf",
+			"choicesType": "string",
+			"choices": [
+				{
+					"value": "m",
+					"label": "M"
+				},
+				{
+					"value": "f",
+					"label": "F"
+				}
+			]
+		},
+		{
+			"type": "fixed",
+			"name": "scale_choice",
+			"choicesType": "string",
+			"choices": [
+				{
+					"value": "0",
+					"label": "0"
+				},
+				{
+					"value": "10",
+					"label": "10"
+				},
+				{
+					"value": "20",
+					"label": "20"
+				},
+				{
+					"value": "30",
+					"label": "30"
+				},
+				{
+					"value": "40",
+					"label": "40"
+				},
+				{
+					"value": "50",
+					"label": "50"
+				},
+				{
+					"value": "60",
+					"label": "60"
+				},
+				{
+					"value": "70",
+					"label": "70"
+				},
+				{
+					"value": "80",
+					"label": "80"
+				},
+				{
+					"value": "90",
+					"label": "90"
+				},
+				{
+					"value": "100",
+					"label": "100"
+				}
+			]
+		},
+		{
+			"type": "fixed",
+			"name": "school_level_choice",
+			"choicesType": "string",
+			"choices": [
+				{
+					"value": "primary",
+					"label": "Primary"
+				},
+				{
+					"value": "secondary",
+					"label": "Secondary"
+				}
+			]
+		},
+		{
+			"type": "fixed",
+			"name": "status_choice",
+			"choicesType": "string",
+			"choices": [
+				{
+					"value": "Married",
+					"label": "Married"
+				},
+				{
+					"value": "widow",
+					"label": "Widow"
+				},
+				{
+					"value": "divorced",
+					"label": "Divorced"
+				}
+			]
+		},
+		{
+			"type": "fixed",
+			"name": "yn",
+			"choicesType": "string",
+			"choices": [
+				{
+					"value": "yes",
+					"label": "Yes"
+				},
+				{
+					"value": "no",
+					"label": "No"
 				}
 			]
 		}
@@ -286,14 +286,14 @@
 			"parent": 0,
 			"id": 1,
 			"name": "information",
-			"label": "",
+			"label": "Information",
 			"nodeType": 3,
 			"nodes": [
 				{
 					"parent": 1,
 					"id": 1001,
 					"name": "name",
-					"label": "",
+					"label": "Name",
 					"nodeType": 0,
 					"fieldType": 0
 				},
@@ -301,7 +301,7 @@
 					"parent": 1001,
 					"id": 1002,
 					"name": "birthdate",
-					"label": "",
+					"label": "Birthdate",
 					"nodeType": 0,
 					"fieldType": 9
 				},
@@ -309,7 +309,7 @@
 					"parent": 1002,
 					"id": 1003,
 					"name": "type_of_document",
-					"label": "",
+					"label": "Type Of Document",
 					"nodeType": 0,
 					"fieldType": 0
 				},
@@ -317,7 +317,7 @@
 					"parent": 1003,
 					"id": 1004,
 					"name": "sex",
-					"label": "",
+					"label": "Sex",
 					"nodeType": 0,
 					"fieldType": 4,
 					"choicesOriginRef": "mf"
@@ -326,7 +326,7 @@
 					"parent": 1004,
 					"id": 1005,
 					"name": "phone_number",
-					"label": "",
+					"label": "Phone Number",
 					"nodeType": 0,
 					"fieldType": 0
 				},
@@ -334,7 +334,7 @@
 					"parent": 1005,
 					"id": 1006,
 					"name": "village",
-					"label": "",
+					"label": "Village",
 					"nodeType": 0,
 					"fieldType": 0
 				},
@@ -342,7 +342,7 @@
 					"parent": 1006,
 					"id": 1007,
 					"name": "origin_village",
-					"label": "",
+					"label": "Origin Village",
 					"nodeType": 0,
 					"fieldType": 4,
 					"choicesOriginRef": "yn"
@@ -351,7 +351,7 @@
 					"parent": 1007,
 					"id": 1008,
 					"name": "status",
-					"label": "",
+					"label": "Status",
 					"nodeType": 0,
 					"fieldType": 4,
 					"choicesOriginRef": "status_choice"
@@ -360,7 +360,7 @@
 					"parent": 1008,
 					"id": 1009,
 					"name": "alphabetization",
-					"label": "",
+					"label": "Alphabetization",
 					"nodeType": 0,
 					"fieldType": 4,
 					"choicesOriginRef": "yn"
@@ -369,7 +369,7 @@
 					"parent": 1009,
 					"id": 1010,
 					"name": "language",
-					"label": "",
+					"label": "Language",
 					"nodeType": 0,
 					"fieldType": 5,
 					"choicesOriginRef": "language_choice"
@@ -378,7 +378,7 @@
 					"parent": 1010,
 					"id": 1011,
 					"name": "school_level",
-					"label": "",
+					"label": "School Level",
 					"nodeType": 0,
 					"fieldType": 4,
 					"choicesOriginRef": "school_level_choice"
@@ -389,22 +389,23 @@
 			"parent": 1,
 			"id": 2,
 			"name": "household",
-			"label": "",
+			"label": "Household",
 			"nodeType": 4,
 			"nodes": [
 				{
 					"parent": 2,
 					"id": 2001,
 					"name": "note",
-					"label": "",
+					"label": "Note",
 					"nodeType": 0,
-					"fieldType": 7
+					"fieldType": 7,
+					"HTML": "Note"
 				},
 				{
 					"parent": 2001,
 					"id": 2002,
 					"name": "family_sex",
-					"label": "",
+					"label": "Family Sex",
 					"nodeType": 0,
 					"fieldType": 4,
 					"choicesOriginRef": "mf"
@@ -413,7 +414,7 @@
 					"parent": 2002,
 					"id": 2003,
 					"name": "birthdate_household",
-					"label": "",
+					"label": "Birthdate Household",
 					"nodeType": 0,
 					"fieldType": 9
 				},
@@ -421,7 +422,7 @@
 					"parent": 2003,
 					"id": 2004,
 					"name": "children_birth_certificate",
-					"label": "",
+					"label": "Children Birth Certificate",
 					"nodeType": 0,
 					"fieldType": 4,
 					"choicesOriginRef": "children_birth_certificate_choice"
@@ -430,7 +431,7 @@
 					"parent": 2004,
 					"id": 2005,
 					"name": "family_link",
-					"label": "",
+					"label": "Family Link",
 					"nodeType": 0,
 					"fieldType": 4,
 					"choicesOriginRef": "family_link_choice"
@@ -439,7 +440,7 @@
 					"parent": 2005,
 					"id": 2006,
 					"name": "registered",
-					"label": "",
+					"label": "Registered",
 					"nodeType": 0,
 					"fieldType": 4,
 					"choicesOriginRef": "yn"
@@ -448,7 +449,7 @@
 					"parent": 2006,
 					"id": 2007,
 					"name": "family_school_level",
-					"label": "",
+					"label": "Family School Level",
 					"nodeType": 0,
 					"fieldType": 4,
 					"choicesOriginRef": "school_level_choice"
@@ -457,7 +458,7 @@
 					"parent": 2007,
 					"id": 2008,
 					"name": "family_school_left",
-					"label": "",
+					"label": "Family School Left",
 					"nodeType": 0,
 					"fieldType": 4,
 					"choicesOriginRef": "yn"
@@ -466,7 +467,7 @@
 					"parent": 2008,
 					"id": 2009,
 					"name": "family_school_left_reason",
-					"label": "",
+					"label": "Family School Left Reason",
 					"nodeType": 0,
 					"fieldType": 0
 				},
@@ -474,7 +475,7 @@
 					"parent": 2009,
 					"id": 2010,
 					"name": "family_activity_type",
-					"label": "",
+					"label": "Family Activity Type",
 					"nodeType": 0,
 					"fieldType": 0
 				},
@@ -482,7 +483,7 @@
 					"parent": 2010,
 					"id": 2011,
 					"name": "job",
-					"label": "",
+					"label": "Job",
 					"nodeType": 0,
 					"fieldType": 4,
 					"choicesOriginRef": "yn"
@@ -491,7 +492,7 @@
 					"parent": 2011,
 					"id": 2012,
 					"name": "work_accident",
-					"label": "",
+					"label": "Work Accident",
 					"nodeType": 0,
 					"fieldType": 0
 				},
@@ -499,7 +500,7 @@
 					"parent": 2012,
 					"id": 2013,
 					"name": "chronical_diseases",
-					"label": "",
+					"label": "Chronical Diseases",
 					"nodeType": 0,
 					"fieldType": 0
 				}
@@ -509,14 +510,14 @@
 			"parent": 2,
 			"id": 3,
 			"name": "other_information",
-			"label": "",
+			"label": "Other Information",
 			"nodeType": 3,
 			"nodes": [
 				{
 					"parent": 3,
 					"id": 3001,
 					"name": "house_nature",
-					"label": "",
+					"label": "House Nature",
 					"nodeType": 0,
 					"fieldType": 0
 				},
@@ -524,7 +525,7 @@
 					"parent": 3001,
 					"id": 3002,
 					"name": "number_animal",
-					"label": "",
+					"label": "Number Animal",
 					"nodeType": 0,
 					"fieldType": 2
 				},
@@ -532,7 +533,7 @@
 					"parent": 3002,
 					"id": 3003,
 					"name": "animals",
-					"label": "",
+					"label": "Animals",
 					"nodeType": 0,
 					"fieldType": 5,
 					"choicesOriginRef": "animals_choice"
@@ -541,7 +542,7 @@
 					"parent": 3003,
 					"id": 3004,
 					"name": "water_well",
-					"label": "",
+					"label": "Water Well",
 					"nodeType": 0,
 					"fieldType": 4,
 					"choicesOriginRef": "yn"
@@ -550,7 +551,7 @@
 					"parent": 3004,
 					"id": 3005,
 					"name": "latrines",
-					"label": "",
+					"label": "Latrines",
 					"nodeType": 0,
 					"fieldType": 4,
 					"choicesOriginRef": "yn"
@@ -561,14 +562,14 @@
 			"parent": 3,
 			"id": 4,
 			"name": "revenue information",
-			"label": "",
+			"label": "Revenue Information",
 			"nodeType": 3,
 			"nodes": [
 				{
 					"parent": 4,
 					"id": 4001,
 					"name": "main_activity",
-					"label": "",
+					"label": "Main Activity",
 					"nodeType": 0,
 					"fieldType": 4,
 					"choicesOriginRef": "main_activity_choice"
@@ -577,7 +578,7 @@
 					"parent": 4001,
 					"id": 4002,
 					"name": "other_main_activity",
-					"label": "",
+					"label": "Other Main Activity",
 					"nodeType": 0,
 					"fieldType": 0
 				},
@@ -585,7 +586,7 @@
 					"parent": 4002,
 					"id": 4003,
 					"name": "job_type",
-					"label": "",
+					"label": "Job Type",
 					"nodeType": 0,
 					"fieldType": 4,
 					"choicesOriginRef": "job_type_choice"
@@ -594,7 +595,7 @@
 					"parent": 4003,
 					"id": 4004,
 					"name": "group_member",
-					"label": "",
+					"label": "Group Member",
 					"nodeType": 0,
 					"fieldType": 4,
 					"choicesOriginRef": "yn"
@@ -603,7 +604,7 @@
 					"parent": 4004,
 					"id": 4005,
 					"name": "group_member_benefits",
-					"label": "",
+					"label": "Group Member Benefits",
 					"nodeType": 0,
 					"fieldType": 0
 				}
@@ -613,22 +614,23 @@
 			"parent": 4,
 			"id": 5,
 			"name": "main_activity_revenues",
-			"label": "",
+			"label": "Main Activity Revenues",
 			"nodeType": 3,
 			"nodes": [
 				{
 					"parent": 5,
 					"id": 5001,
 					"name": "agricolture_products_sale",
-					"label": "",
+					"label": "Agricolture Products Sale",
 					"nodeType": 0,
-					"fieldType": 7
+					"fieldType": 7,
+					"HTML": "Agricolture Products Sale"
 				},
 				{
 					"parent": 5001,
 					"id": 5002,
 					"name": "cereals",
-					"label": "",
+					"label": "Cereals",
 					"nodeType": 0,
 					"fieldType": 2
 				},
@@ -636,7 +638,7 @@
 					"parent": 5002,
 					"id": 5003,
 					"name": "vegetables",
-					"label": "",
+					"label": "Vegetables",
 					"nodeType": 0,
 					"fieldType": 2
 				},
@@ -644,15 +646,16 @@
 					"parent": 5003,
 					"id": 5004,
 					"name": "livestock_products_sale",
-					"label": "",
+					"label": "Livestock Products Sale",
 					"nodeType": 0,
-					"fieldType": 7
+					"fieldType": 7,
+					"HTML": "Livestock Products Sale"
 				},
 				{
 					"parent": 5004,
 					"id": 5005,
 					"name": "small_ruminants",
-					"label": "",
+					"label": "Small Ruminants",
 					"nodeType": 0,
 					"fieldType": 2
 				},
@@ -660,7 +663,7 @@
 					"parent": 5005,
 					"id": 5006,
 					"name": "poultry_and_eggs",
-					"label": "",
+					"label": "Poultry And Eggs",
 					"nodeType": 0,
 					"fieldType": 2
 				},
@@ -668,7 +671,7 @@
 					"parent": 5006,
 					"id": 5007,
 					"name": "oxen",
-					"label": "",
+					"label": "Oxen",
 					"nodeType": 0,
 					"fieldType": 2
 				},
@@ -676,7 +679,7 @@
 					"parent": 5007,
 					"id": 5008,
 					"name": "pork",
-					"label": "",
+					"label": "Pork",
 					"nodeType": 0,
 					"fieldType": 2
 				},
@@ -684,7 +687,7 @@
 					"parent": 5008,
 					"id": 5009,
 					"name": "small_business",
-					"label": "",
+					"label": "Small Business",
 					"nodeType": 0,
 					"fieldType": 2
 				},
@@ -692,7 +695,7 @@
 					"parent": 5009,
 					"id": 5010,
 					"name": "remittances",
-					"label": "",
+					"label": "Remittances",
 					"nodeType": 0,
 					"fieldType": 2
 				},
@@ -700,7 +703,7 @@
 					"parent": 5010,
 					"id": 5011,
 					"name": "other_revenues",
-					"label": "",
+					"label": "Other Revenues",
 					"nodeType": 0,
 					"fieldType": 0
 				},
@@ -708,7 +711,7 @@
 					"parent": 5011,
 					"id": 5012,
 					"name": "other_revenues_value",
-					"label": "",
+					"label": "Other Revenues Value",
 					"nodeType": 0,
 					"fieldType": 2
 				}
@@ -718,14 +721,14 @@
 			"parent": 5,
 			"id": 6,
 			"name": "expenditures_sources\n",
-			"label": "",
+			"label": "Expenditures Sources",
 			"nodeType": 3,
 			"nodes": [
 				{
 					"parent": 6,
 					"id": 6001,
 					"name": "food",
-					"label": "",
+					"label": "Food",
 					"nodeType": 0,
 					"fieldType": 2
 				},
@@ -733,7 +736,7 @@
 					"parent": 6001,
 					"id": 6002,
 					"name": "school_fees",
-					"label": "",
+					"label": "School Fees",
 					"nodeType": 0,
 					"fieldType": 2
 				},
@@ -741,7 +744,7 @@
 					"parent": 6002,
 					"id": 6003,
 					"name": "community_life",
-					"label": "",
+					"label": "Community Life",
 					"nodeType": 0,
 					"fieldType": 2
 				},
@@ -749,7 +752,7 @@
 					"parent": 6003,
 					"id": 6004,
 					"name": "medical_care",
-					"label": "",
+					"label": "Medical Care",
 					"nodeType": 0,
 					"fieldType": 2
 				},
@@ -757,7 +760,7 @@
 					"parent": 6004,
 					"id": 6005,
 					"name": "other_expenditures",
-					"label": "",
+					"label": "Other Expenditures",
 					"nodeType": 0,
 					"fieldType": 0
 				},
@@ -765,7 +768,7 @@
 					"parent": 6005,
 					"id": 6006,
 					"name": "other_expenditures_value",
-					"label": "",
+					"label": "Other Expenditures Value",
 					"nodeType": 0,
 					"fieldType": 2
 				}
@@ -775,14 +778,14 @@
 			"parent": 6,
 			"id": 7,
 			"name": "life_indicators_quality",
-			"label": "",
+			"label": "Life Indicators Quality",
 			"nodeType": 3,
 			"nodes": [
 				{
 					"parent": 7,
 					"id": 7001,
 					"name": "meals_per_day",
-					"label": "",
+					"label": "Meals Per Day",
 					"nodeType": 0,
 					"fieldType": 2
 				},
@@ -790,7 +793,7 @@
 					"parent": 7001,
 					"id": 7002,
 					"name": "meals_per_day_value",
-					"label": "",
+					"label": "Meals Per Day Value",
 					"nodeType": 0,
 					"fieldType": 2
 				},
@@ -798,7 +801,7 @@
 					"parent": 7002,
 					"id": 7003,
 					"name": "property_houses",
-					"label": "",
+					"label": "Property Houses",
 					"nodeType": 0,
 					"fieldType": 2
 				},
@@ -806,7 +809,7 @@
 					"parent": 7003,
 					"id": 7004,
 					"name": "property_houses_value",
-					"label": "",
+					"label": "Property Houses Value",
 					"nodeType": 0,
 					"fieldType": 2
 				},
@@ -814,7 +817,7 @@
 					"parent": 7004,
 					"id": 7005,
 					"name": "motorbike",
-					"label": "",
+					"label": "Motorbike",
 					"nodeType": 0,
 					"fieldType": 2
 				},
@@ -822,7 +825,7 @@
 					"parent": 7005,
 					"id": 7006,
 					"name": "motorbike_value",
-					"label": "",
+					"label": "Motorbike Value",
 					"nodeType": 0,
 					"fieldType": 2
 				},
@@ -830,7 +833,7 @@
 					"parent": 7006,
 					"id": 7007,
 					"name": "velo",
-					"label": "",
+					"label": "Velo",
 					"nodeType": 0,
 					"fieldType": 2
 				},
@@ -838,7 +841,7 @@
 					"parent": 7007,
 					"id": 7008,
 					"name": "velo_value",
-					"label": "",
+					"label": "Velo Value",
 					"nodeType": 0,
 					"fieldType": 2
 				},
@@ -846,7 +849,7 @@
 					"parent": 7008,
 					"id": 7009,
 					"name": "agricultural_equipment",
-					"label": "",
+					"label": "Agricultural Equipment",
 					"nodeType": 0,
 					"fieldType": 4,
 					"choicesOriginRef": "yn"
@@ -855,7 +858,7 @@
 					"parent": 7009,
 					"id": 7010,
 					"name": "agricultural_equipment_value",
-					"label": "",
+					"label": "Agricultural Equipment Value",
 					"nodeType": 0,
 					"fieldType": 2
 				}
@@ -865,14 +868,14 @@
 			"parent": 7,
 			"id": 8,
 			"name": "child_rights",
-			"label": "",
+			"label": "Child Rights",
 			"nodeType": 3,
 			"nodes": [
 				{
 					"parent": 8,
 					"id": 8001,
 					"name": "children_feeding",
-					"label": "",
+					"label": "Children Feeding",
 					"nodeType": 0,
 					"fieldType": 4,
 					"choicesOriginRef": "yn"
@@ -881,7 +884,7 @@
 					"parent": 8001,
 					"id": 8002,
 					"name": "children_caring",
-					"label": "",
+					"label": "Children Caring",
 					"nodeType": 0,
 					"fieldType": 4,
 					"choicesOriginRef": "yn"
@@ -890,7 +893,7 @@
 					"parent": 8002,
 					"id": 8003,
 					"name": "children_caring_how",
-					"label": "",
+					"label": "Children Caring How",
 					"nodeType": 0,
 					"fieldType": 5,
 					"choicesOriginRef": "children_caring_choice"
@@ -899,7 +902,7 @@
 					"parent": 8003,
 					"id": 8004,
 					"name": "daughter_caring",
-					"label": "",
+					"label": "Daughter Caring",
 					"nodeType": 0,
 					"fieldType": 4,
 					"choicesOriginRef": "yn"
@@ -910,14 +913,14 @@
 			"parent": 8,
 			"id": 9,
 			"name": "production_and_consumption",
-			"label": "",
+			"label": "Production And Consumption",
 			"nodeType": 3,
 			"nodes": [
 				{
 					"parent": 9,
 					"id": 9001,
 					"name": "your_village_expenses",
-					"label": "",
+					"label": "Your Village Expenses",
 					"nodeType": 0,
 					"fieldType": 4,
 					"choicesOriginRef": "scale_choice"
@@ -926,7 +929,7 @@
 					"parent": 9001,
 					"id": 9002,
 					"name": "local_product_quantity",
-					"label": "",
+					"label": "Local Product Quantity",
 					"nodeType": 0,
 					"fieldType": 4,
 					"choicesOriginRef": "scale_choice"
@@ -935,7 +938,7 @@
 					"parent": 9002,
 					"id": 9003,
 					"name": "facilitator_perception",
-					"label": "",
+					"label": "Facilitator Perception",
 					"nodeType": 0,
 					"fieldType": 4,
 					"choicesOriginRef": "scale_choice"

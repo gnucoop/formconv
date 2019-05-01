@@ -2,6 +2,7 @@ package formats
 
 import (
 	"fmt"
+	"sort"
 	"strconv"
 	"strings"
 )
@@ -46,7 +47,7 @@ func buildChoicesOrigins(rows []ChoicesRow) ([]ChoicesOrigin, map[string][]Choic
 			Label: row.Label,
 		})
 	}
-	co := make([]ChoicesOrigin, 0, len(choicesMap))
+	co := make(coSlice, 0, len(choicesMap))
 	for name, list := range choicesMap {
 		co = append(co, ChoicesOrigin{
 			Type:        OtFixed,
@@ -55,8 +56,15 @@ func buildChoicesOrigins(rows []ChoicesRow) ([]ChoicesOrigin, map[string][]Choic
 			Choices:     list,
 		})
 	}
+	sort.Sort(co)
 	return co, choicesMap
 }
+
+type coSlice []ChoicesOrigin
+
+func (co coSlice) Len() int           { return len(co) }
+func (co coSlice) Less(i, j int) bool { return co[i].Name < co[j].Name }
+func (co coSlice) Swap(i, j int)      { co[i], co[j] = co[j], co[i] }
 
 func checkChoicesRef(survey []SurveyRow, choicesMap map[string][]Choice) error {
 	for _, row := range survey {
