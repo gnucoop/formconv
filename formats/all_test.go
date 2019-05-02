@@ -102,6 +102,13 @@ func TestPreprocessGroups(t *testing.T) {
 	}
 }
 
+func TestNonformulaFeatures(t *testing.T) {
+	xls, err := DecXlsFromFile("testdata/noformulas.xlsx")
+	check(t, err)
+	_, err = Xls2ajf(xls)
+	check(t, err)
+}
+
 func BenchmarkDecXls(b *testing.B) {
 	for n := 0; n < b.N; n++ {
 		_, err := DecXlsFromFile("testdata/Picaps_baseline_form.xls")

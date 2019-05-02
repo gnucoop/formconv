@@ -53,6 +53,14 @@ The following table lists the supported question types.
 |date              |date input      |A date          |
 |time              |time            |Time            |
 
+## Required
+
+It is possible to flag questions as required, so that the user won't be able to submit the form without providing a value:
+
+|type      |name      |label     |required  |
+|----------|----------|----------|----------|
+|text      |color     |Your favorite color (very important information, mandatory): |yes |
+
 ## Grouping
 
 Questions can be grouped, as shown in the introductory example; groups can be nested.
