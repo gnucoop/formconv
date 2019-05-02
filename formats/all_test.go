@@ -50,7 +50,7 @@ func TestBuildChoicesOrigins(t *testing.T) {
 	choicesSheet := []ChoicesRow{
 		{"list1", "elem1a", "label1a", 0},
 		{"list2", "elem2a", "label2a", 0},
-		{"list1", "elem1b", "label1z", 0},
+		{"list1", "elem1b", "label1b", 0},
 	}
 	choices, _ := buildChoicesOrigins(choicesSheet)
 	expected := []ChoicesOrigin{{
@@ -68,6 +68,43 @@ func TestBuildChoicesOrigins(t *testing.T) {
 		t.Errorf("Error building choices origins of\n%# v\nunexpected result:",
 			pretty.Formatter(choicesSheet))
 		logFatalDiff(t, choices, expected)
+	}
+}
+
+func TestPreprocessGroups(t *testing.T) {
+	errSurveys := [][]SurveyRow{
+		{
+			{Type: beginGroup}, {Type: beginRepeat}, {Type: endRepeat}, {Type: endGroup},
+		}, {
+			{Type: endRepeat},
+		}, {
+			{Type: beginRepeat}, {Type: endGroup}, {Type: endRepeat},
+		}, {
+			{Type: beginRepeat}, {Type: beginGroup},
+		}, {
+			{Type: beginRepeat}, {Type: endRepeat}, {Type: "text"},
+		},
+	}
+	for _, errSurvey := range errSurveys {
+		_, err := preprocessGroups(errSurvey)
+		if err == nil {
+			t.Fatalf("Couldn't find error in erroneus survey:\n%# v", pretty.Formatter(errSurvey))
+		}
+	}
+
+	survey := []SurveyRow{{Type: "text"}}
+	processed, err := preprocessGroups(survey)
+	check(t, err)
+	expected := []SurveyRow{
+		{Type: beginGroup, Name: "global"},
+		{Type: beginGroup, Name: "form", Label: "Form"},
+		{Type: "text"},
+		{Type: endGroup},
+		{Type: endGroup},
+	}
+	if !reflect.DeepEqual(processed, expected) {
+		t.Error(`Error wrapping []SurveyRow{{Type: "text"}}, unexpected result:`)
+		logFatalDiff(t, processed, expected)
 	}
 }
 
