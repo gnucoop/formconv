@@ -73,17 +73,11 @@ func TestBuildChoicesOrigins(t *testing.T) {
 
 func TestPreprocessGroups(t *testing.T) {
 	errSurveys := [][]SurveyRow{
-		{
-			{Type: beginGroup}, {Type: beginRepeat}, {Type: endRepeat}, {Type: endGroup},
-		}, {
-			{Type: endRepeat},
-		}, {
-			{Type: beginRepeat}, {Type: endGroup}, {Type: endRepeat},
-		}, {
-			{Type: beginRepeat}, {Type: beginGroup},
-		}, {
-			{Type: beginRepeat}, {Type: endRepeat}, {Type: "text"},
-		},
+		{{Type: beginGroup}, {Type: beginRepeat}, {Type: endRepeat}, {Type: endGroup}},
+		{{Type: endRepeat}},
+		{{Type: beginRepeat}, {Type: endGroup}, {Type: endRepeat}},
+		{{Type: beginRepeat}, {Type: beginGroup}},
+		{{Type: beginRepeat}, {Type: endRepeat}, {Type: "text"}},
 	}
 	for _, errSurvey := range errSurveys {
 		_, err := preprocessGroups(errSurvey)
