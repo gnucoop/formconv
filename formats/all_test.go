@@ -3,13 +3,24 @@ package formats
 import (
 	"reflect"
 	"testing"
+
+	"github.com/kr/pretty"
 )
 
-func check(err error, t testing.TB) {
+func check(t testing.TB, err error) {
 	t.Helper()
 	if err != nil {
 		t.Fatal(err)
 	}
+}
+
+func logFatalDiff(t testing.TB, a, b interface{}) {
+	t.Helper()
+	// Don't use pretty.Ldiff, it doesn't call t.Helper().
+	for _, diff := range pretty.Diff(a, b) {
+		t.Log(diff)
+	}
+	t.FailNow()
 }
 
 func TestDecodeXls(t *testing.T) {
@@ -27,9 +38,10 @@ func TestDecodeXls(t *testing.T) {
 	}
 	for _, ext := range []string{".xls", ".xlsx"} {
 		xls, err := DecXlsFromFile(fileName + ext)
-		check(err, t)
+		check(t, err)
 		if !reflect.DeepEqual(xls, expected) {
-			t.Fatalf("Error decoding %s: expected %v, got %v", fileName+ext, expected, xls)
+			t.Errorf("Error decoding %s, unexpected result:", fileName+ext)
+			logFatalDiff(t, xls, expected)
 		}
 	}
 }
@@ -38,7 +50,7 @@ func TestBuildChoicesOrigins(t *testing.T) {
 	choicesSheet := []ChoicesRow{
 		{"list1", "elem1a", "label1a", 0},
 		{"list2", "elem2a", "label2a", 0},
-		{"list1", "elem1b", "label1b", 0},
+		{"list1", "elem1b", "label1z", 0},
 	}
 	choices, _ := buildChoicesOrigins(choicesSheet)
 	expected := []ChoicesOrigin{{
@@ -53,31 +65,32 @@ func TestBuildChoicesOrigins(t *testing.T) {
 		Choices:     []Choice{{"elem2a", "label2a"}},
 	}}
 	if !reflect.DeepEqual(choices, expected) {
-		t.Fatalf("Error building choices origins of %v: expected \n%v, got \n%v",
-			&choicesSheet, expected, choices)
+		t.Errorf("Error building choices origins of\n%# v\nunexpected result:",
+			pretty.Formatter(choicesSheet))
+		logFatalDiff(t, choices, expected)
 	}
 }
 
 func BenchmarkDecXls(b *testing.B) {
 	for n := 0; n < b.N; n++ {
 		_, err := DecXlsFromFile("testdata/Picaps_baseline_form.xls")
-		check(err, b)
+		check(b, err)
 	}
 }
 
 func BenchmarkDecXlsx(b *testing.B) {
 	for n := 0; n < b.N; n++ {
 		_, err := DecXlsFromFile("testdata/Picaps_baseline_form.xlsx")
-		check(err, b)
+		check(b, err)
 	}
 }
 
 func BenchmarkXls2ajf(b *testing.B) {
 	xls, err := DecXlsFromFile("testdata/Picaps_baseline_form.xlsx")
-	check(err, b)
+	check(b, err)
 	b.ResetTimer()
 	for n := 0; n < b.N; n++ {
 		_, err = Xls2ajf(xls)
-		check(err, b)
+		check(b, err)
 	}
 }

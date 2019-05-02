@@ -4,6 +4,10 @@ github.com/extrame/goyymmdd
 github.com/extrame/ole2
 # github.com/extrame/xls v0.0.2-0.20180905092746-539786826ced
 github.com/extrame/xls
+# github.com/kr/pretty v0.1.0
+github.com/kr/pretty
+# github.com/kr/text v0.1.0
+github.com/kr/text
 # github.com/tealeg/xlsx v1.0.4-0.20190403190220-b7005b5d48cb
 github.com/tealeg/xlsx
 # golang.org/x/text v0.3.2
