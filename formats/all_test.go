@@ -1,6 +1,7 @@
 package formats
 
 import (
+	"io/ioutil"
 	"reflect"
 	"testing"
 
@@ -103,10 +104,23 @@ func TestPreprocessGroups(t *testing.T) {
 }
 
 func TestNonformulaFeatures(t *testing.T) {
-	xls, err := DecXlsFromFile("testdata/noformulas.xlsx")
+	in := "testdata/noformulas.xlsx"
+	out := "testdata/noformulas.json"
+	oracle := "testdata/noformulas_oracle.json"
+
+	xls, err := DecXlsFromFile(in)
 	check(t, err)
-	_, err = Xls2ajf(xls)
+	ajf, err := Xls2ajf(xls)
 	check(t, err)
+	err = EncAjfToFile(ajf, out)
+	check(t, err)
+	result, err := ioutil.ReadFile(out)
+	check(t, err)
+	expected, err := ioutil.ReadFile(oracle)
+	check(t, err)
+	if !reflect.DeepEqual(result, expected) {
+		t.Fatalf("Unexpected result. Check the differences between %s and %s", out, oracle)
+	}
 }
 
 func BenchmarkDecXls(b *testing.B) {
