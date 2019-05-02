@@ -41,7 +41,7 @@ func TestBuildChoicesOrigins(t *testing.T) {
 		{"list1", "elem1b", "label1b", 0},
 	}
 	choices, _ := buildChoicesOrigins(choicesSheet)
-	expected1 := []ChoicesOrigin{{
+	expected := []ChoicesOrigin{{
 		Type:        OtFixed,
 		Name:        "list1",
 		ChoicesType: CtString,
@@ -52,10 +52,9 @@ func TestBuildChoicesOrigins(t *testing.T) {
 		ChoicesType: CtString,
 		Choices:     []Choice{{"elem2a", "label2a"}},
 	}}
-	expected2 := []ChoicesOrigin{expected1[1], expected1[0]}
-	if !reflect.DeepEqual(choices, expected1) && !reflect.DeepEqual(choices, expected2) {
-		t.Fatalf("Error building choices origins of %v: expected %v, got %v",
-			&choicesSheet, expected1, choices)
+	if !reflect.DeepEqual(choices, expected) {
+		t.Fatalf("Error building choices origins of %v: expected \n%v, got \n%v",
+			&choicesSheet, expected, choices)
 	}
 }
 
