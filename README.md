@@ -63,7 +63,7 @@ It is possible to flag questions as required, so that the user won't be able to 
 
 ## Grouping
 
-Questions can be grouped, as shown in the introductory example; groups can be nested.
+Questions can be grouped, as shown in the [introductory example](#introduction-to-xlsforms); groups can be nested.
 
 Ajf forms have the peculiarity of being organized in slides, which has implications on how groups are handled.
 Top-level groups are translated to slides, while inner groups are translated to ajf group nodes.
