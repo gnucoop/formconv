@@ -15,7 +15,7 @@ func main() {
 	if len(os.Args) <= 1 {
 		log.Println(`No input files provided.
 xls2ajf converts xlsform files to ajf. Usage:
-xls2ajf form1.xls form2.xls`)
+xls2ajf form1.xlsx form2.xls`)
 		return
 	}
 
