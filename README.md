@@ -10,7 +10,7 @@ and used as:
 xls2ajf implements a subset of the xlsform specification.
 Supported features are listed in this document.
 
-## Introduction to xlsforms
+## <a name="introduction"></a>Introduction to xlsforms
 
 [Xlsform](http://xlsform.org/en/) is a standard that allows authoring forms in excel.
 A xlsform excel file has two main sheets: "survey" and "choices".
@@ -63,7 +63,7 @@ It is possible to flag questions as required, so that the user won't be able to 
 
 ## Grouping
 
-Questions can be grouped, as shown in the [introductory example](#introduction-to-xlsforms); groups can be nested.
+Questions can be grouped, as shown in the [introductory example](#introduction); groups can be nested.
 
 Ajf forms have the peculiarity of being organized in slides, which has implications on how groups are handled.
 Top-level groups are translated to slides, while inner groups are translated to ajf group nodes.
