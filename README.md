@@ -10,7 +10,7 @@ and used as:
 xls2ajf implements a subset of the xlsform specification.
 Supported features are listed in this document.
 
-## <a name="introduction"></a>Introduction to xlsforms
+<h2 id="introduction">Introduction to xlsforms</h2>
 
 [Xlsform](http://xlsform.org/en/) is a standard that allows authoring forms in excel.
 A xlsform excel file has two main sheets: "survey" and "choices".
