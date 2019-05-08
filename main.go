@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"log"
 	"os"
 	"path/filepath"
 
@@ -10,10 +9,8 @@ import (
 )
 
 func main() {
-	log.SetFlags(0)
-
 	if len(os.Args) <= 1 {
-		log.Println(`No input files provided.
+		fmt.Fprintln(os.Stderr, `No input files provided.
 xls2ajf converts xlsform files to ajf. Usage:
 xls2ajf form1.xlsx form2.xls`)
 		return
@@ -22,7 +19,7 @@ xls2ajf form1.xlsx form2.xls`)
 	for _, fileName := range os.Args[1:] {
 		err := decXlsEncAjf(fileName)
 		if err != nil {
-			log.Println(err)
+			fmt.Fprintln(os.Stderr, err)
 		}
 	}
 }
