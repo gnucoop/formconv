@@ -15,7 +15,7 @@ type parser struct {
 	js        []byte
 }
 
-func (p *parser) Parse(formula, fieldName string) (js string) {
+func (p *parser) Parse(formula, fieldName string) (js string, err error) {
 	p.Scanner.Init(strings.NewReader(formula))
 	p.Mode = scanner.ScanIdents | scanner.ScanInts | scanner.ScanFloats | scanner.ScanStrings
 	p.Error = scannerError
@@ -25,9 +25,9 @@ func (p *parser) Parse(formula, fieldName string) (js string) {
 
 	p.parseExpression(scanner.EOF)
 	if p.ErrorCount > 0 {
-		return ""
+		return "", errors.New(p.Filename)
 	}
-	return string(p.js)
+	return string(p.js), nil
 }
 
 // When the first error is encountered, it is stored inside Scanner.Position.Filename
@@ -39,12 +39,6 @@ func scannerError(s *scanner.Scanner, msg string) {
 func (p *parser) error(msg string) {
 	p.ErrorCount++
 	scannerError(&p.Scanner, msg)
-}
-func (p *parser) GetError() error {
-	if p.ErrorCount > 0 {
-		return errors.New(p.Filename)
-	}
-	return nil
 }
 
 func (p *parser) unexpectedTokError(tok rune) {
@@ -161,7 +155,7 @@ func (p *parser) parseEpressionIdent(expectedEnd rune) {
 	case ident == "True" || ident == "False":
 		p.js = append(p.js, strings.ToLower(ident)...)
 	case ident == "if":
-		// if(cond, then, else) becomes (cond ? : then : else)
+		// if(cond, then, else) becomes (cond ? then : else)
 		p.consume('(')
 		p.js = append(p.js, '(')
 		p.parseExpression(',') // cond

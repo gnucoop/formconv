@@ -123,6 +123,22 @@ func TestNonformulaFeatures(t *testing.T) {
 	}
 }
 
+func TestFormulaParser(t *testing.T) {
+	var p parser
+	formulas := map[string]string{
+		"1 + 2 - 3 * 4 div 5 mod 6": "1 + 2 - 3*4/5%6",
+	}
+	for formula, expected := range formulas {
+		js, err := p.Parse(formula, "fieldName")
+		if err != nil {
+			t.Fatalf("Error converting formula:\n%s\n%s\n", formula, err)
+		}
+		if js != expected {
+			t.Fatalf("Error converting formula:\n%s\nexpected:\n%s\ngot:\n%s\n", formula, expected, js)
+		}
+	}
+}
+
 func BenchmarkDecXls(b *testing.B) {
 	for n := 0; n < b.N; n++ {
 		_, err := DecXlsFromFile("testdata/Picaps_baseline_form.xls")
