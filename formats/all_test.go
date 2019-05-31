@@ -126,7 +126,10 @@ func TestNonformulaFeatures(t *testing.T) {
 func TestFormulaParser(t *testing.T) {
 	var p parser
 	formulas := map[string]string{
-		"1 + 2 - 3 * 4 div 5 mod 6": "1 + 2 - 3*4/5%6",
+		`123 + 345.78 - "hello"`:    `123 + 345.78 - "hello"`,
+		`. = ${ident}`:              `fieldName === ident`,
+		"( (1 - 2) * (3 + 4) )":     `((1 - 2)*(3 + 4))`,
+		`1 + 2 - 3 * 4 div 5 mod 6`: `1 + 2 - 3*4/5%6`,
 	}
 	for formula, expected := range formulas {
 		js, err := p.Parse(formula, "fieldName")

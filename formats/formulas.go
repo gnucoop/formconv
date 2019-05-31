@@ -7,16 +7,35 @@ import (
 	"text/scanner"
 )
 
+// preprocessFormula makes f scannable by text/scanner
+func preprocessFormula(f string) string {
+	// TODO: fix string quoting flaws.
+	f = strings.ReplaceAll(f, "'", `"`)
+	for old, new := range dumbFuncNames {
+		f = strings.ReplaceAll(f, old, new)
+	}
+	return f
+}
+
+var dumbFuncNames = map[string]string{
+	"starts-with":         "starts_with",
+	"ends-with":           "ends_with",
+	"substring-before":    "substring_before",
+	"substring-after":     "substring_after",
+	"string-length":       "string_length",
+	"boolean-from-string": "boolean_from_string",
+}
+
 // parser parses xlsform formulas and produces the JavaScript equivalent.
 // Can't be used concurrently.
 type parser struct {
 	scanner.Scanner
-	fieldName string
+	fieldName string // "." in formulas will be equivalent to ${fieldName}
 	js        []byte
 }
 
 func (p *parser) Parse(formula, fieldName string) (js string, err error) {
-	p.Scanner.Init(strings.NewReader(formula))
+	p.Scanner.Init(strings.NewReader(preprocessFormula(formula)))
 	p.Mode = scanner.ScanIdents | scanner.ScanInts | scanner.ScanFloats | scanner.ScanStrings
 	p.Error = scannerError
 	p.Filename = ""
@@ -44,10 +63,27 @@ func (p *parser) error(msg string) {
 func (p *parser) unexpectedTokError(tok rune) {
 	p.error(fmt.Sprintf("Unexpected token %s.", scanner.TokenString(tok)))
 }
-func (p *parser) consume(expected rune) {
-	if tok := p.Scan(); tok != expected {
+
+func (p *parser) consume(tok rune) {
+	t := p.Scan()
+	if t != tok {
 		p.error(fmt.Sprintf("Expected %s, found %s.",
-			scanner.TokenString(expected), scanner.TokenString(tok)))
+			scanner.TokenString(tok), scanner.TokenString(t)))
+	}
+}
+
+func (p *parser) copy(tok byte) {
+	p.consume(rune(tok))
+	p.js = append(p.js, tok)
+}
+
+func (p *parser) peekNonspace() rune {
+	for {
+		ch := p.Peek()
+		if p.Whitespace&(1<<uint(ch)) == 0 || ch == scanner.EOF { // (not a whitespace) or EOF
+			return ch
+		}
+		p.Next()
 	}
 }
 
@@ -63,6 +99,13 @@ func (p *parser) parseExpression(expectedEnd rune) {
 			p.parseEpressionIdent(expectedEnd)
 		case scanner.Int, scanner.Float, scanner.String:
 			p.js = append(p.js, p.TokenText()...)
+		case '+', '-':
+			if ch := p.peekNonspace(); ch == '+' || ch == '-' {
+				p.unexpectedTokError(p.Next())
+				return
+			}
+			p.js = append(p.js, byte(tok))
+			continue
 		case '$':
 			p.consume('{')
 			p.consume(scanner.Ident)
@@ -77,8 +120,7 @@ func (p *parser) parseExpression(expectedEnd rune) {
 		case '(':
 			p.js = append(p.js, '(')
 			p.parseExpression(')')
-			p.consume(')')
-			p.js = append(p.js, ')')
+			p.copy(')')
 		default:
 			p.unexpectedTokError(tok)
 			return
@@ -89,7 +131,7 @@ func (p *parser) parseExpression(expectedEnd rune) {
 		// ')' for expressions between parentheses,
 		// ',' for function arguments, in which case we also accept ')' instead of ','.
 		// Note that we don't consume the end token.
-		if tok := p.Peek(); tok == expectedEnd || tok == ')' && expectedEnd == ',' {
+		if tok := p.peekNonspace(); tok == expectedEnd || (tok == ')' && expectedEnd == ',') {
 			return
 		}
 
@@ -154,43 +196,96 @@ func (p *parser) parseEpressionIdent(expectedEnd rune) {
 	switch ident := p.TokenText(); {
 	case ident == "True" || ident == "False":
 		p.js = append(p.js, strings.ToLower(ident)...)
-	case ident == "if":
+	case p.Peek() == '(':
+		p.parseFunctionCall()
+	default:
+		p.unexpectedTokError(scanner.Ident)
+	}
+}
+
+func (p *parser) parseFunctionCall() {
+	name := p.TokenText()
+	if name == "if" {
 		// if(cond, then, else) becomes (cond ? then : else)
-		p.consume('(')
-		p.js = append(p.js, '(')
+		p.copy('(')
 		p.parseExpression(',') // cond
 		p.consume(',')
 		p.js = append(p.js, " ? "...)
 		p.parseExpression(',') // then
 		p.consume(',')
 		p.js = append(p.js, " : "...)
-		p.parseExpression(',') // else
-		p.consume(')')
-		p.js = append(p.js, ')')
-	case p.Peek() == '(': // function call
-		// TODO: check supported functions
-		p.consume('(')
-		p.js = append(p.js, '(')
-		p.parseFuncArgs()
-		p.consume(')')
-		p.js = append(p.js, ')')
-	default: // plain identifier
-		p.js = append(p.js, ident...)
+		p.parseExpression(')') // else
+		p.copy(')')
+		return
 	}
+	if jsfunc, ok := func2jsfunc[name]; ok {
+		// func(arg1, arg2...) becomes jsfunc(arg1, arg2...)
+		p.js = append(p.js, jsfunc...)
+		p.copy('(')
+		p.parseFuncArgs()
+		p.copy(')')
+		return
+	}
+	if method, ok := func2jsmethod[name]; ok {
+		// func(arg1, arg2...) becomes (arg1).method(arg2...)
+		p.copy('(')
+		p.parseExpression(',') // arg1
+		p.consume(',')
+		p.js = append(p.js, (")." + method + "(")...)
+		p.parseFuncArgs()
+		p.copy(')')
+		return
+	}
+	if name == "string_length" {
+		// string_length(s) becomes (s).length
+		p.copy('(')
+		p.parseExpression(')')
+		p.copy(')')
+		p.js = append(p.js, ".length"...)
+		return
+	}
+	p.error(fmt.Sprintf("Unsupported function %q.", name))
 }
 
 func (p *parser) parseFuncArgs() {
-	if p.Peek() == ')' { // empty argument list
+	if p.peekNonspace() == ')' { // empty argument list
 		return
 	}
 	for {
 		p.parseExpression(',') // argument
-
-		if p.Peek() == ')' { // possible end of argument list
+		if p.peekNonspace() == ')' {
 			return
 		}
-
 		p.consume(',')
 		p.js = append(p.js, ", "...)
 	}
+}
+
+var func2jsfunc = map[string]string{
+	// Math:
+	"math_max": "Math.max",
+	"math_min": "Math.min",
+	"int":      "Math.floor",
+	"pow":      "Math.pow",
+	"log":      "Math.log",
+	"log10":    "Math.log10",
+	"abs":      "Math.abs",
+	"sin":      "Math.sin",
+	"cos":      "Math.cos",
+	"tan":      "Math.tan",
+	"asin":     "Math.asin",
+	"acos":     "Math.acos",
+	"atan":     "Math.atan",
+	"atan2":    "Math.atan2",
+	"sqrt":     "Math.sqrt",
+	"exp":      "Math.exp",
+	"random":   "Math.random",
+}
+var func2jsmethod = map[string]string{
+	// Strings:
+	"contains":    "includes",
+	"starts_with": "startsWith",
+	"ends_with":   "endsWith",
+	"substr":      "substring",
+	"string":      "toString",
 }
