@@ -125,11 +125,18 @@ func TestNonformulaFeatures(t *testing.T) {
 
 func TestFormulaParser(t *testing.T) {
 	var p parser
+
 	formulas := map[string]string{
-		`123 + 345.78 - "hello"`:    `123 + 345.78 - "hello"`,
-		`. = ${ident}`:              `fieldName === ident`,
-		"( (1 - 2) * (3 + 4) )":     `((1 - 2)*(3 + 4))`,
-		`1 + 2 - 3 * 4 div 5 mod 6`: `1 + 2 - 3*4/5%6`,
+		`123 + 345.78 - "hello"`:               `123 + 345.78 - "hello"`,
+		`. = ${ident} and 1 != 2`:              `fieldName === ident && 1 !== 2`,
+		`(  (1 - 2) * (3 + 4)  )`:              `((1 - 2)*(3 + 4))`,
+		`1 + 2 - 3 * 4 div 5 mod 6`:            `1 + 2 - 3*4/5%6`,
+		`1 < 2 and 3 <= 4 or 5 > 6 and 7 >= 8`: `1 < 2 && 3 <= 4 || 5 > 6 && 7 >= 8`,
+		`True = False`:                         `true === false`,
+		`if("banana", 1, 2)`:                   `("banana" ? 1 : 2)`,
+		`pow(sin(7) + (9))`:                    `Math.pow(Math.sin(7) + (9))`,
+		`contains("abc", "b")`:                 `("abc").includes("b")`,
+		`+(-(+(-5)))`:                          `+(-(+(-5)))`,
 	}
 	for formula, expected := range formulas {
 		js, err := p.Parse(formula, "fieldName")
@@ -138,6 +145,17 @@ func TestFormulaParser(t *testing.T) {
 		}
 		if js != expected {
 			t.Fatalf("Error converting formula:\n%s\nexpected:\n%s\ngot:\n%s\n", formula, expected, js)
+		}
+	}
+
+	errFormulas := []string{
+		"5++", "$dollar", "..", "((1)", ")(1)", "1 == 2", "!True", "1 << 2",
+		"True andd False", "plainIdent > 3", "unknownFunc(7)",
+	}
+	for _, formula := range errFormulas {
+		_, err := p.Parse(formula, "fieldName")
+		if err == nil {
+			t.Fatalf("Erroneus formula parsed successfully: %q", formula)
 		}
 	}
 }
