@@ -161,6 +161,26 @@ func TestFormulaParser(t *testing.T) {
 	}
 }
 
+func TestFormulaFeatures(t *testing.T) {
+	in := "testdata/formulas.xlsx"
+	out := "testdata/formulas.json"
+	oracle := "testdata/formulas_oracle.json"
+
+	xls, err := DecXlsFromFile(in)
+	check(t, err)
+	ajf, err := Xls2ajf(xls)
+	check(t, err)
+	err = EncAjfToFile(ajf, out)
+	check(t, err)
+	result, err := ioutil.ReadFile(out)
+	check(t, err)
+	expected, err := ioutil.ReadFile(oracle)
+	check(t, err)
+	if !reflect.DeepEqual(result, expected) {
+		t.Fatalf("Unexpected result. Check the differences between %s and %s", out, oracle)
+	}
+}
+
 func BenchmarkDecXls(b *testing.B) {
 	for n := 0; n < b.N; n++ {
 		_, err := DecXlsFromFile("testdata/Picaps_baseline_form.xls")

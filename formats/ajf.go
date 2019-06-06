@@ -43,6 +43,7 @@ type Node struct {
 	HTML             string           `json:"HTML,omitempty"`
 	MaxReps          *int             `json:"maxReps,omitempty"`
 	Validation       *FieldValidation `json:"validation,omitempty"`
+	Visibility       *NodeVisibility  `json:"visibility,omitempty"`
 	Nodes            []Node           `json:"nodes,omitempty"`
 }
 
@@ -72,6 +73,10 @@ var (
 
 type FieldValidation struct {
 	NotEmpty bool `json:"notEmpty,omitempty"`
+}
+
+type NodeVisibility struct {
+	Condition string `json:"condition"`
 }
 
 func EncAjfToFile(form *AjfForm, fileName string) (err error) {

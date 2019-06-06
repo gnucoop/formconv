@@ -25,7 +25,8 @@ func Xls2ajf(xls *XlsForm) (*AjfForm, error) {
 	if err != nil {
 		return nil, err
 	}
-	global, err := buildGroup(survey)
+	var b nodeBuilder
+	global, err := b.buildGroup(survey)
 	if err != nil {
 		return nil, err
 	}
@@ -151,7 +152,11 @@ func preprocessGroups(survey []SurveyRow) ([]SurveyRow, error) {
 	return survey, nil
 }
 
-func buildGroup(survey []SurveyRow) (Node, error) {
+type nodeBuilder struct {
+	parser parser // for formulas
+}
+
+func (b *nodeBuilder) buildGroup(survey []SurveyRow) (Node, error) {
 	row := survey[0]
 	if row.Type != beginGroup && row.Type != beginRepeat {
 		panic("not a group")
@@ -161,6 +166,11 @@ func buildGroup(survey []SurveyRow) (Node, error) {
 		Label: row.Label,
 		Type:  NtGroup,
 		Nodes: make([]Node, 0, 8),
+	}
+	var err error
+	group.Visibility, err = b.nodeVisibility(&row)
+	if err != nil {
+		return Node{}, err
 	}
 	if row.Type == beginRepeat {
 		group.Type = NtRepeatingSlide
@@ -177,11 +187,14 @@ func buildGroup(survey []SurveyRow) (Node, error) {
 		row := survey[i]
 		switch {
 		case isSupportedField(row.Type):
-			field := buildField(&row)
+			field, err := b.buildField(&row)
+			if err != nil {
+				return Node{}, err
+			}
 			group.Nodes = append(group.Nodes, field)
 		case row.Type == beginGroup || row.Type == beginRepeat:
 			end := groupEnd(survey, i)
-			child, err := buildGroup(survey[i:end])
+			child, err := b.buildGroup(survey[i:end])
 			if err != nil {
 				return Node{}, err
 			}
@@ -214,11 +227,16 @@ func groupEnd(survey []SurveyRow, groupStart int) int {
 	panic("group end not found")
 }
 
-func buildField(row *SurveyRow) Node {
+func (b *nodeBuilder) buildField(row *SurveyRow) (Node, error) {
 	field := Node{
 		Name:  row.Name,
 		Label: row.Label,
 		Type:  NtField,
+	}
+	var err error
+	field.Visibility, err = b.nodeVisibility(row)
+	if err != nil {
+		return Node{}, err
 	}
 	switch {
 	case row.Type == "decimal":
@@ -249,7 +267,18 @@ func buildField(row *SurveyRow) Node {
 	if row.Required == "yes" {
 		field.Validation = &FieldValidation{NotEmpty: true}
 	}
-	return field
+	return field, nil
+}
+
+func (b *nodeBuilder) nodeVisibility(row *SurveyRow) (*NodeVisibility, error) {
+	if row.Relevant == "" {
+		return nil, nil
+	}
+	js, err := b.parser.Parse(row.Relevant, row.Name)
+	if err != nil {
+		return nil, fmtSrcErr(row.LineNum, err.Error())
+	}
+	return &NodeVisibility{Condition: js}, nil
 }
 
 const idMultiplier = 1000

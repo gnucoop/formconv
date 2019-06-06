@@ -1,0 +1,97 @@
+{
+	"choicesOrigins": [
+		{
+			"type": "fixed",
+			"name": "yes_no",
+			"choicesType": "string",
+			"choices": [
+				{
+					"value": "yes",
+					"label": "Yes"
+				},
+				{
+					"value": "no",
+					"label": "No"
+				}
+			]
+		}
+	],
+	"nodes": [
+		{
+			"parent": 0,
+			"id": 1,
+			"name": "settings",
+			"label": "Settings",
+			"nodeType": 3,
+			"nodes": [
+				{
+					"parent": 1,
+					"id": 1001,
+					"name": "show_slide",
+					"label": "show slide",
+					"nodeType": 0,
+					"fieldType": 3
+				},
+				{
+					"parent": 1001,
+					"id": 1002,
+					"name": "show_group",
+					"label": "show group",
+					"nodeType": 0,
+					"fieldType": 3
+				},
+				{
+					"parent": 1002,
+					"id": 1003,
+					"name": "show_field",
+					"label": "show field",
+					"nodeType": 0,
+					"fieldType": 3
+				}
+			]
+		},
+		{
+			"parent": 1,
+			"id": 2,
+			"name": "slide",
+			"label": "Slide",
+			"nodeType": 3,
+			"visibility": {
+				"condition": "show_slide"
+			},
+			"nodes": [
+				{
+					"parent": 2,
+					"id": 2001,
+					"name": "field",
+					"label": "Field",
+					"nodeType": 0,
+					"fieldType": 0,
+					"visibility": {
+						"condition": "show_field"
+					}
+				},
+				{
+					"parent": 2001,
+					"id": 2002,
+					"name": "group",
+					"label": "Group",
+					"nodeType": 2,
+					"visibility": {
+						"condition": "show_group"
+					},
+					"nodes": [
+						{
+							"parent": 2002,
+							"id": 2002001,
+							"name": "group_field",
+							"label": "Group Field",
+							"nodeType": 0,
+							"fieldType": 0
+						}
+					]
+				}
+			]
+		}
+	]
+}
