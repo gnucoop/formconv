@@ -15,7 +15,7 @@ func main() {
 		log.Fatal("$PORT must be set!")
 	}
 
-	http.Handle("/", http.FileServer(http.Dir("static")))
+	http.Handle("/", http.FileServer(http.Dir("server/static")))
 	http.HandleFunc("/upload", upload)
 
 	log.Fatal(http.ListenAndServe(":"+port, nil))
