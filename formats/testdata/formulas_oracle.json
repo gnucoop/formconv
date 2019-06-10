@@ -1,136 +1,78 @@
 {
-	"choicesOrigins": [
-		{
-			"type": "fixed",
-			"name": "mealtime",
-			"choicesType": "string",
-			"choices": [
-				{
-					"value": "breakfast",
-					"label": "Breakfast"
-				},
-				{
-					"value": "lunch",
-					"label": "Lunch"
-				},
-				{
-					"value": "dinner",
-					"label": "Dinner"
-				}
-			]
-		},
-		{
-			"type": "fixed",
-			"name": "yes_no",
-			"choicesType": "string",
-			"choices": [
-				{
-					"value": "yes",
-					"label": "Yes"
-				},
-				{
-					"value": "no",
-					"label": "No"
-				}
-			]
-		}
-	],
 	"nodes": [
 		{
 			"parent": 0,
 			"id": 1,
-			"name": "repeat",
-			"label": "Repeat",
-			"nodeType": 4,
-			"maxReps": 7,
+			"name": "settings",
+			"label": "Settings",
+			"nodeType": 3,
 			"nodes": [
 				{
 					"parent": 1,
 					"id": 1001,
-					"name": "nested group",
-					"label": "Nested Group",
-					"nodeType": 2,
-					"nodes": [
-						{
-							"parent": 1001,
-							"id": 1001001,
-							"name": "decimal",
-							"label": "Decimal",
-							"nodeType": 0,
-							"fieldType": 2,
-							"validation": {
-								"notEmpty": true
-							}
-						},
-						{
-							"parent": 1001001,
-							"id": 1001002,
-							"name": "text",
-							"label": "Text",
-							"nodeType": 0,
-							"fieldType": 0
-						}
-					]
+					"name": "show_slide",
+					"label": "show slide",
+					"nodeType": 0,
+					"fieldType": 3
 				},
 				{
 					"parent": 1001,
 					"id": 1002,
-					"name": "note",
-					"label": "note",
+					"name": "show_group",
+					"label": "show group",
 					"nodeType": 0,
-					"fieldType": 7,
-					"HTML": "Note"
+					"fieldType": 3
 				},
 				{
 					"parent": 1002,
 					"id": 1003,
-					"name": "date",
-					"label": "Date",
+					"name": "show_field",
+					"label": "show field",
 					"nodeType": 0,
-					"fieldType": 9
-				},
-				{
-					"parent": 1003,
-					"id": 1004,
-					"name": "time",
-					"label": "Time",
-					"nodeType": 0,
-					"fieldType": 10
+					"fieldType": 3
 				}
 			]
 		},
 		{
 			"parent": 1,
 			"id": 2,
-			"name": "toplevel group",
-			"label": "Toplevel Group",
+			"name": "slide",
+			"label": "Slide",
 			"nodeType": 3,
+			"visibility": {
+				"condition": "show_slide"
+			},
 			"nodes": [
 				{
 					"parent": 2,
 					"id": 2001,
-					"name": "yes no",
-					"label": "Yes No",
+					"name": "field",
+					"label": "Field",
 					"nodeType": 0,
-					"fieldType": 3
+					"fieldType": 0,
+					"visibility": {
+						"condition": "show_field"
+					}
 				},
 				{
 					"parent": 2001,
 					"id": 2002,
-					"name": "single mealtime",
-					"label": "Single Mealtime",
-					"nodeType": 0,
-					"fieldType": 4,
-					"choicesOriginRef": "mealtime"
-				},
-				{
-					"parent": 2002,
-					"id": 2003,
-					"name": "multiple mealtime",
-					"label": "Multiple Mealtime",
-					"nodeType": 0,
-					"fieldType": 5,
-					"choicesOriginRef": "mealtime"
+					"name": "group",
+					"label": "Group",
+					"nodeType": 2,
+					"visibility": {
+						"condition": "show_group"
+					},
+					"nodes": [
+						{
+							"parent": 2002,
+							"id": 2002001,
+							"name": "group_field",
+							"label": "Group Field",
+							"nodeType": 0,
+							"fieldType": 0
+						}
+					]
 				}
 			]
 		}

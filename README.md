@@ -42,16 +42,16 @@ Choices sheet:
 
 The following table lists the supported question types.
 
-|Question type     |Ajf field type  |Description     |
-|------------------|----------------|----------------|
-|decimal           |number          |64-bit floating point number |
-|text              |string          |Free text response |
-|select_one        |single choice   |Single choice answer |
-|select_multiple   |multiple choice |Multiple choice answer |
-|select_one yes_no |boolean         |Boolean yes/no answer |
-|note              |empty           |Inserts an HTML note in the form |
-|date              |date input      |A date          |
-|time              |time            |Time            |
+|Question type   |Ajf field type  |Description     |
+|----------------|----------------|----------------|
+|decimal         |number          |64-bit floating point number |
+|text            |string          |Free text response |
+|boolean         |boolean         |Boolean answer  |
+|select_one      |single choice   |Single choice answer |
+|select_multiple |multiple choice |Multiple choice answer |
+|note            |empty           |Inserts an HTML note in the form |
+|date            |date input      |A date          |
+|time            |time            |Time            |
 
 ## Required
 

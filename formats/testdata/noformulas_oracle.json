@@ -18,21 +18,6 @@
 					"label": "Dinner"
 				}
 			]
-		},
-		{
-			"type": "fixed",
-			"name": "yes_no",
-			"choicesType": "string",
-			"choices": [
-				{
-					"value": "yes",
-					"label": "Yes"
-				},
-				{
-					"value": "no",
-					"label": "No"
-				}
-			]
 		}
 	],
 	"nodes": [
@@ -65,6 +50,14 @@
 						{
 							"parent": 1001001,
 							"id": 1001002,
+							"name": "boolean",
+							"label": "Boolean",
+							"nodeType": 0,
+							"fieldType": 3
+						},
+						{
+							"parent": 1001002,
+							"id": 1001003,
 							"name": "text",
 							"label": "Text",
 							"nodeType": 0,
@@ -109,14 +102,6 @@
 				{
 					"parent": 2,
 					"id": 2001,
-					"name": "yes no",
-					"label": "Yes No",
-					"nodeType": 0,
-					"fieldType": 3
-				},
-				{
-					"parent": 2001,
-					"id": 2002,
 					"name": "single mealtime",
 					"label": "Single Mealtime",
 					"nodeType": 0,
@@ -124,8 +109,8 @@
 					"choicesOriginRef": "mealtime"
 				},
 				{
-					"parent": 2002,
-					"id": 2003,
+					"parent": 2001,
+					"id": 2002,
 					"name": "multiple mealtime",
 					"label": "Multiple Mealtime",
 					"nodeType": 0,

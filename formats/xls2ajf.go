@@ -243,7 +243,7 @@ func (b *nodeBuilder) buildField(row *SurveyRow) (Node, error) {
 		field.FieldType = &FtNumber
 	case row.Type == "text":
 		field.FieldType = &FtString
-	case row.Type == "select_one yes_no":
+	case row.Type == "boolean":
 		field.FieldType = &FtBoolean
 	case isSelectOne(row.Type):
 		field.FieldType = &FtSingleChoice
@@ -305,16 +305,14 @@ const (
 )
 
 var supportedField = map[string]bool{
-	"decimal": true, "text": true, "select_one yes_no": true, "note": true,
+	"decimal": true, "text": true, "boolean": true, "note": true,
 	"date": true, "time": true, "calculate": true,
 }
 
 func isSupportedField(typ string) bool {
 	return supportedField[typ] || isSelectOne(typ) || isSelectMultiple(typ)
 }
-func isSelectOne(typ string) bool {
-	return strings.HasPrefix(typ, "select_one ") && typ != "select_one yes_no"
-}
+func isSelectOne(typ string) bool      { return strings.HasPrefix(typ, "select_one ") }
 func isSelectMultiple(typ string) bool { return strings.HasPrefix(typ, "select_multiple ") }
 
 var unsupportedField = map[string]bool{

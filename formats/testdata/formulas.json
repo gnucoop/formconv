@@ -1,21 +1,4 @@
 {
-	"choicesOrigins": [
-		{
-			"type": "fixed",
-			"name": "yes_no",
-			"choicesType": "string",
-			"choices": [
-				{
-					"value": "yes",
-					"label": "Yes"
-				},
-				{
-					"value": "no",
-					"label": "No"
-				}
-			]
-		}
-	],
 	"nodes": [
 		{
 			"parent": 0,
