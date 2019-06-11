@@ -62,12 +62,17 @@ type columnInfo struct {
 	mandatory bool
 }
 
-func DecXlsFromFile(fileName string) (*XlsForm, error) {
-	wb, err := openWorkBook(fileName)
+type File interface {
+	io.Reader
+	io.ReaderAt
+	io.Seeker
+}
+
+func DecXls(f File, ext string, size int64) (*XlsForm, error) {
+	wb, err := NewWorkBook(f, ext, size)
 	if err != nil {
 		return nil, err
 	}
-	defer wb.Close()
 
 	var form XlsForm
 	formVal := reflect.ValueOf(&form).Elem()
@@ -110,14 +115,26 @@ func DecXlsFromFile(fileName string) (*XlsForm, error) {
 	return &form, nil
 }
 
-type workBook interface {
+func DecXlsFromFile(name string) (*XlsForm, error) {
+	f, err := os.Open(name)
+	if err != nil {
+		return nil, fmt.Errorf("Couldn't open file: %s", err)
+	}
+	defer f.Close()
+
+	stat, err := f.Stat()
+	if err != nil {
+		return nil, fmt.Errorf("Couldn't get file stat: %s", err)
+	}
+	return DecXls(f, filepath.Ext(name), stat.Size())
+}
+
+type WorkBook interface {
 	Rows(sheetName string) [][]string
-	Close() error
 }
 
 type xlsxWorkBook struct {
 	xlsx.File
-	io.Closer
 }
 
 func (wb *xlsxWorkBook) Rows(sheetName string) [][]string {
@@ -138,7 +155,6 @@ func (wb *xlsxWorkBook) Rows(sheetName string) [][]string {
 
 type xlsWorkBook struct {
 	xls.WorkBook
-	io.Closer
 }
 
 func (wb *xlsWorkBook) Rows(sheetName string) [][]string {
@@ -172,34 +188,20 @@ func (wb *xlsWorkBook) Rows(sheetName string) [][]string {
 	return rows
 }
 
-func openWorkBook(fileName string) (wb workBook, err error) {
-	f, err := os.Open(fileName)
-	if err != nil {
-		return nil, err
-	}
-	defer func() {
-		if err != nil {
-			f.Close()
-		}
-	}()
-	info, err := f.Stat()
-	if err != nil {
-		return nil, err
-	}
-
-	switch ext := filepath.Ext(fileName); ext {
+func NewWorkBook(f File, ext string, size int64) (WorkBook, error) {
+	switch ext {
 	case ".xls":
 		wb, err := xls.OpenReader(f, "utf-8")
 		if err != nil {
 			return nil, err
 		}
-		return &xlsWorkBook{*wb, f}, nil
+		return &xlsWorkBook{*wb}, nil
 	case ".xlsx":
-		wb, err := xlsx.OpenReaderAt(f, info.Size())
+		wb, err := xlsx.OpenReaderAt(f, size)
 		if err != nil {
 			return nil, err
 		}
-		return &xlsxWorkBook{*wb, f}, nil
+		return &xlsxWorkBook{*wb}, nil
 	default:
 		return nil, fmt.Errorf("Unsupported excel file type %s.", ext)
 	}
