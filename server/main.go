@@ -25,22 +25,23 @@ func main() {
 func convert(w http.ResponseWriter, r *http.Request) {
 	f, head, err := r.FormFile("excelFile")
 	if err != nil {
-		fmt.Fprintln(w, err)
+		fmt.Fprintf(w, "Error retrieving POST file: %s", err)
 		return
 	}
+	defer f.Close()
+
 	xls, err := formats.DecXls(f, filepath.Ext(head.Filename), head.Size)
 	if err != nil {
-		fmt.Fprintln(w, err)
+		fmt.Fprintf(w, "Error decoding xlsform: %s", err)
 		return
 	}
 	ajf, err := formats.Xls2ajf(xls)
 	if err != nil {
-		fmt.Fprintln(w, err)
+		fmt.Fprintf(w, "Error converting form: %s", err)
 		return
 	}
 	err = formats.EncAjf(w, ajf)
 	if err != nil {
-		fmt.Fprintln(w, err)
-		return
+		log.Printf("Error writing json response: %s", err)
 	}
 }
