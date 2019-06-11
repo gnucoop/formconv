@@ -46,7 +46,7 @@ The following table lists the supported question types.
 |----------------|----------------|----------------|
 |decimal         |number          |64-bit floating point number |
 |text            |string          |Free text response |
-|boolean         |boolean         |Boolean answer  |
+|boolean         |boolean         |Boolean answer (a checkbox) |
 |select_one      |single choice   |Single choice answer |
 |select_multiple |multiple choice |Multiple choice answer |
 |note            |empty           |Inserts an HTML note in the form |
