@@ -37,7 +37,7 @@ func decXlsEncAjf(xlsName string) error {
 	ext := filepath.Ext(xlsName)
 	ajfName := xlsName[0:len(xlsName)-len(ext)] + ".json"
 	_, ajfShort := filepath.Split(ajfName)
-	err = formats.EncAjfToFile(ajf, ajfName)
+	err = formats.EncAjfToFile(ajfName, ajf)
 	if err != nil {
 		return fmt.Errorf("Error encoding file %s: %s", ajfShort, err)
 	}
