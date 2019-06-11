@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"net/http"
 	"os"
@@ -24,22 +25,22 @@ func main() {
 func convert(w http.ResponseWriter, r *http.Request) {
 	f, head, err := r.FormFile("excelFile")
 	if err != nil {
-		log.Println(err)
+		fmt.Fprintln(w, err)
 		return
 	}
 	xls, err := formats.DecXls(f, filepath.Ext(head.Filename), head.Size)
 	if err != nil {
-		log.Println(err)
+		fmt.Fprintln(w, err)
 		return
 	}
 	ajf, err := formats.Xls2ajf(xls)
 	if err != nil {
-		log.Println(err)
+		fmt.Fprintln(w, err)
 		return
 	}
 	err = formats.EncAjf(w, ajf)
 	if err != nil {
-		log.Println(err)
+		fmt.Fprintln(w, err)
 		return
 	}
 }
