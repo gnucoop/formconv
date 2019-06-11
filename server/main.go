@@ -25,6 +25,7 @@ func main() {
 func convert(w http.ResponseWriter, r *http.Request) {
 	f, head, err := r.FormFile("excelFile")
 	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
 		fmt.Fprintf(w, "Error retrieving POST file: %s", err)
 		return
 	}
@@ -32,11 +33,13 @@ func convert(w http.ResponseWriter, r *http.Request) {
 
 	xls, err := formats.DecXls(f, filepath.Ext(head.Filename), head.Size)
 	if err != nil {
+		w.WriteHeader(http.StatusUnprocessableEntity)
 		fmt.Fprintf(w, "Error decoding xlsform: %s", err)
 		return
 	}
 	ajf, err := formats.Xls2ajf(xls)
 	if err != nil {
+		w.WriteHeader(http.StatusUnprocessableEntity)
 		fmt.Fprintf(w, "Error converting form: %s", err)
 		return
 	}
