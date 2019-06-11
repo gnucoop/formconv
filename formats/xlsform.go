@@ -115,8 +115,8 @@ func DecXls(f File, ext string, size int64) (*XlsForm, error) {
 	return &form, nil
 }
 
-func DecXlsFromFile(name string) (*XlsForm, error) {
-	f, err := os.Open(name)
+func DecXlsFromFile(fileName string) (*XlsForm, error) {
+	f, err := os.Open(fileName)
 	if err != nil {
 		return nil, fmt.Errorf("Couldn't open file: %s", err)
 	}
@@ -126,7 +126,7 @@ func DecXlsFromFile(name string) (*XlsForm, error) {
 	if err != nil {
 		return nil, fmt.Errorf("Couldn't get file stat: %s", err)
 	}
-	return DecXls(f, filepath.Ext(name), stat.Size())
+	return DecXls(f, filepath.Ext(fileName), stat.Size())
 }
 
 type WorkBook interface {

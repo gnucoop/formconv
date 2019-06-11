@@ -3,6 +3,7 @@ package formats
 import (
 	"bufio"
 	"encoding/json"
+	"io"
 	"os"
 )
 
@@ -79,7 +80,13 @@ type NodeVisibility struct {
 	Condition string `json:"condition"`
 }
 
-func EncAjfToFile(form *AjfForm, fileName string) (err error) {
+func EncAjf(w io.Writer, ajf *AjfForm) error {
+	enc := json.NewEncoder(w)
+	enc.SetIndent("", "\t")
+	return enc.Encode(ajf)
+}
+
+func EncAjfToFile(fileName string, ajf *AjfForm) (err error) {
 	var f *os.File
 	f, err = os.Create(fileName)
 	if err != nil {
@@ -93,9 +100,7 @@ func EncAjfToFile(form *AjfForm, fileName string) (err error) {
 	}()
 
 	w := bufio.NewWriter(f)
-	enc := json.NewEncoder(w)
-	enc.SetIndent("", "\t")
-	err = enc.Encode(form)
+	err = EncAjf(w, ajf)
 	if err != nil {
 		return err
 	}
