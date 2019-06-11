@@ -1,11 +1,12 @@
 package main
 
 import (
-	"fmt"
-	"io"
 	"log"
 	"net/http"
 	"os"
+	"path/filepath"
+
+	"bitbucket.org/gnucoop/xls2ajf/formats"
 )
 
 func main() {
@@ -21,14 +22,24 @@ func main() {
 }
 
 func convert(w http.ResponseWriter, r *http.Request) {
-	_, head, err := r.FormFile("excelFile")
+	f, head, err := r.FormFile("excelFile")
 	if err != nil {
 		log.Println(err)
 		return
 	}
-	resp := fmt.Sprintf("Thanks for uploading your file! What a nice file header:\n%v\n", head)
-	_, err = io.WriteString(w, resp)
+	xls, err := formats.DecXls(f, filepath.Ext(head.Filename), head.Size)
 	if err != nil {
 		log.Println(err)
+		return
+	}
+	ajf, err := formats.Xls2ajf(xls)
+	if err != nil {
+		log.Println(err)
+		return
+	}
+	err = formats.EncAjf(w, ajf)
+	if err != nil {
+		log.Println(err)
+		return
 	}
 }
