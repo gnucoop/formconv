@@ -9,20 +9,19 @@ import (
 )
 
 func main() {
-	log.Println("pinkgopher server starting.")
 	port := os.Getenv("PORT")
 	if port == "" {
 		log.Fatal("$PORT must be set!")
 	}
 
 	http.Handle("/", http.FileServer(http.Dir("server/static")))
-	http.HandleFunc("/upload", upload)
+	http.HandleFunc("/result.json", convert)
 
 	log.Fatal(http.ListenAndServe(":"+port, nil))
 }
 
-func upload(w http.ResponseWriter, r *http.Request) {
-	_, head, err := r.FormFile("uploadfile")
+func convert(w http.ResponseWriter, r *http.Request) {
+	_, head, err := r.FormFile("excelFile")
 	if err != nil {
 		log.Println(err)
 		return
