@@ -6,11 +6,11 @@
 </head>
 
 <body>
-Hello. Upload your file! :)
-
-<form enctype="multipart/form-data" action="/upload" method="post">
-	<input type="file" name="uploadfile" />
-	<input type="submit" value="upload" />
+Please, upload your file! :)
+<br>
+<form enctype="multipart/form-data" action="/result.json" method="post">
+	<input type="file" accept=".xls,.xlsx" name="excelFile">
+	<input type="submit" value="Go!">
 </form>
 </body>
 
