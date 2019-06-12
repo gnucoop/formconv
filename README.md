@@ -141,3 +141,9 @@ The function call `if(cond, then, else)` is translated to the JavaScript `(cond 
 |`substr(s, start[, end])`|`(s).substring(start[, end])`|
 |`string-length(s)`       |`(s).length`            |
 |`string(x)`              |`(x).toString()`        |
+
+#### Mathematical Functions
+
+The following functions are available in formulas and are translated to the equivalent `Math` functions in Javascript: `max`, `min`, `pow`, `log`, `log10`, `abs`, `sin`, `cos`, `tan`, `asin`, `acos`, `atan`, `atan2`, `sqrt`, `exp`, `random`.
+
+The `int` function corresponds to `Math.floor`.
