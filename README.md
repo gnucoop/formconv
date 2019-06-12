@@ -117,10 +117,10 @@ To reference the value provided as answer to a question, use the expression `${q
 
 The following table lists the supported operators with their corresponding JavaScript implementation:
 
-|                |   |   |   |     |     |     |     |   |    |   |    |     |    |
-|----------------|---|---|---|-----|-----|-----|-----|---|----|---|----|-----|----|
-| Formula op:    |`+`|`-`|`*`|`div`|`mod`|`=`  |`!=` |`>`|`>=`|`<`|`<=`|`and`|`or`|
-| JavaScript op: |`+`|`-`|`*`|`/`  |`%`  |`===`|`!==`|`>`|`>=`|`<`|`<=`|`&&` |`||`|
+|                |   |   |   |     |     |     |     |   |    |   |    |     |      |
+|----------------|---|---|---|-----|-----|-----|-----|---|----|---|----|-----|------|
+| Formula op:    |`+`|`-`|`*`|`div`|`mod`|`=`  |`!=` |`>`|`>=`|`<`|`<=`|`and`|`or`  |
+| JavaScript op: |`+`|`-`|`*`|`/`  |`%`  |`===`|`!==`|`>`|`>=`|`<`|`<=`|`&&` |`\|\|`|
 
 The precedence of operators is as defined by JavaScript operators.
 Round parentheses can be used in formulas.
