@@ -129,6 +129,15 @@ Round parentheses can be used in formulas.
 
 #### Control Flow
 
-| Formula function     | JavaScript translation |
-|----------------------|------------------------|
-|`if(cond, then, else)`|`(cond ? then : else)`  |
+The function call `if(cond, then, else)` is translated to the JavaScript `(cond ? then : else)`.
+
+#### String Manipulation Functions
+
+| Formula function        | JavaScript translation |
+|-------------------------|------------------------|
+|`contains(s, t)`         |`(s).includes(t)`       |
+|`starts-with(s, t)`      |`(s).startsWith(t)`     |
+|`ends-with(s, t)`        |`(s).endsWith(t)`       |
+|`substr(s, start[, end])`|`(s).substring(start[, end])`|
+|`string-length(s)`       |`(s).length`            |
+|`string(x)`              |`(x).toString()`        |
