@@ -82,3 +82,15 @@ Repeats give the user the possibility to repeat a group of questions:
 
 When specified, `repeat_count` defines an upper bound to how many times the group can be repeated.
 Repeats cannot be nested inside other repeats or groups.
+
+## Relevant
+
+The relevant column allows skipping a question or making and additional question appear based on the response to a previous question:
+
+|type               |name      |label             |relevant            |
+|-------------------|----------|------------------|--------------------|
+|select_one cat_dog |pet_type  |Are you a cat or a dog person? |       |
+|text               |cat_name  |Name of your cat: |${pet_type} = "cat" |
+|text               |dog_name  |Name of your dog: |${pet_type} = "dog" |
+
+The feature can also be applied to groups.
