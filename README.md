@@ -117,6 +117,7 @@ To reference the value provided as answer to a question, use the expression `${q
 
 The following table lists the supported operators with their corresponding JavaScript implementation:
 
+|                |   |   |   |     |     |     |     |   |    |   |    |     |    |
 |----------------|---|---|---|-----|-----|-----|-----|---|----|---|----|-----|----|
 | Formula op:    |`+`|`-`|`*`|`div`|`mod`|`=`  |`!=` |`>`|`>=`|`<`|`<=`|`and`|`or`|
 | JavaScript op: |`+`|`-`|`*`|`/`  |`%`  |`===`|`!==`|`>`|`>=`|`<`|`<=`|`&&` |`||`|
