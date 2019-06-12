@@ -94,3 +94,31 @@ The relevant column allows skipping a question or making and additional question
 |text               |dog_name  |Name of your dog: |${pet_type} = "dog" |
 
 The feature can also be applied to groups.
+
+## Formulas
+
+Formulas are used in the constraint, relevant and calculation columns.
+xls2ajf implements a subset of [xlsform formulas](https://docs.opendatakit.org/form-operators-functions/).
+In particular, the features involving nodesets are omitted, as ajf doesn't have an equivalent concept.
+
+Formulas are expressions composed of constants, question references, operators and functions.
+The expressions are parsed and converted to JavaScript.
+No semantical analysis is done and the tool may produce invalid JavaScript like `45 + true`.
+
+### Constants
+
+Constants can be numbers, strings (delimited by 'single' or "double" quotes) or booleans (`True` or `False`).
+
+### Question References
+
+To reference the value provided as answer to a question, use the expression `${question_name}`.
+
+### Operators
+
+The following table lists the supported operators with their corresponding JavaScript implementation:
+
+| Formula op:    |`+`|`-`|`*`|`div`|`mod`|`=`  |`!=` |`>`|`>=`|`<`|`<=`|`and`|`or`|
+| JavaScript op: |`+`|`-`|`*`|`/`  |`%`  |`===`|`!==`|`>`|`>=`|`<`|`<=`|`&&` |`||`|
+
+The precedence of operators is as defined by JavaScript operators.
+Round parentheses can be used in formulas.
