@@ -98,7 +98,7 @@ The feature can also be applied to groups.
 ## Formulas
 
 Formulas are used in the constraint, relevant and calculation columns.
-xls2ajf implements a subset of [xlsform formulas](https://docs.opendatakit.org/form-operators-functions/).
+xls2ajf supports a subset of xlsform formulas.
 In particular, the features involving nodesets are omitted, as ajf doesn't have an equivalent concept.
 
 Formulas are expressions composed of constants, question references, operators and functions.
@@ -124,3 +124,11 @@ The following table lists the supported operators with their corresponding JavaS
 
 The precedence of operators is as defined by JavaScript operators.
 Round parentheses can be used in formulas.
+
+### Functions
+
+#### Control Flow
+
+| Formula function     | JavaScript translation |
+|----------------------|------------------------|
+|`if(cond, then, else)`|`(cond ? then : else)`  |
