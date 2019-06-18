@@ -7,10 +7,7 @@ import (
 	"text/scanner"
 )
 
-// preprocessFormula makes f scannable by text/scanner
 func preprocessFormula(f string) string {
-	// TODO: fix string quoting flaws.
-	f = strings.ReplaceAll(f, "'", `"`)
 	for old, new := range dumbFuncNames {
 		f = strings.ReplaceAll(f, old, new)
 	}
@@ -30,23 +27,26 @@ var dumbFuncNames = map[string]string{
 // Can't be used concurrently.
 type parser struct {
 	scanner.Scanner
-	fieldName string // "." in formulas will be equivalent to ${fieldName}
-	js        []byte
+	strings.Builder
+	fieldName string // in formulas, "." will be equivalent to "${fieldName}"
 }
 
-func (p *parser) Parse(formula, fieldName string) (js string, err error) {
+func (p *parser) Parse(formula, fieldName string) (string, error) {
 	p.Scanner.Init(strings.NewReader(preprocessFormula(formula)))
 	p.Mode = scanner.ScanIdents | scanner.ScanInts | scanner.ScanFloats | scanner.ScanStrings
 	p.Error = scannerError
 	p.Filename = ""
+
+	p.Builder.Reset()
+	p.Grow(len(formula) * 2)
+
 	p.fieldName = fieldName
-	p.js = p.js[0:0]
 
 	p.parseExpression(scanner.EOF)
 	if p.ErrorCount > 0 {
 		return "", errors.New(p.Filename)
 	}
-	return string(p.js), nil
+	return p.Builder.String(), nil
 }
 
 // When the first error is encountered, it is stored inside Scanner.Position.Filename
@@ -72,9 +72,9 @@ func (p *parser) consume(tok rune) {
 	}
 }
 
-func (p *parser) copy(tok byte) {
-	p.consume(rune(tok))
-	p.js = append(p.js, tok)
+func (p *parser) copy(ch byte) {
+	p.consume(rune(ch))
+	p.WriteByte(ch)
 }
 
 func (p *parser) peekNonspace() rune {
@@ -85,6 +85,73 @@ func (p *parser) peekNonspace() rune {
 		}
 		p.Next()
 	}
+}
+
+// scanString is used to scan single-quoted strings.
+// The code is adapted from Scanner.scanString.
+func (p *parser) scanString(quote rune) {
+	// Initial quote has already been scanned.
+	p.WriteRune(quote)
+	for {
+		ch := p.Next()
+		if ch == '\n' || ch < 0 {
+			p.error("String literal not terminated.")
+			return
+		}
+		if ch == '\\' {
+			p.scanEscape(quote)
+		} else {
+			p.WriteRune(ch)
+		}
+		if ch == quote {
+			return
+		}
+	}
+}
+
+func (p *parser) scanEscape(quote rune) {
+	// Initial \ has already been scanned.
+	p.WriteByte('\\')
+	switch p.Peek() {
+	case 'a', 'b', 'f', 'n', 'r', 't', 'v', '\\', quote:
+		p.WriteRune(p.Next())
+	case '0', '1', '2', '3', '4', '5', '6', '7':
+		p.scanDigits(8, 3)
+	case 'x':
+		p.WriteRune(p.Next())
+		p.scanDigits(16, 2)
+	case 'u':
+		p.WriteRune(p.Next())
+		p.scanDigits(16, 4)
+	case 'U':
+		p.WriteRune(p.Next())
+		p.scanDigits(16, 8)
+	default:
+		p.error("Illegal char escape.")
+	}
+}
+
+func (p *parser) scanDigits(base, n int) {
+	for i := 0; i < n; i++ {
+		ch := p.Next()
+		if digitVal(ch) >= base {
+			p.error("Illegal char escape.")
+			return
+		}
+		p.WriteRune(ch)
+	}
+}
+
+func digitVal(ch rune) int {
+	switch {
+	case '0' <= ch && ch <= '9':
+		return int(ch - '0')
+	case 'a' <= ch && ch <= 'f':
+		return int(ch - 'a' + 10)
+	case 'A' <= ch && ch <= 'F':
+		return int(ch - 'A' + 10)
+	}
+	return 16 // larger than any legal digit val
 }
 
 func (p *parser) parseExpression(expectedEnd rune) {
@@ -98,27 +165,29 @@ func (p *parser) parseExpression(expectedEnd rune) {
 		case scanner.Ident:
 			p.parseEpressionIdent(expectedEnd)
 		case scanner.Int, scanner.Float, scanner.String:
-			p.js = append(p.js, p.TokenText()...)
+			p.WriteString(p.TokenText())
+		case '\'':
+			p.scanString('\'')
 		case '+', '-':
 			if ch := p.peekNonspace(); ch == '+' || ch == '-' {
 				p.unexpectedTokError(p.Next())
 				return
 			}
-			p.js = append(p.js, byte(tok))
+			p.WriteByte(byte(tok))
 			continue
 		case '$':
 			p.consume('{')
 			p.consume(scanner.Ident)
-			p.js = append(p.js, p.TokenText()...)
+			p.WriteString(p.TokenText())
 			p.consume('}')
 		case '.':
 			if p.Peek() == '.' {
 				p.error(`".." is not supported in formulas.`)
 				return
 			}
-			p.js = append(p.js, p.fieldName...)
+			p.WriteString(p.fieldName)
 		case '(':
-			p.js = append(p.js, '(')
+			p.WriteByte('(')
 			p.parseExpression(')')
 			p.copy(')')
 		default:
@@ -139,37 +208,39 @@ func (p *parser) parseExpression(expectedEnd rune) {
 		switch tok := p.Scan(); tok {
 		case scanner.Ident:
 			p.parseOperatorIdent()
-		case '+', '-':
-			p.js = append(p.js, ' ', byte(tok), ' ')
+		case '+':
+			p.WriteString(" + ")
+		case '-':
+			p.WriteString(" - ")
 		case '*':
-			p.js = append(p.js, '*')
+			p.WriteByte('*')
 		case '=':
 			if p.Peek() == '=' {
 				p.error(`Unexpected token "==". (did you mean "="?)`)
 				return
 			}
-			p.js = append(p.js, " === "...)
+			p.WriteString(" === ")
 		case '!':
 			if p.Peek() != '=' {
 				p.error(`Unary operator "!" not supported.`)
 				return
 			}
 			p.consume('=')
-			p.js = append(p.js, " !== "...)
+			p.WriteString(" !== ")
 		case '>':
 			op := " > "
 			if p.Peek() == '=' {
 				p.consume('=')
 				op = " >= "
 			}
-			p.js = append(p.js, op...)
+			p.WriteString(op)
 		case '<':
 			op := " < "
 			if p.Peek() == '=' {
 				p.consume('=')
 				op = " <= "
 			}
-			p.js = append(p.js, op...)
+			p.WriteString(op)
 		default:
 			p.unexpectedTokError(tok)
 			return
@@ -180,13 +251,13 @@ func (p *parser) parseExpression(expectedEnd rune) {
 func (p *parser) parseOperatorIdent() {
 	switch p.TokenText() {
 	case "div":
-		p.js = append(p.js, '/')
+		p.WriteByte('/')
 	case "mod":
-		p.js = append(p.js, '%')
+		p.WriteByte('%')
 	case "and":
-		p.js = append(p.js, " && "...)
+		p.WriteString(" && ")
 	case "or":
-		p.js = append(p.js, " || "...)
+		p.WriteString(" || ")
 	default:
 		p.unexpectedTokError(scanner.Ident)
 	}
@@ -194,8 +265,10 @@ func (p *parser) parseOperatorIdent() {
 
 func (p *parser) parseEpressionIdent(expectedEnd rune) {
 	switch ident := p.TokenText(); {
-	case ident == "True" || ident == "False":
-		p.js = append(p.js, strings.ToLower(ident)...)
+	case ident == "True":
+		p.WriteString("true")
+	case ident == "False":
+		p.WriteString("false")
 	case p.Peek() == '(':
 		p.parseFunctionCall()
 	default:
@@ -210,17 +283,17 @@ func (p *parser) parseFunctionCall() {
 		p.copy('(')
 		p.parseExpression(',') // cond
 		p.consume(',')
-		p.js = append(p.js, " ? "...)
+		p.WriteString(" ? ")
 		p.parseExpression(',') // then
 		p.consume(',')
-		p.js = append(p.js, " : "...)
+		p.WriteString(" : ")
 		p.parseExpression(')') // else
 		p.copy(')')
 		return
 	}
 	if jsfunc, ok := func2jsfunc[name]; ok {
 		// func(arg1, arg2...) becomes jsfunc(arg1, arg2...)
-		p.js = append(p.js, jsfunc...)
+		p.WriteString(jsfunc)
 		p.copy('(')
 		p.parseFuncArgs()
 		p.copy(')')
@@ -231,7 +304,9 @@ func (p *parser) parseFunctionCall() {
 		p.copy('(')
 		p.parseExpression(',') // arg1
 		p.consume(',')
-		p.js = append(p.js, (")." + method + "(")...)
+		p.WriteString(").")
+		p.WriteString(method)
+		p.WriteByte('(')
 		p.parseFuncArgs()
 		p.copy(')')
 		return
@@ -241,7 +316,7 @@ func (p *parser) parseFunctionCall() {
 		p.copy('(')
 		p.parseExpression(')')
 		p.copy(')')
-		p.js = append(p.js, ".length"...)
+		p.WriteString(".length")
 		return
 	}
 	p.error(fmt.Sprintf("Unsupported function %q.", name))
@@ -257,7 +332,7 @@ func (p *parser) parseFuncArgs() {
 			return
 		}
 		p.consume(',')
-		p.js = append(p.js, ", "...)
+		p.WriteString(", ")
 	}
 }
 

@@ -127,17 +127,18 @@ func TestFormulaParser(t *testing.T) {
 	var p parser
 
 	formulas := map[string]string{
-		`123 + 345.78 - "hello"`:               `123 + 345.78 - "hello"`,
-		`. = ${ident} and 1 != 2`:              `fieldName === ident && 1 !== 2`,
-		`(  (1 - 2) * (3 + 4)  )`:              `((1 - 2)*(3 + 4))`,
-		`1 + 2 - 3 * 4 div 5 mod 6`:            `1 + 2 - 3*4/5%6`,
-		`1 < 2 and 3 <= 4 or 5 > 6 and 7 >= 8`: `1 < 2 && 3 <= 4 || 5 > 6 && 7 >= 8`,
-		`True = False`:                         `true === false`,
-		`if("banana", 1, 2)`:                   `("banana" ? 1 : 2)`,
-		`pow(sin(7) + (9))`:                    `Math.pow(Math.sin(7) + (9))`,
-		`contains("abc", "b")`:                 `("abc").includes("b")`,
-		`string_length("hello")`:               `("hello").length`,
-		`+(-(+(-5)))`:                          `+(-(+(-5)))`,
+		`123 + 345.78 - "hello"`:                 `123 + 345.78 - "hello"`,
+		`. = ${ident} and 1 != 2`:                `fieldName === ident && 1 !== 2`,
+		`(  (1 - 2) * (3 + 4)  )`:                `((1 - 2)*(3 + 4))`,
+		`1 + 2 - 3 * 4 div 5 mod 6`:              `1 + 2 - 3*4/5%6`,
+		`1 < 2 and 3 <= 4 or 5 > 6 and 7 >= 8`:   `1 < 2 && 3 <= 4 || 5 > 6 && 7 >= 8`,
+		`True = False`:                           `true === false`,
+		`if("banana", 1, 2)`:                     `("banana" ? 1 : 2)`,
+		`pow(sin(7) + (9))`:                      `Math.pow(Math.sin(7) + (9))`,
+		`contains("abc", "b")`:                   `("abc").includes("b")`,
+		`string_length("hello")`:                 `("hello").length`,
+		`+(-(+(-5)))`:                            `+(-(+(-5)))`,
+		`'hello \n \123 \xab \uabcd \Uabcd1234'`: `'hello \n \123 \xab \uabcd \Uabcd1234'`,
 	}
 	for formula, expected := range formulas {
 		js, err := p.Parse(formula, "fieldName")
@@ -152,6 +153,7 @@ func TestFormulaParser(t *testing.T) {
 	errFormulas := []string{
 		"5++", "$dollar", "..", "((1)", ")(1)", "1 == 2", "!True", "1 << 2",
 		"True andd False", "plainIdent > 3", "unknownFunc(7)",
+		`'\g'`, `'\12'`, `'\xax'`,
 	}
 	for _, formula := range errFormulas {
 		_, err := p.Parse(formula, "fieldName")
