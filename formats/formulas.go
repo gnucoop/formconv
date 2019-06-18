@@ -263,7 +263,7 @@ func (p *parser) parseExpressionIdent(expectedEnd rune) {
 	case "starts", "ends", "substring", "string", "boolean":
 		p.parseFuncCall()
 	default:
-		p.unexpectedTokError(scanner.Ident)
+		p.error(fmt.Sprintf("Unrecognized identifier %q.", p.TokenText()))
 	}
 }
 
