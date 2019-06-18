@@ -261,6 +261,11 @@ func (b *nodeBuilder) buildField(row *SurveyRow) (Node, error) {
 		field.FieldType = &FtTime
 	case row.Type == "calculate":
 		field.FieldType = &FtFormula
+		js, err := b.parser.Parse(row.Calculation, row.Name)
+		if err != nil {
+			return Node{}, err
+		}
+		field.Formula = &Formula{js}
 	default:
 		panic("unexpected row type")
 	}

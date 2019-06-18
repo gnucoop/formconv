@@ -30,6 +30,17 @@
 					"label": "show field",
 					"nodeType": 0,
 					"fieldType": 3
+				},
+				{
+					"parent": 1003,
+					"id": 1004,
+					"name": "calc",
+					"label": "All true:",
+					"nodeType": 0,
+					"fieldType": 6,
+					"formula": {
+						"formula": "show_slide && show_group && show_field"
+					}
 				}
 			]
 		},

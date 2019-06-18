@@ -147,3 +147,14 @@ The function call `if(cond, then, else)` is translated to the JavaScript `(cond 
 The following functions are available in formulas and are translated to the equivalent `Math` functions in JavaScript: `max`, `min`, `pow`, `log`, `log10`, `abs`, `sin`, `cos`, `tan`, `asin`, `acos`, `atan`, `atan2`, `sqrt`, `exp`, `random`.
 
 The `int` function corresponds to `Math.floor`.
+
+## Calculation
+
+Calculations can be performed using the values of other questions:
+
+|type      |name      |label               |calculation      |
+|----------|----------|--------------------|-----------------|
+|decimal   |amount    |Price of your meal: |                 |
+|calculate |tip       |5% tip is:          |${amount} * 0.05 |
+
+The results of calculations will appear as read-only fields in the form.

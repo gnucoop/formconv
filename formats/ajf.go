@@ -43,6 +43,7 @@ type Node struct {
 	ChoicesOriginRef string           `json:"choicesOriginRef,omitempty"`
 	HTML             string           `json:"HTML,omitempty"`
 	MaxReps          *int             `json:"maxReps,omitempty"`
+	Formula          *Formula         `json:"formula,omitempty"`
 	Validation       *FieldValidation `json:"validation,omitempty"`
 	Visibility       *NodeVisibility  `json:"visibility,omitempty"`
 	Nodes            []Node           `json:"nodes,omitempty"`
@@ -72,6 +73,10 @@ var (
 	FtTime           FieldType = 10
 )
 
+type Formula struct {
+	Formula string `json:"formula"`
+}
+
 type FieldValidation struct {
 	NotEmpty bool `json:"notEmpty,omitempty"`
 }
@@ -83,6 +88,7 @@ type NodeVisibility struct {
 func EncAjf(w io.Writer, ajf *AjfForm) error {
 	enc := json.NewEncoder(w)
 	enc.SetIndent("", "\t")
+	enc.SetEscapeHTML(false)
 	return enc.Encode(ajf)
 }
 
