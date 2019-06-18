@@ -7,22 +7,6 @@ import (
 	"text/scanner"
 )
 
-func preprocessFormula(f string) string {
-	for old, new := range dumbFuncNames {
-		f = strings.ReplaceAll(f, old, new)
-	}
-	return f
-}
-
-var dumbFuncNames = map[string]string{
-	"starts-with":         "starts_with",
-	"ends-with":           "ends_with",
-	"substring-before":    "substring_before",
-	"substring-after":     "substring_after",
-	"string-length":       "string_length",
-	"boolean-from-string": "boolean_from_string",
-}
-
 // parser parses xlsform formulas and produces the JavaScript equivalent.
 // Can't be used concurrently.
 type parser struct {
@@ -32,7 +16,7 @@ type parser struct {
 }
 
 func (p *parser) Parse(formula, fieldName string) (string, error) {
-	p.Scanner.Init(strings.NewReader(preprocessFormula(formula)))
+	p.Scanner.Init(strings.NewReader(formula))
 	p.Mode = scanner.ScanIdents | scanner.ScanInts | scanner.ScanFloats | scanner.ScanStrings
 	p.Error = scannerError
 	p.Filename = ""
@@ -163,7 +147,7 @@ func (p *parser) parseExpression(expectedEnd rune) {
 		// Expression.
 		switch tok := p.Scan(); tok {
 		case scanner.Ident:
-			p.parseEpressionIdent(expectedEnd)
+			p.parseExpressionIdent(expectedEnd)
 		case scanner.Int, scanner.Float, scanner.String:
 			p.WriteString(p.TokenText())
 		case '\'':
@@ -263,21 +247,35 @@ func (p *parser) parseOperatorIdent() {
 	}
 }
 
-func (p *parser) parseEpressionIdent(expectedEnd rune) {
-	switch ident := p.TokenText(); {
-	case ident == "True":
+// parseExpressionIdent parses an expression that starts with an identifier (already scanned).
+// It has to deal with the following function names that contain a minus:
+// starts-with, ends-with, substring-before, substring-after, string-length, boolean-from-string.
+func (p *parser) parseExpressionIdent(expectedEnd rune) {
+	if p.Peek() == '(' {
+		p.parseFuncCall()
+		return
+	}
+	switch p.TokenText() {
+	case "True":
 		p.WriteString("true")
-	case ident == "False":
+	case "False":
 		p.WriteString("false")
-	case p.Peek() == '(':
-		p.parseFunctionCall()
+	case "starts", "ends", "substring", "string", "boolean":
+		p.parseFuncCall()
 	default:
 		p.unexpectedTokError(scanner.Ident)
 	}
 }
 
-func (p *parser) parseFunctionCall() {
+func (p *parser) parseFuncCall() {
 	name := p.TokenText()
+	for p.Peek() == '-' {
+		p.consume('-')
+		name += "-"
+		p.consume(scanner.Ident)
+		name += p.TokenText()
+	}
+
 	if name == "if" {
 		// if(cond, then, else) becomes (cond ? then : else)
 		p.copy('(')
@@ -311,8 +309,8 @@ func (p *parser) parseFunctionCall() {
 		p.copy(')')
 		return
 	}
-	if name == "string_length" {
-		// string_length(s) becomes (s).length
+	if name == "string-length" {
+		// string-length(s) becomes (s).length
 		p.copy('(')
 		p.parseExpression(')')
 		p.copy(')')
@@ -359,8 +357,8 @@ var func2jsfunc = map[string]string{
 var func2jsmethod = map[string]string{
 	// Strings:
 	"contains":    "includes",
-	"starts_with": "startsWith",
-	"ends_with":   "endsWith",
+	"starts-with": "startsWith",
+	"ends-with":   "endsWith",
 	"substr":      "substring",
 	"string":      "toString",
 }

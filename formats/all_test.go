@@ -136,7 +136,7 @@ func TestFormulaParser(t *testing.T) {
 		`if("banana", 1, 2)`:                     `("banana" ? 1 : 2)`,
 		`pow(sin(7) + (9))`:                      `Math.pow(Math.sin(7) + (9))`,
 		`contains("abc", "b")`:                   `("abc").includes("b")`,
-		`string_length("hello")`:                 `("hello").length`,
+		`string-length("hello")`:                 `("hello").length`,
 		`+(-(+(-5)))`:                            `+(-(+(-5)))`,
 		`'hello \n \123 \xab \uabcd \Uabcd1234'`: `'hello \n \123 \xab \uabcd \Uabcd1234'`,
 	}
