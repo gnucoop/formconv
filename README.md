@@ -149,18 +149,22 @@ The function call `if(cond, then, else)` is translated to the JavaScript `(cond 
 
 | Formula function        | JavaScript translation |
 |-------------------------|------------------------|
+|`regex(s, re)`           |`TODO: (new RegExp(re)).test(s)`|
 |`contains(s, t)`         |`(s).includes(t)`       |
 |`starts-with(s, t)`      |`(s).startsWith(t)`     |
 |`ends-with(s, t)`        |`(s).endsWith(t)`       |
 |`substr(s, start[, end])`|`(s).substring(start[, end])`|
+|`substring-before(s, t)` |`TODO`                  |
+|`substring-after(s, t)`  |`TODO`                  |
 |`string-length(s)`       |`(s).length`            |
-|`string(x)`              |`(x).toString()`        |
+|`concat(s, t...)`        |`s + t + ...`           |
+|`string(x)`              |`String(x)`             |
 
 #### Mathematical Functions
 
 The following functions are available in formulas and are translated to the equivalent `Math` functions in JavaScript: `max`, `min`, `pow`, `log`, `log10`, `abs`, `sin`, `cos`, `tan`, `asin`, `acos`, `atan`, `atan2`, `sqrt`, `exp`, `random`.
 
-The `int` function corresponds to `Math.floor`.
+The `int` function corresponds to `Math.floor`. `number(x)` is translated to `Number(x)`.
 
 ## Calculation
 

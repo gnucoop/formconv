@@ -353,6 +353,10 @@ var func2jsfunc = map[string]string{
 	"sqrt":   "Math.sqrt",
 	"exp":    "Math.exp",
 	"random": "Math.random",
+
+	// Conversion functions:
+	"string": "String",
+	"number": "Number",
 }
 var func2jsmethod = map[string]string{
 	// Strings:
@@ -360,5 +364,4 @@ var func2jsmethod = map[string]string{
 	"starts-with": "startsWith",
 	"ends-with":   "endsWith",
 	"substr":      "substring",
-	"string":      "toString",
 }
