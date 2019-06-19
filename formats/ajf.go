@@ -78,7 +78,14 @@ type Formula struct {
 }
 
 type FieldValidation struct {
-	NotEmpty bool `json:"notEmpty,omitempty"`
+	NotEmpty   bool                  `json:"notEmpty,omitempty"`
+	Conditions []ValidationCondition `json:"conditions,omitempty"`
+}
+
+type ValidationCondition struct {
+	Condition        string `json:"condition"`
+	ClientValidation bool   `json:"clientValidation"` // always true
+	ErrorMessage     string `json:"errorMessage,omitempty"`
 }
 
 type NodeVisibility struct {

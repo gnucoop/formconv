@@ -41,6 +41,22 @@
 					"formula": {
 						"formula": "show_slide && show_group && show_field"
 					}
+				},
+				{
+					"parent": 1004,
+					"id": 1005,
+					"name": "age",
+					"label": "Your age:",
+					"nodeType": 0,
+					"fieldType": 2,
+					"validation": {
+						"conditions": [
+							{
+								"condition": "age < 150",
+								"clientValidation": true
+							}
+						]
+					}
 				}
 			]
 		},

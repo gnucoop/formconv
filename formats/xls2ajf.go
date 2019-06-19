@@ -238,6 +238,10 @@ func (b *nodeBuilder) buildField(row *SurveyRow) (Node, error) {
 	if err != nil {
 		return Node{}, err
 	}
+	field.Validation, err = b.fieldValidation(row)
+	if err != nil {
+		return Node{}, err
+	}
 	switch {
 	case row.Type == "decimal":
 		field.FieldType = &FtNumber
@@ -269,9 +273,6 @@ func (b *nodeBuilder) buildField(row *SurveyRow) (Node, error) {
 	default:
 		panic("unexpected row type")
 	}
-	if row.Required == "yes" {
-		field.Validation = &FieldValidation{NotEmpty: true}
-	}
 	return field, nil
 }
 
@@ -284,6 +285,33 @@ func (b *nodeBuilder) nodeVisibility(row *SurveyRow) (*NodeVisibility, error) {
 		return nil, fmtSrcErr(row.LineNum, err.Error())
 	}
 	return &NodeVisibility{Condition: js}, nil
+}
+
+func (b *nodeBuilder) fieldValidation(row *SurveyRow) (*FieldValidation, error) {
+	if row.Required == "" && row.Constraint == "" {
+		return nil, nil
+	}
+	v := new(FieldValidation)
+
+	if row.Required != "" && row.Required != "yes" {
+		return nil, fmtSrcErr(row.LineNum, `Invalid value %q in "required" column.`, row.Required)
+	}
+	if row.Required == "yes" {
+		v.NotEmpty = true
+	}
+
+	if row.Constraint == "" {
+		return v, nil
+	}
+	js, err := b.parser.Parse(row.Constraint, row.Name)
+	if err != nil {
+		return nil, fmtSrcErr(row.LineNum, err.Error())
+	}
+	v.Conditions = []ValidationCondition{{
+		Condition:        js,
+		ClientValidation: true,
+	}}
+	return v, nil
 }
 
 const idMultiplier = 1000

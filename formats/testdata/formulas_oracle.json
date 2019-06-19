@@ -30,6 +30,33 @@
 					"label": "show field",
 					"nodeType": 0,
 					"fieldType": 3
+				},
+				{
+					"parent": 1003,
+					"id": 1004,
+					"name": "calc",
+					"label": "All true:",
+					"nodeType": 0,
+					"fieldType": 6,
+					"formula": {
+						"formula": "show_slide && show_group && show_field"
+					}
+				},
+				{
+					"parent": 1004,
+					"id": 1005,
+					"name": "age",
+					"label": "Your age:",
+					"nodeType": 0,
+					"fieldType": 2,
+					"validation": {
+						"conditions": [
+							{
+								"condition": "age < 150",
+								"clientValidation": true
+							}
+						]
+					}
 				}
 			]
 		},

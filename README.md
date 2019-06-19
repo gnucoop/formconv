@@ -83,15 +83,25 @@ Repeats give the user the possibility to repeat a group of questions:
 When specified, `repeat_count` defines an upper bound to how many times the group can be repeated.
 Repeats cannot be nested inside other repeats or groups.
 
+## Constraints
+
+Constraints can be used to ensure data quality in the form:
+
+|type      |name      |label            |constraint |
+|----------|----------|-----------------|-----------|
+|integer   |age       |How old are you? |`. < 150`  |
+
+The dot in the constraint formula refers to the value of the question.
+
 ## Relevant
 
 The relevant column allows skipping a question or making and additional question appear based on the response to a previous question:
 
-|type               |name      |label             |relevant            |
-|-------------------|----------|------------------|--------------------|
-|select_one cat_dog |pet_type  |Are you a cat or a dog person? |       |
-|text               |cat_name  |Name of your cat: |${pet_type} = "cat" |
-|text               |dog_name  |Name of your dog: |${pet_type} = "dog" |
+|type               |name      |label             |relevant             |
+|-------------------|----------|------------------|---------------------|
+|select_one cat_dog |pet_type  |Are you a cat or a dog person? |        |
+|text               |cat_name  |Name of your cat: |`${pet_type} = "cat"`|
+|text               |dog_name  |Name of your dog: |`${pet_type} = "dog"`|
 
 The feature can also be applied to groups.
 
@@ -112,6 +122,8 @@ Constants can be numbers, strings (delimited by 'single' or "double" quotes) or 
 ### Question References
 
 To reference the value provided as answer to a question, use the expression `${question_name}`.
+The name must be a valid javascript identifier.
+`.` can be used to refer to the current question, as seen in the [constraint example](#markdown-header-constraints).
 
 ### Operators
 
@@ -152,9 +164,9 @@ The `int` function corresponds to `Math.floor`.
 
 Calculations can be performed using the values of other questions:
 
-|type      |name      |label               |calculation      |
-|----------|----------|--------------------|-----------------|
-|decimal   |amount    |Price of your meal: |                 |
-|calculate |tip       |5% tip is:          |${amount} * 0.05 |
+|type      |name      |label               |calculation       |
+|----------|----------|--------------------|------------------|
+|decimal   |amount    |Price of your meal: |                  |
+|calculate |tip       |5% tip is:          |`${amount} * 0.05`|
 
 The results of calculations will appear as read-only fields in the form.
