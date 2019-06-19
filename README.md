@@ -87,11 +87,12 @@ Repeats cannot be nested inside other repeats or groups.
 
 Constraints can be used to ensure data quality in the form:
 
-|type      |name      |label            |constraint |
-|----------|----------|-----------------|-----------|
-|integer   |age       |How old are you? |`. < 150`  |
+|type      |name      |label            |constraint |constraint_message        |
+|----------|----------|-----------------|-----------|--------------------------|
+|integer   |age       |How old are you? |`. < 150`  |Age must be less than 150 |
 
 The dot in the constraint formula refers to the value of the question.
+The constraint message is optional.
 
 ## Relevant
 

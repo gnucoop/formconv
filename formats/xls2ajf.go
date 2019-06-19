@@ -310,6 +310,7 @@ func (b *nodeBuilder) fieldValidation(row *SurveyRow) (*FieldValidation, error) 
 	v.Conditions = []ValidationCondition{{
 		Condition:        js,
 		ClientValidation: true,
+		ErrorMessage:     row.ConstraintMessage,
 	}}
 	return v, nil
 }
