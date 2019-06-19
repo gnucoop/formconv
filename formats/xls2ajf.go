@@ -302,9 +302,9 @@ func (b *nodeBuilder) fieldValidation(row *SurveyRow) (*FieldValidation, error) 
 
 	if row.Type == "integer" {
 		v.Conditions = []ValidationCondition{{
-			Condition:        "TODO: Number.isInteger or whatever works with the ajf variable value",
+			Condition:        "isInt(" + row.Name + ")", // ajf function
 			ClientValidation: true,
-			ErrorMessage:     "Field must be an integer.",
+			ErrorMessage:     "The field value must be an integer.",
 		}}
 	}
 	if row.Constraint == "" {

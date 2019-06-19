@@ -52,6 +52,11 @@
 					"validation": {
 						"conditions": [
 							{
+								"condition": "isInt(age)",
+								"clientValidation": true,
+								"errorMessage": "The field value must be an integer."
+							},
+							{
 								"condition": "age < 150",
 								"clientValidation": true,
 								"errorMessage": "age must be less than 150"
