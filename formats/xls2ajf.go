@@ -243,7 +243,7 @@ func (b *nodeBuilder) buildField(row *SurveyRow) (Node, error) {
 		return Node{}, err
 	}
 	switch {
-	case row.Type == "decimal":
+	case row.Type == "decimal" || row.Type == "integer":
 		field.FieldType = &FtNumber
 	case row.Type == "text":
 		field.FieldType = &FtString
@@ -288,7 +288,7 @@ func (b *nodeBuilder) nodeVisibility(row *SurveyRow) (*NodeVisibility, error) {
 }
 
 func (b *nodeBuilder) fieldValidation(row *SurveyRow) (*FieldValidation, error) {
-	if row.Required == "" && row.Constraint == "" {
+	if row.Required == "" && row.Constraint == "" && row.Type != "integer" {
 		return nil, nil
 	}
 	v := new(FieldValidation)
@@ -300,6 +300,13 @@ func (b *nodeBuilder) fieldValidation(row *SurveyRow) (*FieldValidation, error) 
 		v.NotEmpty = true
 	}
 
+	if row.Type == "integer" {
+		v.Conditions = []ValidationCondition{{
+			Condition:        "TODO: Number.isInteger or whatever works with the ajf variable value",
+			ClientValidation: true,
+			ErrorMessage:     "Field must be an integer.",
+		}}
+	}
 	if row.Constraint == "" {
 		return v, nil
 	}
@@ -307,11 +314,11 @@ func (b *nodeBuilder) fieldValidation(row *SurveyRow) (*FieldValidation, error) 
 	if err != nil {
 		return nil, fmtSrcErr(row.LineNum, err.Error())
 	}
-	v.Conditions = []ValidationCondition{{
+	v.Conditions = append(v.Conditions, ValidationCondition{
 		Condition:        js,
 		ClientValidation: true,
 		ErrorMessage:     row.ConstraintMessage,
-	}}
+	})
 	return v, nil
 }
 
@@ -339,8 +346,8 @@ const (
 )
 
 var supportedField = map[string]bool{
-	"decimal": true, "text": true, "boolean": true, "note": true,
-	"date": true, "time": true, "calculate": true,
+	"decimal": true, "integer": true, "text": true, "boolean": true,
+	"note": true, "date": true, "time": true, "calculate": true,
 }
 
 func isSupportedField(typ string) bool {
@@ -350,7 +357,7 @@ func isSelectOne(typ string) bool      { return strings.HasPrefix(typ, "select_o
 func isSelectMultiple(typ string) bool { return strings.HasPrefix(typ, "select_multiple ") }
 
 var unsupportedField = map[string]bool{
-	"integer": true, "range": true, "geopoint": true, "geotrace": true, "geoshape": true,
+	"range": true, "geopoint": true, "geotrace": true, "geoshape": true,
 	"datetime": true, "image": true, "audio": true, "video": true, "file": true,
 	"barcode": true, "acknowledge": true, "hidden": true, "xml-external": true,
 	// metadata:

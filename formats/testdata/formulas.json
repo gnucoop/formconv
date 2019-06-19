@@ -52,6 +52,11 @@
 					"validation": {
 						"conditions": [
 							{
+								"condition": "TODO: Number.isInteger or whatever works with the ajf variable value",
+								"clientValidation": true,
+								"errorMessage": "Field must be an integer."
+							},
+							{
 								"condition": "age < 150",
 								"clientValidation": true,
 								"errorMessage": "age must be less than 150"

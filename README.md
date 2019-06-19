@@ -45,6 +45,7 @@ The following table lists the supported question types.
 |Question type   |Ajf field type  |Description     |
 |----------------|----------------|----------------|
 |decimal         |number          |64-bit floating point number |
+|integer         |number          |A number with the added constraint of being an integer |
 |text            |string          |Free text response |
 |boolean         |boolean         |Boolean answer (a checkbox) |
 |select_one      |single choice   |Single choice answer |
