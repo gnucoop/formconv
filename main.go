@@ -5,7 +5,7 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/robzan8/formconv/formats"
+	"github.com/gnucoop/formconv/formats"
 )
 
 func main() {
