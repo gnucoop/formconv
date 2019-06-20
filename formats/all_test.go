@@ -202,7 +202,7 @@ func BenchmarkXls2ajf(b *testing.B) {
 	check(b, err)
 	b.ResetTimer()
 	for n := 0; n < b.N; n++ {
-		_, err = Xls2ajf(xls)
+		_, err = Convert(xls)
 		check(b, err)
 	}
 }
