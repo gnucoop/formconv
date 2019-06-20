@@ -357,6 +357,8 @@ var func2jsfunc = map[string]string{
 	// Conversion functions:
 	"string": "String",
 	"number": "Number",
+
+	"selected": "valueInChoice",
 }
 var func2jsmethod = map[string]string{
 	// Strings:
