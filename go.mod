@@ -1,4 +1,4 @@
-module github.com/zan8rob/formconv
+module github.com/robzan8/formconv
 
 go 1.12
 

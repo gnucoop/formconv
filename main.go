@@ -5,7 +5,7 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/zan8rob/formconv/formats"
+	"github.com/robzan8/formconv/formats"
 )
 
 func main() {

@@ -1,7 +1,7 @@
 formconv compiles [xlsform](http://xlsform.org/en/) excel files to ajf, a json-based format used at gnucoop to describe forms.
 The tool can be installed with:
 
-```go get github.com/zan8rob/formconv```
+```go get github.com/robzan8/formconv```
 
 and used as:
 
