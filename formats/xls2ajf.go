@@ -7,7 +7,7 @@ import (
 	"strings"
 )
 
-func Xls2ajf(xls *XlsForm) (*AjfForm, error) {
+func Convert(xls *XlsForm) (*AjfForm, error) {
 	err := checkTypes(xls.Survey)
 	if err != nil {
 		return nil, err

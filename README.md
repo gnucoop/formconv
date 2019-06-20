@@ -1,13 +1,13 @@
-xls2ajf compiles [xlsform](http://xlsform.org/en/) excel files to ajf, a json-based format used at gnucoop to describe forms.
+formconv compiles [xlsform](http://xlsform.org/en/) excel files to ajf, a json-based format used at gnucoop to describe forms.
 The tool can be installed with:
 
-```go get bitbucket.org/gnucoop/xls2ajf```
+```go get github.com/zan8rob/formconv```
 
 and used as:
 
-```xls2ajf form1.xlsx form2.xls form3.xls```
+```formconv form1.xlsx form2.xls form3.xls```
 
-xls2ajf implements a subset of the xlsform specification.
+formconv implements a subset of the xlsform specification.
 Supported features are listed in this document.
 
 ## Introduction to xlsforms
@@ -64,7 +64,7 @@ It is possible to flag questions as required, so that the user won't be able to 
 
 ## Grouping
 
-Questions can be grouped, as shown in the [introductory example](#markdown-header-introduction-to-xlsforms); groups can be nested.
+Questions can be grouped, as shown in the [introductory example](#introduction-to-xlsforms); groups can be nested.
 
 Ajf forms have the peculiarity of being organized in slides, which has implications on how groups are handled.
 Top-level groups are translated to slides, while inner groups are translated to ajf group nodes.
@@ -110,7 +110,7 @@ The feature can also be applied to groups.
 ## Formulas
 
 Formulas are used in the constraint, relevant and calculation columns.
-xls2ajf supports a subset of xlsform formulas.
+formconv supports a subset of xlsform formulas.
 In particular, the features involving nodesets are omitted, as ajf doesn't have an equivalent concept.
 
 Formulas are expressions composed of constants, question references, operators and functions.
@@ -125,7 +125,7 @@ Constants can be numbers, strings (delimited by 'single' or "double" quotes) or 
 
 To reference the value provided as answer to a question, use the expression `${question_name}`.
 The name must be a valid javascript identifier.
-`.` can be used to refer to the current question, as seen in the [constraint example](#markdown-header-constraints).
+`.` can be used to refer to the current question, as seen in the [constraint example](#constraints).
 
 ### Operators
 
@@ -149,15 +149,12 @@ The function call `if(cond, then, else)` is translated to the JavaScript `(cond 
 
 | Formula function        | JavaScript translation |
 |-------------------------|------------------------|
-|`regex(s, re)`           |`TODO: (new RegExp(re)).test(s)`|
 |`contains(s, t)`         |`(s).includes(t)`       |
 |`starts-with(s, t)`      |`(s).startsWith(t)`     |
 |`ends-with(s, t)`        |`(s).endsWith(t)`       |
 |`substr(s, start[, end])`|`(s).substring(start[, end])`|
-|`substring-before(s, t)` |`TODO`                  |
-|`substring-after(s, t)`  |`TODO`                  |
 |`string-length(s)`       |`(s).length`            |
-|`concat(s, t...)`        |`s + t + ...`           |
+|`concat(s, t...)`        |`(s).concat(t...)`      |
 |`string(x)`              |`String(x)`             |
 
 #### Mathematical Functions

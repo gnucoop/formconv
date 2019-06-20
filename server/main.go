@@ -7,7 +7,7 @@ import (
 	"os"
 	"path/filepath"
 
-	"bitbucket.org/gnucoop/xls2ajf/formats"
+	"github.com/zan8rob/formconv/formats"
 )
 
 func main() {
@@ -37,7 +37,7 @@ func convert(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintf(w, "Error decoding xlsform: %s", err)
 		return
 	}
-	ajf, err := formats.Xls2ajf(xls)
+	ajf, err := formats.Convert(xls)
 	if err != nil {
 		w.WriteHeader(http.StatusUnprocessableEntity)
 		fmt.Fprintf(w, "Error converting form: %s", err)

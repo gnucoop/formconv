@@ -364,4 +364,5 @@ var func2jsmethod = map[string]string{
 	"starts-with": "startsWith",
 	"ends-with":   "endsWith",
 	"substr":      "substring",
+	"concat":      "concat",
 }

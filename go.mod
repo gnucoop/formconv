@@ -1,4 +1,4 @@
-module bitbucket.org/gnucoop/xls2ajf
+module github.com/zan8rob/formconv
 
 go 1.12
 

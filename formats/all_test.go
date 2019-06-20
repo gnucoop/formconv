@@ -110,7 +110,7 @@ func TestNonformulaFeatures(t *testing.T) {
 
 	xls, err := DecXlsFromFile(in)
 	check(t, err)
-	ajf, err := Xls2ajf(xls)
+	ajf, err := Convert(xls)
 	check(t, err)
 	err = EncAjfToFile(out, ajf)
 	check(t, err)
@@ -170,7 +170,7 @@ func TestFormulaFeatures(t *testing.T) {
 
 	xls, err := DecXlsFromFile(in)
 	check(t, err)
-	ajf, err := Xls2ajf(xls)
+	ajf, err := Convert(xls)
 	check(t, err)
 	err = EncAjfToFile(out, ajf)
 	check(t, err)

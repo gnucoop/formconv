@@ -5,14 +5,14 @@ import (
 	"os"
 	"path/filepath"
 
-	"bitbucket.org/gnucoop/xls2ajf/formats"
+	"github.com/zan8rob/formconv/formats"
 )
 
 func main() {
 	if len(os.Args) <= 1 {
 		fmt.Fprintln(os.Stderr, `No input files provided.
-xls2ajf converts xlsform files to ajf. Usage:
-xls2ajf form1.xlsx form2.xls`)
+formconv converts xlsform files to ajf. Usage:
+formconv form1.xlsx form2.xls`)
 		return
 	}
 
@@ -30,7 +30,7 @@ func decXlsEncAjf(xlsName string) error {
 	if err != nil {
 		return fmt.Errorf("Error decoding file %s: %s", xlsShort, err)
 	}
-	ajf, err := formats.Xls2ajf(xls)
+	ajf, err := formats.Convert(xls)
 	if err != nil {
 		return fmt.Errorf("Error converting file %s: %s", xlsShort, err)
 	}
