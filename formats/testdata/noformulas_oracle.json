@@ -69,7 +69,7 @@
 					"parent": 1001,
 					"id": 1002,
 					"name": "note",
-					"label": "note",
+					"label": "",
 					"nodeType": 0,
 					"fieldType": 7,
 					"HTML": "Note"

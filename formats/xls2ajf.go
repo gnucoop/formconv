@@ -256,7 +256,7 @@ func (b *nodeBuilder) buildField(row *SurveyRow) (Node, error) {
 		field.FieldType = &FtMultipleChoice
 		field.ChoicesOriginRef = choiceName(row.Type)
 	case row.Type == "note":
-		field.Label = field.Name
+		field.Label = ""
 		field.FieldType = &FtNote
 		field.HTML = row.Label
 	case row.Type == "date":
