@@ -141,13 +141,9 @@ Round parentheses can be used in formulas.
 
 ### Functions
 
-#### Control Flow
-
-The function call `if(cond, then, else)` is translated to the JavaScript `(cond ? then : else)`.
-
 #### String Manipulation Functions
 
-| Formula function        | JavaScript translation |
+|Formula function         |JavaScript translation  |
 |-------------------------|------------------------|
 |`contains(s, t)`         |`(s).includes(t)`       |
 |`starts-with(s, t)`      |`(s).startsWith(t)`     |
@@ -162,6 +158,13 @@ The function call `if(cond, then, else)` is translated to the JavaScript `(cond 
 The following functions are available in formulas and are translated to the equivalent `Math` functions in JavaScript: `max`, `min`, `pow`, `log`, `log10`, `abs`, `sin`, `cos`, `tan`, `asin`, `acos`, `atan`, `atan2`, `sqrt`, `exp`, `random`.
 
 The `int` function corresponds to `Math.floor`. `number(x)` is translated to `Number(x)`.
+
+#### Other functions
+
+|Formula function         |JavaScript/ajf translation |Description |
+|-------------------------|---------------------------|------------|
+|`if(cond, then, else)`   |`(cond ? then : else)`     | |
+|`selected(mul, val)`     |`valueInChoice(mul, val)`  |returns true if `val` has been selected in the multiple choice question `mul` |
 
 ## Calculation
 
