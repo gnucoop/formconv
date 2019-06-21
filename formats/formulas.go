@@ -1,7 +1,6 @@
 package formats
 
 import (
-	"errors"
 	"fmt"
 	"strings"
 	"text/scanner"
@@ -13,39 +12,41 @@ type parser struct {
 	scanner.Scanner
 	strings.Builder
 	fieldName string // in formulas, "." will be equivalent to "${fieldName}"
+	err       error
 }
 
-func (p *parser) Parse(formula, fieldName string) (string, error) {
+func (p *parser) Parse(formula, formulaName, fieldName string) (js string, err error) {
 	p.Scanner.Init(strings.NewReader(formula))
 	p.Mode = scanner.ScanIdents | scanner.ScanInts | scanner.ScanFloats | scanner.ScanStrings
-	p.Error = scannerError
-	p.Filename = ""
+	p.Error = func(_ *scanner.Scanner, msg string) { p.error(msg) }
+	p.Filename = formulaName
 
 	p.Builder.Reset()
 	p.Grow(len(formula) * 2)
 
 	p.fieldName = fieldName
+	p.err = nil
 
 	p.parseExpression(scanner.EOF)
-	if p.ErrorCount > 0 {
-		return "", errors.New(p.Filename)
+	if p.err != nil {
+		return "", p.err
 	}
 	return p.Builder.String(), nil
 }
 
-// When the first error is encountered, it is stored inside Scanner.Position.Filename
-func scannerError(s *scanner.Scanner, msg string) {
-	if s.ErrorCount == 1 {
-		s.Filename = msg
-	}
-}
 func (p *parser) error(msg string) {
-	p.ErrorCount++
-	scannerError(&p.Scanner, msg)
+	if p.err != nil {
+		return
+	}
+	p.err = fmt.Errorf("formula %s:%d:%d: %s", p.Filename, p.Line, p.Column, msg)
 }
 
 func (p *parser) unexpectedTokError(tok rune) {
-	p.error(fmt.Sprintf("Unexpected token %s.", scanner.TokenString(tok)))
+	tokString := scanner.TokenString(tok)
+	if tok == scanner.Ident || tok == scanner.Int || tok == scanner.Float {
+		tokString = p.TokenText()
+	}
+	p.error(fmt.Sprintf("Unexpected token %s", tokString))
 }
 
 func (p *parser) consume(tok rune) {
@@ -206,7 +207,7 @@ func (p *parser) parseExpression(expectedEnd rune) {
 			p.WriteString(" === ")
 		case '!':
 			if p.Peek() != '=' {
-				p.error(`Unary operator "!" not supported.`)
+				p.error(`Unary operator "!" not supported, use "not" function.`)
 				return
 			}
 			p.consume('=')
@@ -263,7 +264,7 @@ func (p *parser) parseExpressionIdent(expectedEnd rune) {
 	case "starts", "ends", "substring", "string", "boolean":
 		p.parseFuncCall()
 	default:
-		p.error(fmt.Sprintf("Unrecognized identifier %q.", p.TokenText()))
+		p.error(fmt.Sprintf("Unknown identifier %q.", p.TokenText()))
 	}
 }
 

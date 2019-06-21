@@ -141,7 +141,7 @@ func TestFormulaParser(t *testing.T) {
 		`'hello \n \123 \xab \uabcd \Uabcd1234'`: `'hello \n \123 \xab \uabcd \Uabcd1234'`,
 	}
 	for formula, expected := range formulas {
-		js, err := p.Parse(formula, "fieldName")
+		js, err := p.Parse(formula, "formula", "fieldName")
 		if err != nil {
 			t.Fatalf("Error converting formula:\n%s\n%s\n", formula, err)
 		}
@@ -156,7 +156,7 @@ func TestFormulaParser(t *testing.T) {
 		`'\g'`, `'\12'`, `'\xax'`,
 	}
 	for _, formula := range errFormulas {
-		_, err := p.Parse(formula, "fieldName")
+		_, err := p.Parse(formula, "formula", "fieldName")
 		if err == nil {
 			t.Fatalf("Erroneus formula parsed successfully: %q", formula)
 		}

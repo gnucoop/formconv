@@ -32,7 +32,7 @@ func decXlsEncAjf(xlsName string) error {
 	}
 	ajf, err := formats.Convert(xls)
 	if err != nil {
-		return fmt.Errorf("Error converting file %s: %s", xlsShort, err)
+		return fmt.Errorf("%s, %s", xlsShort, err)
 	}
 	ext := filepath.Ext(xlsName)
 	ajfName := xlsName[0:len(xlsName)-len(ext)] + ".json"

@@ -82,7 +82,7 @@ func checkChoicesRef(survey []SurveyRow, choicesMap map[string][]Choice) error {
 func choiceName(rowType string) string { return rowType[strings.Index(rowType, " ")+1:] }
 
 func fmtSrcErr(lineNum int, format string, a ...interface{}) error {
-	return fmt.Errorf("(line %d) "+format, append([]interface{}{lineNum}, a...)...)
+	return fmt.Errorf("line %d: "+format, append([]interface{}{lineNum}, a...)...)
 }
 
 func checkTypes(survey []SurveyRow) error {
@@ -265,9 +265,9 @@ func (b *nodeBuilder) buildField(row *SurveyRow) (Node, error) {
 		field.FieldType = &FtTime
 	case row.Type == "calculate":
 		field.FieldType = &FtFormula
-		js, err := b.parser.Parse(row.Calculation, row.Name)
+		js, err := b.parser.Parse(row.Calculation, "calculation", row.Name)
 		if err != nil {
-			return Node{}, err
+			return Node{}, fmtSrcErr(row.LineNum, "%s", err)
 		}
 		field.Formula = &Formula{js}
 	default:
@@ -280,9 +280,9 @@ func (b *nodeBuilder) nodeVisibility(row *SurveyRow) (*NodeVisibility, error) {
 	if row.Relevant == "" {
 		return nil, nil
 	}
-	js, err := b.parser.Parse(row.Relevant, row.Name)
+	js, err := b.parser.Parse(row.Relevant, "relevant", row.Name)
 	if err != nil {
-		return nil, fmtSrcErr(row.LineNum, err.Error())
+		return nil, fmtSrcErr(row.LineNum, "%s", err)
 	}
 	return &NodeVisibility{Condition: js}, nil
 }
@@ -310,9 +310,9 @@ func (b *nodeBuilder) fieldValidation(row *SurveyRow) (*FieldValidation, error) 
 	if row.Constraint == "" {
 		return v, nil
 	}
-	js, err := b.parser.Parse(row.Constraint, row.Name)
+	js, err := b.parser.Parse(row.Constraint, "constraint", row.Name)
 	if err != nil {
-		return nil, fmtSrcErr(row.LineNum, err.Error())
+		return nil, fmtSrcErr(row.LineNum, "%s", err)
 	}
 	v.Conditions = append(v.Conditions, ValidationCondition{
 		Condition:        js,

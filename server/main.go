@@ -40,7 +40,7 @@ func convert(w http.ResponseWriter, r *http.Request) {
 	ajf, err := formats.Convert(xls)
 	if err != nil {
 		w.WriteHeader(http.StatusUnprocessableEntity)
-		fmt.Fprintf(w, "Error converting form: %s", err)
+		fmt.Fprintln(w, err)
 		return
 	}
 	err = formats.EncAjf(w, ajf)
