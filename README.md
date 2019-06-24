@@ -182,7 +182,7 @@ Other functions dealing with numbers:
 |-------------------------|---------------------------|------------|
 |`if(cond, then, else)`   |`(cond ? then : else)`     |            |
 |`selected(${mul}, val)`  |`valueInChoice(mul, val)`  |returns true if `val` has been selected <br> in the multiple choice question `mul` |
-|`count-selected(${mul})` |`mul.length`               |returns the number of options chosen in <br> the multiple choice question `mul` |
+|`count-selected(${mul})` |`mul.length`               |returns the number of options chosen <br> in the multiple choice question `mul` |
 
 ## Calculation
 
