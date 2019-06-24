@@ -250,7 +250,8 @@ func (p *parser) parseOperatorIdent() {
 
 // parseExpressionIdent parses an expression that starts with an identifier (already scanned).
 // It has to deal with the following function names that contain a minus:
-// starts-with, ends-with, substring-before, substring-after, string-length, boolean-from-string.
+// count-selected, starts-with, ends-with, substring-before,
+// substring-after, string-length, boolean-from-string.
 func (p *parser) parseExpressionIdent(expectedEnd rune) {
 	if p.Peek() == '(' {
 		p.parseFuncCall()
@@ -261,7 +262,7 @@ func (p *parser) parseExpressionIdent(expectedEnd rune) {
 		p.WriteString("true")
 	case "False":
 		p.WriteString("false")
-	case "starts", "ends", "substring", "string", "boolean":
+	case "count", "starts", "ends", "substring", "string", "boolean":
 		p.parseFuncCall()
 	default:
 		p.error(fmt.Sprintf("Unknown identifier %q.", p.TokenText()))
@@ -277,19 +278,6 @@ func (p *parser) parseFuncCall() {
 		name += p.TokenText()
 	}
 
-	if name == "if" {
-		// if(cond, then, else) becomes (cond ? then : else)
-		p.copy('(')
-		p.parseExpression(',') // cond
-		p.consume(',')
-		p.WriteString(" ? ")
-		p.parseExpression(',') // then
-		p.consume(',')
-		p.WriteString(" : ")
-		p.parseExpression(')') // else
-		p.copy(')')
-		return
-	}
 	if jsfunc, ok := func2jsfunc[name]; ok {
 		// func(arg1, arg2...) becomes jsfunc(arg1, arg2...)
 		p.WriteString(jsfunc)
@@ -310,15 +298,40 @@ func (p *parser) parseFuncCall() {
 		p.copy(')')
 		return
 	}
-	if name == "string-length" {
-		// string-length(s) becomes (s).length
+	if constant, ok := func2jsconstant[name]; ok {
+		// func() becomes constant
+		p.consume('(')
+		p.consume(')')
+		p.WriteString(constant)
+		return
+	}
+	switch name {
+	case "if":
+		// if(cond, then, else) becomes (cond ? then : else)
+		p.copy('(')
+		p.parseExpression(',') // cond
+		p.consume(',')
+		p.WriteString(" ? ")
+		p.parseExpression(',') // then
+		p.consume(',')
+		p.WriteString(" : ")
+		p.parseExpression(')') // else
+		p.copy(')')
+	case "string-length", "count-selected":
+		// string-length(s) and count-selected(s) become (s).length
 		p.copy('(')
 		p.parseExpression(')')
 		p.copy(')')
 		p.WriteString(".length")
-		return
+	case "exp10":
+		// exp10(x) becomes Math.pow(10, x)
+		p.consume('(')
+		p.WriteString("Math.pow(10, ")
+		p.parseExpression(')')
+		p.copy(')')
+	default:
+		p.error(fmt.Sprintf("Unsupported function %q.", name))
 	}
-	p.error(fmt.Sprintf("Unsupported function %q.", name))
 }
 
 func (p *parser) parseFuncArgs() {
@@ -354,11 +367,15 @@ var func2jsfunc = map[string]string{
 	"sqrt":   "Math.sqrt",
 	"exp":    "Math.exp",
 	"random": "Math.random",
+	"round":  "round",
 
 	// Conversion functions:
-	"string": "String",
-	"number": "Number",
+	"string":  "String",
+	"number":  "Number",
+	"boolean": "Boolean",
 
+	// Others:
+	"not":      "!",
 	"selected": "valueInChoice",
 }
 var func2jsmethod = map[string]string{
@@ -368,4 +385,9 @@ var func2jsmethod = map[string]string{
 	"ends-with":   "endsWith",
 	"substr":      "substring",
 	"concat":      "concat",
+}
+var func2jsconstant = map[string]string{
+	"pi":    "Math.PI",
+	"true":  "true",
+	"false": "false",
 }

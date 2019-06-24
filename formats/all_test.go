@@ -133,10 +133,12 @@ func TestFormulaParser(t *testing.T) {
 		`1 + 2 - 3 * 4 div 5 mod 6`:              `1 + 2 - 3*4/5%6`,
 		`1 < 2 and 3 <= 4 or 5 > 6 and 7 >= 8`:   `1 < 2 && 3 <= 4 || 5 > 6 && 7 >= 8`,
 		`True = False`:                           `true === false`,
-		`if("banana", 1, 2)`:                     `("banana" ? 1 : 2)`,
 		`pow(sin(7) + (9))`:                      `Math.pow(Math.sin(7) + (9))`,
 		`contains("abc", "b")`:                   `("abc").includes("b")`,
+		`pi() and true()`:                        `Math.PI && true`,
+		`if("banana", 1, 2)`:                     `("banana" ? 1 : 2)`,
 		`string-length("hello")`:                 `("hello").length`,
+		`exp10(${x})`:                            `Math.pow(10, x)`,
 		`+(-(+(-5)))`:                            `+(-(+(-5)))`,
 		`'hello \n \123 \xab \uabcd \Uabcd1234'`: `'hello \n \123 \xab \uabcd \Uabcd1234'`,
 	}

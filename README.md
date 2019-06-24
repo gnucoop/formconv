@@ -157,14 +157,32 @@ Round parentheses can be used in formulas.
 
 The following functions are available in formulas and are translated to the equivalent `Math` functions in JavaScript: `max`, `min`, `pow`, `log`, `log10`, `abs`, `sin`, `cos`, `tan`, `asin`, `acos`, `atan`, `atan2`, `sqrt`, `exp`, `random`.
 
-The `int` function corresponds to `Math.floor`. `number(x)` is translated to `Number(x)`.
+Other functions dealing with numbers:
+
+|Formula function |JavaScript/ajf translation |
+|-----------------|---------------------------|
+|`int(x)`         |`Math.floor(x)`            |
+|`round(x, d)`    |`round(x, d)` (ajf function, rounds `x` to `d` digits) |
+|`exp10(x)`       |`Math.pow(10, x)`          |
+|`pi()`           |`Math.PI`                  |
+|`number(x)`      |`Number(x)`                |
+
+#### Boolean functions
+
+|Formula function |JavaScript translation |
+|-----------------|-----------------------|
+|`not(x)`         |`!(x)`                 |
+|`true()`         |`true`                 |
+|`false()`        |`false`                |
+|`boolean(x)`     |`Boolean(x)`           |
 
 #### Other functions
 
 |Formula function         |JavaScript/ajf translation |Description |
 |-------------------------|---------------------------|------------|
-|`if(cond, then, else)`   |`(cond ? then : else)`     | |
-|`selected(mul, val)`     |`valueInChoice(mul, val)`  |returns true if `val` has been selected in the multiple choice question `mul` |
+|`if(cond, then, else)`   |`(cond ? then : else)`     |            |
+|`selected(${mul}, val)`  |`valueInChoice(mul, val)`  |returns true if `val` has been selected <br> in the multiple choice question `mul` |
+|`count-selected(${mul})` |`mul.length`               |returns the number of options chosen in <br> the multiple choice question `mul` |
 
 ## Calculation
 
