@@ -49,17 +49,17 @@ func (p *parser) unexpectedTokError(tok rune) {
 	p.error(fmt.Sprintf("Unexpected token %s", tokString))
 }
 
-func (p *parser) consume(tok rune) {
-	t := p.Scan()
-	if t != tok {
+func (p *parser) consume(ch rune) {
+	tok := p.Scan()
+	if tok != ch {
 		p.error(fmt.Sprintf("Expected %s, found %s.",
-			scanner.TokenString(tok), scanner.TokenString(t)))
+			scanner.TokenString(ch), scanner.TokenString(tok)))
 	}
 }
 
-func (p *parser) copy(ch byte) {
-	p.consume(rune(ch))
-	p.WriteByte(ch)
+func (p *parser) copy(ch rune) {
+	p.consume(ch)
+	p.WriteRune(ch)
 }
 
 func (p *parser) peekNonspace() rune {
@@ -158,7 +158,7 @@ func (p *parser) parseExpression(expectedEnd rune) {
 				p.unexpectedTokError(p.Next())
 				return
 			}
-			p.WriteByte(byte(tok))
+			p.WriteRune(tok)
 			continue
 		case '$':
 			p.consume('{')
