@@ -317,6 +317,16 @@ func (p *parser) parseFuncCall() {
 		p.WriteString(" : ")
 		p.parseExpression(')') // else
 		p.copy(')')
+	case "regex":
+		// regex(s, re) becomes ((s).match(re) !== null)
+		p.consume('(')
+		p.WriteString("((")
+		p.parseExpression(',') // s
+		p.consume(',')
+		p.WriteString(").match(")
+		p.parseExpression(')') // re
+		p.consume(')')
+		p.WriteString(") !== null)")
 	case "string-length", "count-selected":
 		// string-length(s) and count-selected(s) become (s).length
 		p.copy('(')

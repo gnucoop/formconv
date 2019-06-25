@@ -137,6 +137,7 @@ func TestFormulaParser(t *testing.T) {
 		`contains("abc", "b")`:                   `("abc").includes("b")`,
 		`pi() and true()`:                        `Math.PI && true`,
 		`if("banana", 1, 2)`:                     `("banana" ? 1 : 2)`,
+		`regex("s", "re")`:                       `(("s").match("re") !== null)`,
 		`string-length("hello")`:                 `("hello").length`,
 		`exp10(${x})`:                            `Math.pow(10, x)`,
 		`+(-(+(-5)))`:                            `+(-(+(-5)))`,

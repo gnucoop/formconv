@@ -143,15 +143,16 @@ Round parentheses can be used in formulas.
 
 #### String Manipulation Functions
 
-|Formula function         |JavaScript translation  |
-|-------------------------|------------------------|
-|`contains(s, t)`         |`(s).includes(t)`       |
-|`starts-with(s, t)`      |`(s).startsWith(t)`     |
-|`ends-with(s, t)`        |`(s).endsWith(t)`       |
+|Formula function         |JavaScript translation |
+|-------------------------|-----------------------|
+|`regex(s, re)`           |`((s).match(re) !== null)`|
+|`contains(s, t)`         |`(s).includes(t)`      |
+|`starts-with(s, t)`      |`(s).startsWith(t)`    |
+|`ends-with(s, t)`        |`(s).endsWith(t)`      |
 |`substr(s, start[, end])`|`(s).substring(start[, end])`|
-|`string-length(s)`       |`(s).length`            |
-|`concat(s, t...)`        |`(s).concat(t...)`      |
-|`string(x)`              |`String(x)`             |
+|`string-length(s)`       |`(s).length`           |
+|`concat(s, t...)`        |`(s).concat(t...)`     |
+|`string(x)`              |`String(x)`            |
 
 #### Mathematical Functions
 
@@ -178,11 +179,11 @@ Other functions dealing with numbers:
 
 #### Other functions
 
-|Formula function         |JavaScript/ajf translation |Description |
-|-------------------------|---------------------------|------------|
-|`if(cond, then, else)`   |`(cond ? then : else)`     |            |
-|`selected(${mul}, val)`  |`valueInChoice(mul, val)`  |returns true if `val` has been selected <br> in the multiple choice question `mul` |
-|`count-selected(${mul})` |`mul.length`               |returns the number of options chosen <br> in the multiple choice question `mul` |
+|Formula function        |JavaScript/ajf translation |Description |
+|------------------------|---------------------------|------------|
+|`if(cond, then, else)`  |`(cond ? then : else)`     |            |
+|`selected(${mul}, val)` |`valueInChoice(mul, val)`  |returns true if `val` has been selected <br> in the multiple choice question `mul` |
+|`count-selected(${mul})`|`(mul).length`             |returns the number of options chosen <br> in the multiple choice question `mul` |
 
 ## Calculation
 
