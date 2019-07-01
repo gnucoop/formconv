@@ -23,6 +23,8 @@ func main() {
 }
 
 func convert(w http.ResponseWriter, r *http.Request) {
+	enableCors(w)
+
 	f, head, err := r.FormFile("excelFile")
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
@@ -47,4 +49,8 @@ func convert(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Printf("Error writing json response: %s", err)
 	}
+}
+
+func enableCors(w http.ResponseWriter) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
 }
