@@ -17,40 +17,30 @@ func main() {
 	}
 
 	http.Handle("/", http.FileServer(http.Dir("server/static")))
-	http.HandleFunc("/result.json", handleConversion)
+	http.HandleFunc("/result.json", convert)
 
 	log.Fatal(http.ListenAndServe(":"+port, nil))
 }
 
-func handleConversion(w http.ResponseWriter, r *http.Request) {
+func setAllowOrigins(h http.Header) { h.Set("Access-Control-Allow-Origin", "*") }
+
+func convert(w http.ResponseWriter, r *http.Request) {
+	setAllowOrigins(w.Header())
+
 	switch r.Method {
 	case http.MethodOptions:
-		optionsConversion(w, r)
+		// OK
 	case http.MethodGet:
-		getConversion(w, r)
+		fmt.Fprintln(w, "You should POST an excel file here.")
 	case http.MethodPost:
-		postConversion(w, r)
+		convertPost(w, r)
 	default:
 		w.WriteHeader(http.StatusBadRequest)
 		fmt.Fprintf(w, "Unsupported method %s", r.Method)
 	}
 }
 
-func setAllowOrigins(h http.Header) {
-	h.Set("Access-Control-Allow-Origin", "*")
-}
-
-func optionsConversion(w http.ResponseWriter, r *http.Request) {
-	setAllowOrigins(w.Header())
-	w.WriteHeader(http.StatusOK)
-}
-
-func getConversion(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintln(w, "You should POST an excel file here.")
-}
-
-func postConversion(w http.ResponseWriter, r *http.Request) {
-	setAllowOrigins(w.Header())
+func convertPost(w http.ResponseWriter, r *http.Request) {
 	f, head, err := r.FormFile("excelFile")
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
