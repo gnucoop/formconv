@@ -24,6 +24,10 @@ func main() {
 
 func convert(w http.ResponseWriter, r *http.Request) {
 	enableCors(w)
+	if r.Method == http.MethodOptions {
+		w.WriteHeader(http.StatusOK)
+		return
+	}
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 
 	f, head, err := r.FormFile("excelFile")
