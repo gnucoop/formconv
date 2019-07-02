@@ -36,17 +36,21 @@ func handleConversion(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+func setAllowOrigins(h http.Header) {
+	h.Set("Access-Control-Allow-Origin", "*")
+}
+
 func optionsConversion(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Access-Control-Allow-Origin", "*")
+	setAllowOrigins(w.Header())
 	w.WriteHeader(http.StatusOK)
 }
 
 func getConversion(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "%s %s", "You should POST an excel file here;",
-		`<a href="/index.html">go to the index page</a>`)
+	fmt.Fprintln(w, "You should POST an excel file here.")
 }
 
 func postConversion(w http.ResponseWriter, r *http.Request) {
+	setAllowOrigins(w.Header())
 	f, head, err := r.FormFile("excelFile")
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
