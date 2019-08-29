@@ -2,6 +2,7 @@ package formats
 
 import (
 	"fmt"
+	"math"
 	"sort"
 	"strconv"
 	"strings"
@@ -175,12 +176,11 @@ func (b *nodeBuilder) buildGroup(survey []SurveyRow) (Node, error) {
 	if row.Type == beginRepeat {
 		group.Type = NtRepeatingSlide
 		if row.RepeatCount != "" {
-			reps, err := strconv.ParseUint(row.RepeatCount, 10, 16)
-			if err != nil {
-				return Node{}, fmtSrcErr(row.LineNum, "repeat_count is not an uint16.")
+			reps, ok := parseExcelUint(row.RepeatCount)
+			if !ok {
+				return Node{}, fmtSrcErr(row.LineNum, "repeat_count is not an unsigned integer.")
 			}
-			group.MaxReps = new(int)
-			*group.MaxReps = int(reps)
+			group.MaxReps = &reps
 		}
 	}
 	for i := 1; i < len(survey); i++ {
@@ -209,6 +209,15 @@ func (b *nodeBuilder) buildGroup(survey []SurveyRow) (Node, error) {
 		}
 	}
 	return group, nil
+}
+
+func parseExcelUint(s string) (i int, ok bool) {
+	// xlsx files from google sheets may contain ints like 1.23e2
+	f, err := strconv.ParseFloat(s, 64)
+	if err != nil || f < 0 || f > math.MaxInt32 || f != math.Floor(f) {
+		return -1, false
+	}
+	return int(f), true
 }
 
 func groupEnd(survey []SurveyRow, groupStart int) int {
