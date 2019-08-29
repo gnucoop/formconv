@@ -232,9 +232,14 @@ func firstNonempty(rows [][]string) int {
 }
 
 func columnIndex(row []string, name string) int {
-	engName := name + "::English (en)"
 	for i, cell := range row {
-		if cell == name || cell == engName {
+		if cell == name {
+			return i
+		}
+	}
+	name = name + "::English (en)"
+	for i, cell := range row {
+		if cell == name {
 			return i
 		}
 	}
