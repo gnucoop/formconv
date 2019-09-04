@@ -186,6 +186,50 @@ func TestFormulaFeatures(t *testing.T) {
 	}
 }
 
+func TestListLanguages(t *testing.T) {
+	if l := ListLanguages(nil); l != nil {
+		t.Fatalf("ListLanguages(nil) expected to be nil, found %v", l)
+	}
+	rows := [][]string{
+		{"type", "label", "label::English (en)", "label::French (fr)", "label::Italian (it)"},
+	}
+	list := ListLanguages(rows)
+	expected := map[string]bool{"fr": true, "it": true}
+	if !reflect.DeepEqual(list, expected) {
+		t.Fatalf("Error listing languages of\n%v\nexpected: %v\nfound: %v", rows, list, expected)
+	}
+}
+
+func TestTranslationIndex(t *testing.T) {
+	if i := translationIndex(nil, "foo", "bar"); i != -1 {
+		t.Fatalf("translationIndex(nil, \"foo\", \"bar\") expected to be -1, found %d", i)
+	}
+	row := []string{"type", "label", "label::English (en)", "label::French (fr)", "label::Italian (it)"}
+	if i := translationIndex(row, "label", "fr"); i != 3 {
+		t.Fatalf("translationIndex(%v, \"label\", \"fr\")\nexpected to be 3, found %d", row, i)
+	}
+	if i := translationIndex(row, "type", "en"); i != -1 {
+		t.Fatalf("translationIndex(%v, \"type\", \"en\")\nexpected to be -1, found %d", row, i)
+	}
+}
+
+func TestTranslation(t *testing.T) {
+	if tr := Translation(nil, "en"); tr != nil {
+		t.Fatalf("Translation(nil, \"en\") expected to be nil, found %v", tr)
+	}
+	rows := [][]string{
+		{"", "", ""},
+		{"type", "label", "label::Italian (it)"},
+		{"text", "cheese", "formaggio"},
+		{"number", "bread", "pane"},
+	}
+	tr := Translation(rows, "it")
+	expected := map[string]string{"cheese": "formaggio", "bread": "pane"}
+	if !reflect.DeepEqual(tr, expected) {
+		t.Fatalf("Error translating %v\nexpected: %v\n got: %v", rows, expected, tr)
+	}
+}
+
 func BenchmarkDecXls(b *testing.B) {
 	for n := 0; n < b.N; n++ {
 		_, err := DecXlsFromFile("testdata/Picaps_baseline_form.xls")
