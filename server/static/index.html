@@ -6,11 +6,21 @@
 </head>
 
 <body>
-Please, upload your xlsform excel file! :)
+Convert your xlsform to ajf:
 <br>
 <br>
 <form enctype="multipart/form-data" action="/result.json" method="post">
 	<input type="file" accept=".xls,.xlsx" name="excelFile">
+	<input type="submit" value="Go!">
+</form>
+<br>
+<br>
+or generate a translation file:
+<br>
+<br>
+<form enctype="multipart/form-data" action="/translation.json" method="post">
+	<input type="file" accept=".xls,.xlsx" name="excelFile">
+	language: <input type="text" name="lang" placeholder="example: fr">
 	<input type="submit" value="Go!">
 </form>
 </body>

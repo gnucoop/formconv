@@ -6,6 +6,7 @@ import (
 	"os"
 	"path/filepath"
 	"reflect"
+	"strings"
 
 	"github.com/extrame/xls"
 	"github.com/tealeg/xlsx"
@@ -244,4 +245,85 @@ func columnIndex(row []string, name string) int {
 		}
 	}
 	return -1
+}
+
+func ListLanguages(rows [][]string) map[string]bool {
+	headIndex := firstNonempty(rows)
+	if headIndex == -1 {
+		return nil
+	}
+	langs := make(map[string]bool)
+	for _, cell := range rows[headIndex] {
+		_, lang := splitLang(cell)
+		if lang != "en" {
+			langs[lang] = true
+		}
+	}
+	return langs
+}
+
+func splitLang(cell string) (name, lang string) {
+	name = cell
+	lang = "en"
+
+	i := strings.Index(name, "::")
+	if i == -1 {
+		return
+	}
+	l := strings.LastIndexByte(cell, '(')
+	r := strings.LastIndexByte(cell, ')')
+	if l == -1 || r == -1 || l > r || l < i {
+		return
+	}
+	name = cell[0:i]
+	lang = cell[l+1 : r]
+	return
+}
+
+func Translation(rows [][]string, targetLang string) map[string]string {
+	headIndex := firstNonempty(rows)
+	if headIndex == -1 {
+		return nil
+	}
+	head := rows[headIndex]
+	translation := make(map[string]string)
+	for en, cell := range head {
+		name, sourceLang := splitLang(cell)
+		if name == "" || sourceLang != "en" {
+			continue
+		}
+		tr := translationIndex(head, name, targetLang)
+		if tr == -1 {
+			continue
+		}
+		for j := headIndex + 1; j < len(rows); j++ {
+			row := rows[j]
+			if row[en] != "" {
+				translation[row[en]] = row[tr]
+			}
+		}
+	}
+	return translation
+}
+
+func translationIndex(head []string, name, lang string) int {
+	prefix := name + "::"
+	suffix := "(" + lang + ")"
+	for i, cell := range head {
+		if strings.HasPrefix(cell, prefix) && strings.HasSuffix(cell, suffix) {
+			return i
+		}
+	}
+	return -1
+}
+
+func MergeMaps(a, b map[string]string) map[string]string {
+	res := make(map[string]string)
+	for k, v := range a {
+		res[k] = v
+	}
+	for k, v := range b {
+		res[k] = v
+	}
+	return res
 }
