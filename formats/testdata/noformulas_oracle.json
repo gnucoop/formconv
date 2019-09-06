@@ -89,6 +89,14 @@
 					"label": "Time",
 					"nodeType": 0,
 					"fieldType": 10
+				},
+				{
+					"parent": 1004,
+					"id": 1005,
+					"name": "barcode",
+					"label": "Barcode",
+					"nodeType": 0,
+					"fieldType": 13
 				}
 			]
 		},
