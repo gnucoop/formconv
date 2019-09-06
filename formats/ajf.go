@@ -92,14 +92,14 @@ type NodeVisibility struct {
 	Condition string `json:"condition"`
 }
 
-func EncAjf(w io.Writer, ajf *AjfForm) error {
+func EncIndentedJson(w io.Writer, e interface{}) error {
 	enc := json.NewEncoder(w)
 	enc.SetIndent("", "\t")
 	enc.SetEscapeHTML(false)
-	return enc.Encode(ajf)
+	return enc.Encode(e)
 }
 
-func EncAjfToFile(fileName string, ajf *AjfForm) (err error) {
+func EncJsonToFile(fileName string, e interface{}) (err error) {
 	var f *os.File
 	f, err = os.Create(fileName)
 	if err != nil {
@@ -113,7 +113,7 @@ func EncAjfToFile(fileName string, ajf *AjfForm) (err error) {
 	}()
 
 	w := bufio.NewWriter(f)
-	err = EncAjf(w, ajf)
+	err = EncIndentedJson(w, e)
 	if err != nil {
 		return err
 	}

@@ -70,12 +70,7 @@ type File interface {
 	io.Seeker
 }
 
-func DecXls(f File, ext string, size int64) (*XlsForm, error) {
-	wb, err := NewWorkBook(f, ext, size)
-	if err != nil {
-		return nil, err
-	}
-
+func DecXlsform(wb WorkBook) (*XlsForm, error) {
 	var form XlsForm
 	formVal := reflect.ValueOf(&form).Elem()
 	for s, sheetInfo := range sheetInfos {
@@ -133,7 +128,11 @@ func DecXlsFromFile(fileName string) (*XlsForm, error) {
 	if err != nil {
 		return nil, fmt.Errorf("Couldn't get file stat: %s", err)
 	}
-	return DecXls(f, filepath.Ext(fileName), stat.Size())
+	wb, err := NewWorkBook(f, filepath.Ext(fileName), stat.Size())
+	if err != nil {
+		return nil, err
+	}
+	return DecXlsform(wb)
 }
 
 type WorkBook interface {

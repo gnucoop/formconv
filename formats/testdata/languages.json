@@ -1,0 +1,50 @@
+{
+	"choicesOrigins": [
+		{
+			"type": "fixed",
+			"name": "mealtime",
+			"choicesType": "string",
+			"choices": [
+				{
+					"value": "breakfast",
+					"label": "Breakfast"
+				},
+				{
+					"value": "lunch",
+					"label": "Lunch"
+				},
+				{
+					"value": "dinner",
+					"label": "Dinner"
+				}
+			]
+		}
+	],
+	"nodes": [
+		{
+			"parent": 0,
+			"id": 1,
+			"name": "form",
+			"label": "Form",
+			"nodeType": 3,
+			"nodes": [
+				{
+					"parent": 1,
+					"id": 1001,
+					"name": "cheese",
+					"label": "Cheese",
+					"nodeType": 0,
+					"fieldType": 0
+				},
+				{
+					"parent": 1001,
+					"id": 1002,
+					"name": "bread",
+					"label": "Bread",
+					"nodeType": 0,
+					"fieldType": 0
+				}
+			]
+		}
+	]
+}

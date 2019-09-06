@@ -51,7 +51,13 @@ func convertPost(w http.ResponseWriter, r *http.Request) {
 	}
 	defer f.Close()
 
-	xls, err := formats.DecXls(f, filepath.Ext(head.Filename), head.Size)
+	wb, err := formats.NewWorkBook(f, filepath.Ext(head.Filename), head.Size)
+	if err != nil {
+		w.WriteHeader(http.StatusUnprocessableEntity)
+		fmt.Fprintf(w, "Error opening workbook: %s", err)
+		return
+	}
+	xls, err := formats.DecXlsform(wb)
 	if err != nil {
 		w.WriteHeader(http.StatusUnprocessableEntity)
 		fmt.Fprintf(w, "Error decoding xlsform: %s", err)
@@ -64,7 +70,7 @@ func convertPost(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
-	err = formats.EncAjf(w, ajf)
+	err = formats.EncIndentedJson(w, ajf)
 	if err != nil {
 		log.Printf("Error writing json response: %s", err)
 	}
