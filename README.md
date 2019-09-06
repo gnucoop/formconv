@@ -196,3 +196,11 @@ Calculations can be performed using the values of other questions:
 |calculate |tip       |5% tip is:          |`${amount} * 0.05`|
 
 The results of calculations will appear as read-only fields in the form.
+
+## Multiple language support
+
+A form may include multiple languages with the following syntax:
+
+|type      |name      |label::English (en) |label::Español (es)   |
+|----------|----------|--------------------|----------------------|
+|integer   |age       |How old are you?    |¿Cuántos años tienes? |
