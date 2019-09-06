@@ -71,6 +71,8 @@ var (
 	FtNote           FieldType = 7
 	FtDate           FieldType = 9
 	FtTime           FieldType = 10
+	FtGeolocation    FieldType = 12
+	FtBarcode        FieldType = 13
 )
 
 type Formula struct {

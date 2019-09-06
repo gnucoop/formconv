@@ -279,6 +279,8 @@ func (b *nodeBuilder) buildField(row *SurveyRow) (Node, error) {
 			return Node{}, fmtSrcErr(row.LineNum, "%s", err)
 		}
 		field.Formula = &Formula{js}
+	case row.Type == "barcode":
+		field.FieldType = &FtBarcode
 	default:
 		panic("unexpected row type")
 	}
@@ -357,6 +359,7 @@ const (
 var supportedField = map[string]bool{
 	"decimal": true, "integer": true, "text": true, "boolean": true,
 	"note": true, "date": true, "time": true, "calculate": true,
+	"barcode": true,
 }
 
 func isSupportedField(typ string) bool {
@@ -368,7 +371,7 @@ func isSelectMultiple(typ string) bool { return strings.HasPrefix(typ, "select_m
 var unsupportedField = map[string]bool{
 	"range": true, "geopoint": true, "geotrace": true, "geoshape": true,
 	"datetime": true, "image": true, "audio": true, "video": true, "file": true,
-	"barcode": true, "acknowledge": true, "hidden": true, "xml-external": true,
+	"acknowledge": true, "hidden": true, "xml-external": true,
 	// metadata:
 	"start": true, "end": true, "today": true, "deviceid": true, "subscriberid": true,
 	"simserial": true, "phonenumber": true, "username": true, "email": true,
