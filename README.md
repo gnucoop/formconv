@@ -53,6 +53,7 @@ The following table lists the supported question types.
 |note            |empty           |Inserts an HTML note in the form |
 |date            |date input      |A date          |
 |time            |time            |Time            |
+|barcode         |barcode         |A barcode       |
 |calculate       |formula         |Perform a [calculation](#calculation) |
 
 ## Required
