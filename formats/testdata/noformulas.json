@@ -97,6 +97,14 @@
 					"label": "Barcode",
 					"nodeType": 0,
 					"fieldType": 13
+				},
+				{
+					"parent": 1005,
+					"id": 1006,
+					"name": "geopoint",
+					"label": "Geopoint",
+					"nodeType": 0,
+					"fieldType": 12
 				}
 			]
 		},

@@ -279,6 +279,9 @@ func (b *nodeBuilder) buildField(row *SurveyRow) (Node, error) {
 			return Node{}, fmtSrcErr(row.LineNum, "%s", err)
 		}
 		field.Formula = &Formula{js}
+	case row.Type == "geopoint":
+		field.FieldType = &FtGeolocation
+		// may want to do field.TileLayer = row.Label
 	case row.Type == "barcode":
 		field.FieldType = &FtBarcode
 	default:
@@ -359,7 +362,7 @@ const (
 var supportedField = map[string]bool{
 	"decimal": true, "integer": true, "text": true, "boolean": true,
 	"note": true, "date": true, "time": true, "calculate": true,
-	"barcode": true,
+	"barcode": true, "geopoint": true,
 }
 
 func isSupportedField(typ string) bool {
@@ -369,7 +372,7 @@ func isSelectOne(typ string) bool      { return strings.HasPrefix(typ, "select_o
 func isSelectMultiple(typ string) bool { return strings.HasPrefix(typ, "select_multiple ") }
 
 var unsupportedField = map[string]bool{
-	"range": true, "geopoint": true, "geotrace": true, "geoshape": true,
+	"range": true, "geotrace": true, "geoshape": true,
 	"datetime": true, "image": true, "audio": true, "video": true, "file": true,
 	"acknowledge": true, "hidden": true, "xml-external": true,
 	// metadata:
