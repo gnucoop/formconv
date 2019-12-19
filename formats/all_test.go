@@ -79,6 +79,7 @@ func TestPreprocessGroups(t *testing.T) {
 		{{Type: beginRepeat}, {Type: endGroup}, {Type: endRepeat}},
 		{{Type: beginRepeat}, {Type: beginGroup}},
 		{{Type: beginRepeat}, {Type: endRepeat}, {Type: "text"}},
+		{{Type: "text"}},
 	}
 	for _, errSurvey := range errSurveys {
 		_, err := preprocessGroups(errSurvey)
@@ -87,18 +88,18 @@ func TestPreprocessGroups(t *testing.T) {
 		}
 	}
 
-	survey := []SurveyRow{{Type: "text"}}
+	survey := []SurveyRow{{Type: beginGroup}, {Type: "text"}, {Type: endGroup}}
 	processed, err := preprocessGroups(survey)
 	check(t, err)
 	expected := []SurveyRow{
 		{Type: beginGroup, Name: "global"},
-		{Type: beginGroup, Name: "form", Label: "Form"},
+		{Type: beginGroup},
 		{Type: "text"},
 		{Type: endGroup},
 		{Type: endGroup},
 	}
 	if !reflect.DeepEqual(processed, expected) {
-		t.Error(`Error wrapping []SurveyRow{{Type: "text"}}, unexpected result:`)
+		t.Error(`Error preprocessing groups, unexpected result:`)
 		logFatalDiff(t, processed, expected)
 	}
 }

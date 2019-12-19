@@ -109,7 +109,6 @@ func checkTypes(survey []SurveyRow) error {
 func preprocessGroups(survey []SurveyRow) ([]SurveyRow, error) {
 	var stack []*SurveyRow
 	ungroupedQLine := -1
-	repeatLine := -1
 	for i := range survey {
 		row := &survey[i]
 		switch row.Type {
@@ -117,7 +116,6 @@ func preprocessGroups(survey []SurveyRow) ([]SurveyRow, error) {
 			if len(stack) > 0 {
 				return nil, fmtSrcErr(row.LineNum, "Repeats can't be nested.")
 			}
-			repeatLine = row.LineNum
 			fallthrough
 		case beginGroup:
 			stack = append(stack, row)
@@ -135,16 +133,8 @@ func preprocessGroups(survey []SurveyRow) ([]SurveyRow, error) {
 	if len(stack) > 0 {
 		return nil, fmtSrcErr(stack[len(stack)-1].LineNum, "Unclosed group/repeat.")
 	}
-	if ungroupedQLine != -1 && repeatLine != -1 {
-		return nil, fmt.Errorf(
-			"Can't have ungrouped questions (line %d) and repeats (line %d) in the same file.",
-			ungroupedQLine, repeatLine,
-		)
-	}
 	if ungroupedQLine != -1 {
-		// Wrap everything into a slide.
-		survey = append([]SurveyRow{{Type: beginGroup, Name: "form", Label: "Form"}}, survey...)
-		survey = append(survey, SurveyRow{Type: endGroup})
+		return nil, fmtSrcErr(ungroupedQLine, "Ungrouped question.")
 	}
 	// Wrap everything into a global group,
 	// it allows building the form with a single call to buildGroup.
