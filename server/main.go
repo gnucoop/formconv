@@ -17,7 +17,7 @@ func main() {
 		log.Fatal("$PORT must be set!")
 	}
 
-	http.Handle("/", http.FileServer(http.Dir("server/static")))
+	http.Handle("/", http.FileServer(http.Dir("./server/static")))
 	http.HandleFunc("/result.json", convert)
 	http.HandleFunc("/translation.json", translate)
 
