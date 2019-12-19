@@ -117,8 +117,9 @@ formconv supports a subset of xlsform formulas.
 In particular, the features involving nodesets are omitted, as ajf doesn't have an equivalent concept.
 
 Formulas are expressions composed of constants, question references, operators and functions.
-The expressions are parsed and converted to JavaScript.
-No semantical analysis is done and the tool may produce invalid JavaScript like `45 + true`.
+
+Since ajf works with JavaScript expressions, formulas are parsed and converted to JavaScript (with no semantical analysis).
+It is possible to write formulas directly in JavaScript, by adding the prefix `js:`, as in `js: Date.now()`.
 
 ### Constants
 

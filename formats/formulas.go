@@ -16,6 +16,10 @@ type parser struct {
 }
 
 func (p *parser) Parse(formula, formulaName, fieldName string) (js string, err error) {
+	if strings.HasPrefix(formula, "js:") {
+		return strings.TrimSpace(formula[3:]), nil
+	}
+
 	p.Scanner.Init(strings.NewReader(formula))
 	p.Mode = scanner.ScanIdents | scanner.ScanInts | scanner.ScanFloats | scanner.ScanStrings
 	p.Error = func(_ *scanner.Scanner, msg string) { p.error(msg) }

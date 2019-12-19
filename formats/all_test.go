@@ -143,6 +143,7 @@ func TestFormulaParser(t *testing.T) {
 		`exp10(${x})`:                            `Math.pow(10, x)`,
 		`+(-(+(-5)))`:                            `+(-(+(-5)))`,
 		`'hello \n \123 \xab \uabcd \Uabcd1234'`: `'hello \n \123 \xab \uabcd \Uabcd1234'`,
+		`js: igfrriygefriubh`:                    `igfrriygefriubh`,
 	}
 	for formula, expected := range formulas {
 		js, err := p.Parse(formula, "formula", "fieldName")
