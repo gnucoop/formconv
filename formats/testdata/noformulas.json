@@ -32,7 +32,7 @@
 				{
 					"parent": 1,
 					"id": 1001,
-					"name": "nested group",
+					"name": "nested_group",
 					"label": "Nested Group",
 					"nodeType": 2,
 					"nodes": [
@@ -111,14 +111,14 @@
 		{
 			"parent": 1,
 			"id": 2,
-			"name": "toplevel group",
+			"name": "toplevel_group",
 			"label": "Toplevel Group",
 			"nodeType": 3,
 			"nodes": [
 				{
 					"parent": 2,
 					"id": 2001,
-					"name": "single mealtime",
+					"name": "single_mealtime",
 					"label": "Single Mealtime",
 					"nodeType": 0,
 					"fieldType": 4,
@@ -127,7 +127,7 @@
 				{
 					"parent": 2001,
 					"id": 2002,
-					"name": "multiple mealtime",
+					"name": "multiple_mealtime",
 					"label": "Multiple Mealtime",
 					"nodeType": 0,
 					"fieldType": 5,

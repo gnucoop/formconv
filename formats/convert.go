@@ -6,10 +6,15 @@ import (
 	"sort"
 	"strconv"
 	"strings"
+	"unicode"
 )
 
 func Convert(xls *XlsForm) (*AjfForm, error) {
 	err := checkTypes(xls.Survey)
+	if err != nil {
+		return nil, err
+	}
+	err = checkNames(xls.Survey)
 	if err != nil {
 		return nil, err
 	}
@@ -104,6 +109,40 @@ func checkTypes(survey []SurveyRow) error {
 		}
 	}
 	return nil
+}
+
+func checkNames(survey []SurveyRow) error {
+	for _, row := range survey {
+		switch row.Type {
+		case endGroup, endRepeat:
+			if row.Name != "" {
+				return fmtSrcErr(row.LineNum, "End of group/repeat can't have a name.")
+			}
+		case "note":
+			if row.Name == "" {
+				continue // name is optional for note
+			}
+			fallthrough
+		default:
+			if !isIdentifier(row.Name) {
+				return fmtSrcErr(row.LineNum, "Name %q is not a valid identifier.", row.Name)
+			}
+		}
+	}
+	return nil
+}
+
+func isIdentifier(s string) bool {
+	if s == "" {
+		return false
+	}
+	for i, r := range s {
+		if r == '_' || unicode.IsLetter(r) || (unicode.IsDigit(r) && i > 0) {
+			continue // r is ok
+		}
+		return false
+	}
+	return true
 }
 
 func preprocessGroups(survey []SurveyRow) ([]SurveyRow, error) {
