@@ -78,8 +78,6 @@ func TestPreprocessGroups(t *testing.T) {
 		{{Type: endRepeat}},
 		{{Type: beginRepeat}, {Type: endGroup}, {Type: endRepeat}},
 		{{Type: beginRepeat}, {Type: beginGroup}},
-		{{Type: beginRepeat}, {Type: endRepeat}, {Type: "text"}},
-		{{Type: "text"}},
 	}
 	for _, errSurvey := range errSurveys {
 		_, err := preprocessGroups(errSurvey)
@@ -88,15 +86,31 @@ func TestPreprocessGroups(t *testing.T) {
 		}
 	}
 
-	survey := []SurveyRow{{Type: beginGroup}, {Type: "text"}, {Type: endGroup}}
+	survey := []SurveyRow{
+		{Type: "decimal"},
+		{Type: "integer"},
+		{Type: beginGroup},
+		{Type: "text"},
+		{Type: endGroup},
+		{Type: "date"},
+		{Type: "time"},
+	}
 	processed, err := preprocessGroups(survey)
 	check(t, err)
 	expected := []SurveyRow{
 		{Type: beginGroup, Name: "global"},
+		{Type: beginGroup, Name: "slide0"},
+		{Type: "decimal"},
+		{Type: "integer"},
+		{Type: endGroup},
 		{Type: beginGroup},
 		{Type: "text"},
 		{Type: endGroup},
+		{Type: beginGroup, Name: "slide1"},
+		{Type: "date"},
+		{Type: "time"},
 		{Type: endGroup},
+		{Type: endGroup}, // global
 	}
 	if !reflect.DeepEqual(processed, expected) {
 		t.Error(`Error preprocessing groups, unexpected result:`)
@@ -125,7 +139,7 @@ func TestNonformulaFeatures(t *testing.T) {
 }
 
 func TestFormulaParser(t *testing.T) {
-	var p parser
+	var p formulaParser
 
 	formulas := map[string]string{
 		`123 + 345.78 - "hello"`:                 `123 + 345.78 - "hello"`,

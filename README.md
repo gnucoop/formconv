@@ -71,7 +71,7 @@ Questions can be grouped, as shown in the [introductory example](#introduction-t
 
 Ajf forms have the peculiarity of being organized in slides, which has implications on how groups are handled.
 Top-level groups are translated to slides, while inner groups are translated to ajf group nodes.
-Every question must belong to a slide and ungrouped questions will result in an error.
+Slides will be created automatically for sequences of questions that aren't grouped.
 
 ## Repeats
 

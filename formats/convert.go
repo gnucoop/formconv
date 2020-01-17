@@ -146,8 +146,8 @@ func isIdentifier(s string) bool {
 }
 
 func preprocessGroups(survey []SurveyRow) ([]SurveyRow, error) {
+	// Make sure groups are balanced and repeats aren't nested.
 	var stack []*SurveyRow
-	ungroupedQLine := -1
 	for i := range survey {
 		row := &survey[i]
 		switch row.Type {
@@ -163,27 +163,48 @@ func preprocessGroups(survey []SurveyRow) ([]SurveyRow, error) {
 				return nil, fmtSrcErr(row.LineNum, "Unexpected end of group/repeat.")
 			}
 			stack = stack[0 : len(stack)-1]
-		default:
-			if len(stack) == 0 {
-				ungroupedQLine = row.LineNum
-			}
 		}
 	}
 	if len(stack) > 0 {
 		return nil, fmtSrcErr(stack[len(stack)-1].LineNum, "Unclosed group/repeat.")
 	}
-	if ungroupedQLine != -1 {
-		return nil, fmtSrcErr(ungroupedQLine, "Ungrouped question.")
+
+	// Wrap everything into a temporary global group,
+	// it allows building the form with a single call to buildGroup;
+	// also create groups for adjacent ungrouped questions.
+	newSurvey := []SurveyRow{{Type: beginGroup, Name: "global"}}
+	groupDepth := 0
+	grouping := false
+	slideNum := 0
+	for _, row := range survey {
+		switch row.Type {
+		case beginGroup, beginRepeat:
+			if grouping {
+				newSurvey = append(newSurvey, SurveyRow{Type: endGroup})
+				grouping = false
+			}
+			groupDepth++
+		case endGroup, endRepeat:
+			groupDepth--
+		default:
+			if groupDepth == 0 && !grouping {
+				grouping = true
+				slideName := "slide" + strconv.Itoa(slideNum)
+				slideNum++
+				newSurvey = append(newSurvey, SurveyRow{Type: beginGroup, Name: slideName})
+			}
+		}
+		newSurvey = append(newSurvey, row)
 	}
-	// Wrap everything into a global group,
-	// it allows building the form with a single call to buildGroup.
-	survey = append([]SurveyRow{{Type: beginGroup, Name: "global"}}, survey...)
-	survey = append(survey, SurveyRow{Type: endGroup})
-	return survey, nil
+	if grouping {
+		newSurvey = append(newSurvey, SurveyRow{Type: endGroup})
+	}
+	newSurvey = append(newSurvey, SurveyRow{Type: endGroup}) // global
+	return newSurvey, nil
 }
 
 type nodeBuilder struct {
-	parser parser // for formulas
+	parser formulaParser
 }
 
 func (b *nodeBuilder) buildGroup(survey []SurveyRow) (Node, error) {
@@ -223,12 +244,12 @@ func (b *nodeBuilder) buildGroup(survey []SurveyRow) (Node, error) {
 			group.Nodes = append(group.Nodes, field)
 		case row.Type == beginGroup || row.Type == beginRepeat:
 			end := groupEnd(survey, i)
-			child, err := b.buildGroup(survey[i:end])
+			child, err := b.buildGroup(survey[i : end+1])
 			if err != nil {
 				return Node{}, err
 			}
 			group.Nodes = append(group.Nodes, child)
-			i = end - 1
+			i = end
 		case row.Type == endGroup || row.Type == endRepeat:
 			if i != len(survey)-1 {
 				panic("unexpected end of group")
@@ -258,7 +279,7 @@ func groupEnd(survey []SurveyRow, groupStart int) int {
 		case endGroup, endRepeat:
 			groupDepth--
 			if groupDepth == 0 {
-				return i + 1
+				return i
 			}
 		}
 	}

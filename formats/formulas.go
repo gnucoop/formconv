@@ -6,16 +6,16 @@ import (
 	"text/scanner"
 )
 
-// parser parses xlsform formulas and produces the JavaScript equivalent.
+// formulaParser parses xlsform formulas and produces the JavaScript equivalent.
 // Can't be used concurrently.
-type parser struct {
+type formulaParser struct {
 	scanner.Scanner
 	strings.Builder
 	fieldName string // in formulas, "." will be equivalent to "${fieldName}"
 	err       error
 }
 
-func (p *parser) Parse(formula, formulaName, fieldName string) (js string, err error) {
+func (p *formulaParser) Parse(formula, formulaName, fieldName string) (js string, err error) {
 	if strings.HasPrefix(formula, "js:") {
 		return strings.TrimSpace(formula[3:]), nil
 	}
@@ -38,14 +38,14 @@ func (p *parser) Parse(formula, formulaName, fieldName string) (js string, err e
 	return p.Builder.String(), nil
 }
 
-func (p *parser) error(msg string) {
+func (p *formulaParser) error(msg string) {
 	if p.err != nil {
 		return
 	}
 	p.err = fmt.Errorf("formula %s:%d:%d: %s", p.Filename, p.Line, p.Column, msg)
 }
 
-func (p *parser) unexpectedTokError(tok rune) {
+func (p *formulaParser) unexpectedTokError(tok rune) {
 	tokString := scanner.TokenString(tok)
 	if tok == scanner.Ident || tok == scanner.Int || tok == scanner.Float {
 		tokString = p.TokenText()
@@ -53,7 +53,7 @@ func (p *parser) unexpectedTokError(tok rune) {
 	p.error(fmt.Sprintf("Unexpected token %s", tokString))
 }
 
-func (p *parser) consume(ch rune) {
+func (p *formulaParser) consume(ch rune) {
 	tok := p.Scan()
 	if tok != ch {
 		p.error(fmt.Sprintf("Expected %s, found %s.",
@@ -61,12 +61,12 @@ func (p *parser) consume(ch rune) {
 	}
 }
 
-func (p *parser) copy(ch rune) {
+func (p *formulaParser) copy(ch rune) {
 	p.consume(ch)
 	p.WriteRune(ch)
 }
 
-func (p *parser) peekNonspace() rune {
+func (p *formulaParser) peekNonspace() rune {
 	for {
 		ch := p.Peek()
 		if p.Whitespace&(1<<uint(ch)) == 0 || ch == scanner.EOF { // (not a whitespace) or EOF
@@ -78,7 +78,7 @@ func (p *parser) peekNonspace() rune {
 
 // scanString is used to scan single-quoted strings.
 // The code is adapted from Scanner.scanString.
-func (p *parser) scanString(quote rune) {
+func (p *formulaParser) scanString(quote rune) {
 	// Initial quote has already been scanned.
 	p.WriteRune(quote)
 	for {
@@ -98,7 +98,7 @@ func (p *parser) scanString(quote rune) {
 	}
 }
 
-func (p *parser) scanEscape(quote rune) {
+func (p *formulaParser) scanEscape(quote rune) {
 	// Initial \ has already been scanned.
 	p.WriteByte('\\')
 	switch p.Peek() {
@@ -120,7 +120,7 @@ func (p *parser) scanEscape(quote rune) {
 	}
 }
 
-func (p *parser) scanDigits(base, n int) {
+func (p *formulaParser) scanDigits(base, n int) {
 	for i := 0; i < n; i++ {
 		ch := p.Next()
 		if digitVal(ch) >= base {
@@ -143,7 +143,7 @@ func digitVal(ch rune) int {
 	return 16 // larger than any legal digit val
 }
 
-func (p *parser) parseExpression(expectedEnd rune) {
+func (p *formulaParser) parseExpression(expectedEnd rune) {
 	if expectedEnd != scanner.EOF && expectedEnd != ')' && expectedEnd != ',' {
 		panic("invalid expectedEnd")
 	}
@@ -237,7 +237,7 @@ func (p *parser) parseExpression(expectedEnd rune) {
 	}
 }
 
-func (p *parser) parseOperatorIdent() {
+func (p *formulaParser) parseOperatorIdent() {
 	switch p.TokenText() {
 	case "div":
 		p.WriteByte('/')
@@ -256,7 +256,7 @@ func (p *parser) parseOperatorIdent() {
 // It has to deal with the following function names that contain a minus:
 // count-selected, starts-with, ends-with, substring-before,
 // substring-after, string-length, boolean-from-string.
-func (p *parser) parseExpressionIdent(expectedEnd rune) {
+func (p *formulaParser) parseExpressionIdent(expectedEnd rune) {
 	if p.Peek() == '(' {
 		p.parseFuncCall()
 		return
@@ -273,7 +273,7 @@ func (p *parser) parseExpressionIdent(expectedEnd rune) {
 	}
 }
 
-func (p *parser) parseFuncCall() {
+func (p *formulaParser) parseFuncCall() {
 	name := p.TokenText()
 	for p.Peek() == '-' {
 		p.consume('-')
@@ -348,7 +348,7 @@ func (p *parser) parseFuncCall() {
 	}
 }
 
-func (p *parser) parseFuncArgs() {
+func (p *formulaParser) parseFuncArgs() {
 	if p.peekNonspace() == ')' { // empty argument list
 		return
 	}
