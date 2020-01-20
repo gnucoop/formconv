@@ -237,9 +237,10 @@ func columnIndex(row []string, name string) int {
 			return i
 		}
 	}
-	name = name + "::English (en)"
+	name0 := name + "::English (en)"
+	name1 := name + "::English (EN)"
 	for i, cell := range row {
-		if cell == name {
+		if cell == name0 || cell == name1 {
 			return i
 		}
 	}

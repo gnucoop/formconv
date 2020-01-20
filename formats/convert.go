@@ -94,7 +94,7 @@ func fmtSrcErr(lineNum int, format string, a ...interface{}) error {
 func checkTypes(survey []SurveyRow) error {
 	for _, row := range survey {
 		switch {
-		case isSupportedField(row.Type):
+		case isSupportedField(row.Type) || isIgnoredField(row.Type):
 			continue
 		case isUnsupportedField(row.Type):
 			return fmtSrcErr(row.LineNum, "Questions of type %q are not supported.", row.Type)
@@ -236,6 +236,8 @@ func (b *nodeBuilder) buildGroup(survey []SurveyRow) (Node, error) {
 	for i := 1; i < len(survey); i++ {
 		row := survey[i]
 		switch {
+		case isIgnoredField(row.Type):
+			continue
 		case isSupportedField(row.Type):
 			field, err := b.buildField(&row)
 			if err != nil {
@@ -351,16 +353,18 @@ func (b *nodeBuilder) nodeVisibility(row *SurveyRow) (*NodeVisibility, error) {
 	return &NodeVisibility{Condition: js}, nil
 }
 
+var requiredVals = map[string]bool{"": true, "yes": true, "no": true, "true": true, "false": true}
+
 func (b *nodeBuilder) fieldValidation(row *SurveyRow) (*FieldValidation, error) {
 	if row.Required == "" && row.Constraint == "" && row.Type != "integer" {
 		return nil, nil
 	}
 	v := new(FieldValidation)
 
-	if row.Required != "" && row.Required != "yes" {
+	if !requiredVals[row.Required] {
 		return nil, fmtSrcErr(row.LineNum, `Invalid value %q in "required" column.`, row.Required)
 	}
-	if row.Required == "yes" {
+	if row.Required == "yes" || row.Required == "true" {
 		v.NotEmpty = true
 	}
 
@@ -421,13 +425,18 @@ func isSupportedField(typ string) bool {
 func isSelectOne(typ string) bool      { return strings.HasPrefix(typ, "select_one ") }
 func isSelectMultiple(typ string) bool { return strings.HasPrefix(typ, "select_multiple ") }
 
+var ignoredField = map[string]bool{
+	// metadata:
+	"start": true, "end": true, "today": true, "deviceid": true, "subscriberid": true,
+	"simserial": true, "phonenumber": true, "username": true, "email": true,
+}
+
+func isIgnoredField(typ string) bool { return ignoredField[typ] }
+
 var unsupportedField = map[string]bool{
 	"range": true, "geotrace": true, "geoshape": true,
 	"datetime": true, "image": true, "audio": true, "video": true, "file": true,
 	"acknowledge": true, "hidden": true, "xml-external": true,
-	// metadata:
-	"start": true, "end": true, "today": true, "deviceid": true, "subscriberid": true,
-	"simserial": true, "phonenumber": true, "username": true, "email": true,
 }
 
 func isUnsupportedField(typ string) bool { return unsupportedField[typ] || isRank(typ) }
