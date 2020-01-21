@@ -37,6 +37,7 @@ type Node struct {
 	Id       int      `json:"id"`
 	Name     string   `json:"name"`
 	Label    string   `json:"label"`
+	Hint     string   `json:"hint,omitempty"`
 	Type     NodeType `json:"nodeType"`
 
 	FieldType        *FieldType       `json:"fieldType,omitempty"`

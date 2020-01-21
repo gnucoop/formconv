@@ -60,6 +60,7 @@
 							"id": 1001003,
 							"name": "text",
 							"label": "Text",
+							"hint": "type some text",
 							"nodeType": 0,
 							"fieldType": 0
 						}

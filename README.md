@@ -57,6 +57,14 @@ The following table lists the supported question types.
 |geopoint        |geolocation     |A location as GPS coordinates |
 |calculate       |formula         |Perform a [calculation](#calculation) |
 
+## Hints
+
+Hints can be provided to help the user answer some questions of the form:
+
+|type      |name       |label                           |hint      |
+|----------|-----------|--------------------------------|----------|
+|text      |store_name |What is the name of this store? |Look at the signboard |
+
 ## Required
 
 It is possible to flag questions as required, so that the user won't be able to submit the form without providing a value:

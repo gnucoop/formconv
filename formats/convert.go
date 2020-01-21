@@ -292,6 +292,7 @@ func (b *nodeBuilder) buildField(row *SurveyRow) (Node, error) {
 	field := Node{
 		Name:  row.Name,
 		Label: row.Label,
+		Hint:  row.Hint,
 		Type:  NtField,
 	}
 	var err error

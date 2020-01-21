@@ -18,7 +18,7 @@ type XlsForm struct {
 }
 type SurveyRow struct {
 	Type, Name, Label,
-	Relevant, Constraint, ConstraintMessage, Calculation, Required, RepeatCount string
+	Hint, Relevant, Constraint, ConstraintMessage, Calculation, Required, RepeatCount string
 	LineNum int
 }
 type ChoicesRow struct {
@@ -36,6 +36,7 @@ var sheetInfos = []sheetInfo{
 			{name: "type", mandatory: true},
 			{name: "name", mandatory: true},
 			{name: "label", mandatory: true},
+			{name: "hint"},
 			{name: "relevant"},
 			{name: "constraint"},
 			{name: "constraint_message"},
