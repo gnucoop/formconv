@@ -107,11 +107,15 @@ func translatePost(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintf(w, "Error opening excel workbook: %s", err)
 		return
 	}
-	lang := r.FormValue("lang")
 	survey := wb.Rows("survey")
 	choices := wb.Rows("choices")
-	surveyTr := formats.Translation(survey, lang)
-	choicesTr := formats.Translation(choices, lang)
+	sourceLang := "English"
+	if formats.HasDefaultLang(survey) {
+		sourceLang = ""
+	}
+	targetLang := r.FormValue("lang")
+	surveyTr := formats.Translation(survey, sourceLang, targetLang)
+	choicesTr := formats.Translation(choices, sourceLang, targetLang)
 	tr := formats.MergeMaps(surveyTr, choicesTr)
 
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")

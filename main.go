@@ -58,15 +58,22 @@ func decXlsEncAjf(xlsName string) error {
 	// Translation files in case of multiple languages:
 	survey := wb.Rows("survey")
 	langs := formats.ListLanguages(survey)
-	if len(langs) == 0 {
+	if len(langs) <= 1 {
 		return nil
 	}
 	choices := wb.Rows("choices")
-	for lang := range langs {
-		surveyTr := formats.Translation(survey, lang)
-		choicesTr := formats.Translation(choices, lang)
+	sourceLang := "English"
+	if langs[""] {
+		sourceLang = ""
+	}
+	for targetLang := range langs {
+		if targetLang == sourceLang {
+			continue
+		}
+		surveyTr := formats.Translation(survey, sourceLang, targetLang)
+		choicesTr := formats.Translation(choices, sourceLang, targetLang)
 		tr := formats.MergeMaps(surveyTr, choicesTr)
-		err := formats.EncJsonToFile(name+"_"+lang+".json", tr)
+		err := formats.EncJsonToFile(name+"_"+targetLang+".json", tr)
 		if err != nil {
 			return err
 		}

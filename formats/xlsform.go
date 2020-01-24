@@ -238,14 +238,27 @@ func columnIndex(row []string, name string) int {
 			return i
 		}
 	}
-	name0 := name + "::English (en)"
-	name1 := name + "::English (EN)"
+	engName := name + "::English"
 	for i, cell := range row {
-		if cell == name0 || cell == name1 {
+		if strings.HasPrefix(cell, engName) {
 			return i
 		}
 	}
 	return -1
+}
+
+func HasDefaultLang(rows [][]string) bool {
+	headIndex := firstNonempty(rows)
+	if headIndex == -1 {
+		return false
+	}
+	for _, cell := range rows[headIndex] {
+		// "label" is the only mandatory column that can have languages.
+		if cell == "label" {
+			return true
+		}
+	}
+	return false
 }
 
 func ListLanguages(rows [][]string) map[string]bool {
@@ -256,41 +269,44 @@ func ListLanguages(rows [][]string) map[string]bool {
 	langs := make(map[string]bool)
 	for _, cell := range rows[headIndex] {
 		_, lang := splitLang(cell)
-		if lang != "en" {
+		if lang != "" {
 			langs[lang] = true
 		}
+	}
+	if HasDefaultLang(rows) {
+		langs[""] = true
 	}
 	return langs
 }
 
+// splitLang retrieves the name and language af a cell.
+// "label::English"      -> ("label", "English")
+// "label::English (en)" -> ("label", "English")
+// "label"               -> ("label", "")
 func splitLang(cell string) (name, lang string) {
-	name = cell
-	lang = "en"
-
-	i := strings.Index(name, "::")
+	i := strings.Index(cell, "::")
 	if i == -1 {
-		return
+		return cell, ""
 	}
-	l := strings.LastIndexByte(cell, '(')
-	r := strings.LastIndexByte(cell, ')')
-	if l == -1 || r == -1 || l > r || l < i {
-		return
+	end := strings.LastIndexByte(cell, '(')
+	if end == -1 {
+		end = len(cell)
 	}
 	name = cell[0:i]
-	lang = cell[l+1 : r]
+	lang = strings.TrimSpace(cell[i+2 : end])
 	return
 }
 
-func Translation(rows [][]string, targetLang string) map[string]string {
+func Translation(rows [][]string, sourceLang, targetLang string) map[string]string {
 	headIndex := firstNonempty(rows)
 	if headIndex == -1 {
 		return nil
 	}
 	head := rows[headIndex]
 	translation := make(map[string]string)
-	for en, cell := range head {
-		name, sourceLang := splitLang(cell)
-		if name == "" || sourceLang != "en" {
+	for src := range head {
+		name, lang := splitLang(head[src])
+		if name == "" || lang != sourceLang {
 			continue
 		}
 		tr := translationIndex(head, name, targetLang)
@@ -299,8 +315,8 @@ func Translation(rows [][]string, targetLang string) map[string]string {
 		}
 		for j := headIndex + 1; j < len(rows); j++ {
 			row := rows[j]
-			if row[en] != "" {
-				translation[row[en]] = row[tr]
+			if row[src] != "" {
+				translation[row[src]] = row[tr]
 			}
 		}
 	}
@@ -308,10 +324,17 @@ func Translation(rows [][]string, targetLang string) map[string]string {
 }
 
 func translationIndex(head []string, name, lang string) int {
-	prefix := name + "::"
-	suffix := "(" + lang + ")"
+	if lang == "" {
+		for i, cell := range head {
+			if cell == name {
+				return i
+			}
+		}
+		return -1
+	}
+	prefix := name + "::" + lang
 	for i, cell := range head {
-		if strings.HasPrefix(cell, prefix) && strings.HasSuffix(cell, suffix) {
+		if strings.HasPrefix(cell, prefix) {
 			return i
 		}
 	}
