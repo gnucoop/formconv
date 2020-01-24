@@ -1,0 +1,4641 @@
+{
+	"choicesOrigins": [
+		{
+			"type": "fixed",
+			"name": "al79i76",
+			"choicesType": "string",
+			"choices": [
+				{
+					"value": "1",
+					"label": "yes"
+				},
+				{
+					"value": "2",
+					"label": "no"
+				}
+			]
+		},
+		{
+			"type": "fixed",
+			"name": "an1cs99",
+			"choicesType": "string",
+			"choices": [
+				{
+					"value": "yes",
+					"label": "yes"
+				},
+				{
+					"value": "no",
+					"label": "no"
+				}
+			]
+		},
+		{
+			"type": "fixed",
+			"name": "ap7ue07",
+			"choicesType": "string",
+			"choices": [
+				{
+					"value": "1",
+					"label": "yes"
+				},
+				{
+					"value": "2",
+					"label": "no"
+				}
+			]
+		},
+		{
+			"type": "fixed",
+			"name": "cb74d94",
+			"choicesType": "string",
+			"choices": [
+				{
+					"value": "1",
+					"label": "Dillo"
+				},
+				{
+					"value": "2",
+					"label": "El-waye"
+				},
+				{
+					"value": "3",
+					"label": "Yabello"
+				}
+			]
+		},
+		{
+			"type": "fixed",
+			"name": "dh1sw58",
+			"choicesType": "string",
+			"choices": [
+				{
+					"value": "1",
+					"label": "amharic"
+				},
+				{
+					"value": "2",
+					"label": "afar"
+				},
+				{
+					"value": "3",
+					"label": "gedeo"
+				},
+				{
+					"value": "4",
+					"label": "oromifa"
+				},
+				{
+					"value": "5",
+					"label": "other"
+				}
+			]
+		},
+		{
+			"type": "fixed",
+			"name": "dn9cz37",
+			"choicesType": "string",
+			"choices": [
+				{
+					"value": "1",
+					"label": "Adey"
+				},
+				{
+					"value": "2",
+					"label": "Asgori"
+				},
+				{
+					"value": "3",
+					"label": "Asgedo"
+				},
+				{
+					"value": "4",
+					"label": "Chirecha"
+				},
+				{
+					"value": "5",
+					"label": "Gelsha"
+				},
+				{
+					"value": "6",
+					"label": "Kolamote"
+				},
+				{
+					"value": "7",
+					"label": "Tebasit"
+				}
+			]
+		},
+		{
+			"type": "fixed",
+			"name": "dq22n41",
+			"choicesType": "string",
+			"choices": [
+				{
+					"value": "1",
+					"label": "Concern"
+				},
+				{
+					"value": "2",
+					"label": "Helvetas"
+				},
+				{
+					"value": "3",
+					"label": "PIN"
+				},
+				{
+					"value": "4",
+					"label": "WHH"
+				}
+			]
+		},
+		{
+			"type": "fixed",
+			"name": "dz3zg28",
+			"choicesType": "string",
+			"choices": [
+				{
+					"value": "1",
+					"label": "yes"
+				},
+				{
+					"value": "2",
+					"label": "no"
+				}
+			]
+		},
+		{
+			"type": "fixed",
+			"name": "eb7eu22",
+			"choicesType": "string",
+			"choices": [
+				{
+					"value": "1",
+					"label": "yes"
+				},
+				{
+					"value": "2",
+					"label": "no"
+				}
+			]
+		},
+		{
+			"type": "fixed",
+			"name": "fi9py30",
+			"choicesType": "string",
+			"choices": [
+				{
+					"value": "1",
+					"label": "resident"
+				},
+				{
+					"value": "2",
+					"label": "IDP"
+				}
+			]
+		},
+		{
+			"type": "fixed",
+			"name": "fz7ew22",
+			"choicesType": "string",
+			"choices": [
+				{
+					"value": "1",
+					"label": "No- no difficulty"
+				},
+				{
+					"value": "2",
+					"label": "Yes – some difficulty"
+				},
+				{
+					"value": "3",
+					"label": "Yes – a lot of difficulty"
+				},
+				{
+					"value": "4",
+					"label": "Cannot do at all"
+				}
+			]
+		},
+		{
+			"type": "fixed",
+			"name": "hc3pe11",
+			"choicesType": "string",
+			"choices": [
+				{
+					"value": "1",
+					"label": "yes"
+				},
+				{
+					"value": "2",
+					"label": "no"
+				}
+			]
+		},
+		{
+			"type": "fixed",
+			"name": "io3by55",
+			"choicesType": "string",
+			"choices": [
+				{
+					"value": "1",
+					"label": "Dambi"
+				},
+				{
+					"value": "2",
+					"label": "Dharito"
+				},
+				{
+					"value": "3",
+					"label": "Dida Yabelo"
+				},
+				{
+					"value": "4",
+					"label": "Dikale"
+				},
+				{
+					"value": "5",
+					"label": "Harawatu"
+				},
+				{
+					"value": "6",
+					"label": "Har-Weyu"
+				},
+				{
+					"value": "7",
+					"label": "Utalo"
+				}
+			]
+		},
+		{
+			"type": "fixed",
+			"name": "je49g40",
+			"choicesType": "string",
+			"choices": [
+				{
+					"value": "1",
+					"label": "yes"
+				},
+				{
+					"value": "2",
+					"label": "no"
+				}
+			]
+		},
+		{
+			"type": "fixed",
+			"name": "jo9bj70",
+			"choicesType": "string",
+			"choices": [
+				{
+					"value": "1",
+					"label": "male"
+				},
+				{
+					"value": "2",
+					"label": "female"
+				}
+			]
+		},
+		{
+			"type": "fixed",
+			"name": "kh8hj12",
+			"choicesType": "string",
+			"choices": [
+				{
+					"value": "1",
+					"label": "yes"
+				},
+				{
+					"value": "2",
+					"label": "no"
+				}
+			]
+		},
+		{
+			"type": "fixed",
+			"name": "kv1hk46",
+			"choicesType": "string",
+			"choices": [
+				{
+					"value": "1",
+					"label": "farmer"
+				},
+				{
+					"value": "7",
+					"label": "pastoralist"
+				},
+				{
+					"value": "2",
+					"label": "merchant/shop owner"
+				},
+				{
+					"value": "3",
+					"label": "artisan"
+				},
+				{
+					"value": "4",
+					"label": "daily laborer"
+				},
+				{
+					"value": "5",
+					"label": "governmental employee"
+				},
+				{
+					"value": "6",
+					"label": "no occupation"
+				},
+				{
+					"value": "8",
+					"label": "other"
+				}
+			]
+		},
+		{
+			"type": "fixed",
+			"name": "kv6vk18",
+			"choicesType": "string",
+			"choices": [
+				{
+					"value": "1",
+					"label": "Goray"
+				},
+				{
+					"value": "2",
+					"label": "Hobok"
+				},
+				{
+					"value": "3",
+					"label": "Kancharo"
+				},
+				{
+					"value": "4",
+					"label": "Liso"
+				}
+			]
+		},
+		{
+			"type": "fixed",
+			"name": "mo14z33",
+			"choicesType": "string",
+			"choices": [
+				{
+					"value": "1",
+					"label": "No - no difficulty"
+				},
+				{
+					"value": "2",
+					"label": "Yes – some difficulty"
+				},
+				{
+					"value": "3",
+					"label": "Yes – a lot of difficulty"
+				},
+				{
+					"value": "4",
+					"label": "Cannot do at all"
+				}
+			]
+		},
+		{
+			"type": "fixed",
+			"name": "nz4ki38",
+			"choicesType": "string",
+			"choices": [
+				{
+					"value": "1",
+					"label": "Dumerso"
+				},
+				{
+					"value": "2",
+					"label": "Wegida"
+				},
+				{
+					"value": "3",
+					"label": "Adame"
+				},
+				{
+					"value": "4",
+					"label": "Sede"
+				}
+			]
+		},
+		{
+			"type": "fixed",
+			"name": "on83y87",
+			"choicesType": "string",
+			"choices": [
+				{
+					"value": "1",
+					"label": "Dessie Zuria"
+				},
+				{
+					"value": "2",
+					"label": "Legambo"
+				}
+			]
+		},
+		{
+			"type": "fixed",
+			"name": "ov7zp76",
+			"choicesType": "string",
+			"choices": [
+				{
+					"value": "1",
+					"label": "Hase Haro 01"
+				},
+				{
+					"value": "2",
+					"label": "Hase Haro 02"
+				},
+				{
+					"value": "3",
+					"label": "Makonisa"
+				},
+				{
+					"value": "4",
+					"label": "Wetiko"
+				},
+				{
+					"value": "5",
+					"label": "Kelecha"
+				}
+			]
+		},
+		{
+			"type": "fixed",
+			"name": "pa3js71",
+			"choicesType": "string",
+			"choices": [
+				{
+					"value": "1",
+					"label": "Berga"
+				},
+				{
+					"value": "2",
+					"label": "Gahertu"
+				},
+				{
+					"value": "3",
+					"label": "Galifage"
+				},
+				{
+					"value": "4",
+					"label": "Gelealo"
+				},
+				{
+					"value": "5",
+					"label": "Handeg"
+				},
+				{
+					"value": "6",
+					"label": "Hinale"
+				},
+				{
+					"value": "7",
+					"label": "Kerebuda"
+				},
+				{
+					"value": "8",
+					"label": "Keredura"
+				},
+				{
+					"value": "9",
+					"label": "Mamule"
+				},
+				{
+					"value": "10",
+					"label": "Rumayitu"
+				}
+			]
+		},
+		{
+			"type": "fixed",
+			"name": "pa8de94",
+			"choicesType": "string",
+			"choices": [
+				{
+					"value": "1",
+					"label": "yes, documents were provided"
+				},
+				{
+					"value": "2",
+					"label": "no, documents were not provided"
+				}
+			]
+		},
+		{
+			"type": "fixed",
+			"name": "pf2mj40",
+			"choicesType": "string",
+			"choices": [
+				{
+					"value": "1",
+					"label": "yes"
+				},
+				{
+					"value": "2",
+					"label": "no"
+				}
+			]
+		},
+		{
+			"type": "fixed",
+			"name": "pl1no91",
+			"choicesType": "string",
+			"choices": [
+				{
+					"value": "1",
+					"label": "No- no difficulty"
+				},
+				{
+					"value": "2",
+					"label": "Yes – some difficulty"
+				},
+				{
+					"value": "3",
+					"label": "Yes – a lot of difficulty"
+				},
+				{
+					"value": "4",
+					"label": "Cannot do at all"
+				}
+			]
+		},
+		{
+			"type": "fixed",
+			"name": "qm1ok87",
+			"choicesType": "string",
+			"choices": [
+				{
+					"value": "1",
+					"label": "married"
+				},
+				{
+					"value": "2",
+					"label": "widowed"
+				},
+				{
+					"value": "3",
+					"label": "divorced"
+				},
+				{
+					"value": "4",
+					"label": "other"
+				}
+			]
+		},
+		{
+			"type": "fixed",
+			"name": "qz49m34",
+			"choicesType": "string",
+			"choices": [
+				{
+					"value": "1",
+					"label": "No- no difficulty"
+				},
+				{
+					"value": "2",
+					"label": "Yes – some difficulty"
+				},
+				{
+					"value": "3",
+					"label": "Yes – a lot of difficulty"
+				},
+				{
+					"value": "4",
+					"label": "Cannot do at all"
+				}
+			]
+		},
+		{
+			"type": "fixed",
+			"name": "rs85c55",
+			"choicesType": "string",
+			"choices": [
+				{
+					"value": "1",
+					"label": "yes"
+				},
+				{
+					"value": "2",
+					"label": "no"
+				}
+			]
+		},
+		{
+			"type": "fixed",
+			"name": "rw33b13",
+			"choicesType": "string",
+			"choices": [
+				{
+					"value": "1",
+					"label": "Baye"
+				},
+				{
+					"value": "2",
+					"label": "Chalaktu 01"
+				},
+				{
+					"value": "3",
+					"label": "Chalaktu 02"
+				},
+				{
+					"value": "4",
+					"label": "Shashemene"
+				},
+				{
+					"value": "5",
+					"label": "Shifo"
+				}
+			]
+		},
+		{
+			"type": "fixed",
+			"name": "ss9db73",
+			"choicesType": "string",
+			"choices": [
+				{
+					"value": "1",
+					"label": "Genete"
+				},
+				{
+					"value": "2",
+					"label": "Hitetera"
+				},
+				{
+					"value": "3",
+					"label": "Legambo 010"
+				},
+				{
+					"value": "4",
+					"label": "Legambo 013"
+				},
+				{
+					"value": "5",
+					"label": "Legambo 025"
+				},
+				{
+					"value": "6",
+					"label": "terad"
+				},
+				{
+					"value": "7",
+					"label": "welelet"
+				}
+			]
+		},
+		{
+			"type": "fixed",
+			"name": "sy0wp67",
+			"choicesType": "string",
+			"choices": [
+				{
+					"value": "1",
+					"label": "Kochore"
+				},
+				{
+					"value": "2",
+					"label": "Wenago"
+				},
+				{
+					"value": "3",
+					"label": "Yirgachefe"
+				}
+			]
+		},
+		{
+			"type": "fixed",
+			"name": "uk7jg49",
+			"choicesType": "string",
+			"choices": [
+				{
+					"value": "1",
+					"label": "Meskerem"
+				},
+				{
+					"value": "2",
+					"label": "Tikimt"
+				},
+				{
+					"value": "3",
+					"label": "Hidar"
+				},
+				{
+					"value": "4",
+					"label": "Tahsas"
+				},
+				{
+					"value": "5",
+					"label": "Tir"
+				},
+				{
+					"value": "6",
+					"label": "Yakatit"
+				},
+				{
+					"value": "7",
+					"label": "Magabit"
+				},
+				{
+					"value": "8",
+					"label": "Miyazya"
+				},
+				{
+					"value": "9",
+					"label": "Ginbot"
+				},
+				{
+					"value": "10",
+					"label": "Sene"
+				},
+				{
+					"value": "11",
+					"label": "Hamle"
+				},
+				{
+					"value": "12",
+					"label": "Nehasa"
+				},
+				{
+					"value": "13",
+					"label": "Pagumiene"
+				},
+				{
+					"value": "99",
+					"label": "don't know"
+				}
+			]
+		},
+		{
+			"type": "fixed",
+			"name": "uw4ue68",
+			"choicesType": "string",
+			"choices": [
+				{
+					"value": "1",
+					"label": "1"
+				},
+				{
+					"value": "2",
+					"label": "2"
+				},
+				{
+					"value": "3",
+					"label": "3"
+				},
+				{
+					"value": "4",
+					"label": "4"
+				},
+				{
+					"value": "5",
+					"label": "5"
+				},
+				{
+					"value": "6",
+					"label": "6"
+				},
+				{
+					"value": "7",
+					"label": "7"
+				},
+				{
+					"value": "8",
+					"label": "8"
+				},
+				{
+					"value": "9",
+					"label": "9"
+				},
+				{
+					"value": "10",
+					"label": "10"
+				},
+				{
+					"value": "11",
+					"label": "11"
+				},
+				{
+					"value": "12",
+					"label": "12"
+				},
+				{
+					"value": "13",
+					"label": "13"
+				},
+				{
+					"value": "14",
+					"label": "14"
+				},
+				{
+					"value": "15",
+					"label": "15"
+				},
+				{
+					"value": "16",
+					"label": "16"
+				},
+				{
+					"value": "17",
+					"label": "17"
+				},
+				{
+					"value": "18",
+					"label": "18"
+				},
+				{
+					"value": "19",
+					"label": "19"
+				},
+				{
+					"value": "20",
+					"label": "20"
+				},
+				{
+					"value": "21",
+					"label": "21"
+				},
+				{
+					"value": "22",
+					"label": "22"
+				},
+				{
+					"value": "23",
+					"label": "23"
+				},
+				{
+					"value": "24",
+					"label": "24"
+				},
+				{
+					"value": "25",
+					"label": "25"
+				},
+				{
+					"value": "26",
+					"label": "26"
+				},
+				{
+					"value": "27",
+					"label": "27"
+				},
+				{
+					"value": "28",
+					"label": "28"
+				},
+				{
+					"value": "29",
+					"label": "29"
+				},
+				{
+					"value": "30",
+					"label": "30"
+				},
+				{
+					"value": "99",
+					"label": "don't know"
+				}
+			]
+		},
+		{
+			"type": "fixed",
+			"name": "vg87o70",
+			"choicesType": "string",
+			"choices": [
+				{
+					"value": "1",
+					"label": "ABE"
+				},
+				{
+					"value": "2",
+					"label": "IFAL"
+				},
+				{
+					"value": "3",
+					"label": "other"
+				}
+			]
+		},
+		{
+			"type": "fixed",
+			"name": "vh7uh12",
+			"choicesType": "string",
+			"choices": [
+				{
+					"value": "1",
+					"label": "Ade-Galchat"
+				},
+				{
+					"value": "2",
+					"label": "Chari rufay"
+				},
+				{
+					"value": "3",
+					"label": "Elwaye Golba"
+				},
+				{
+					"value": "4",
+					"label": "Hidi-ale"
+				},
+				{
+					"value": "5",
+					"label": "Horbate"
+				},
+				{
+					"value": "6",
+					"label": "Saba"
+				},
+				{
+					"value": "7",
+					"label": "Sarite"
+				}
+			]
+		},
+		{
+			"type": "fixed",
+			"name": "vm0cf13",
+			"choicesType": "string",
+			"choices": [
+				{
+					"value": "1",
+					"label": "No- no difficulty"
+				},
+				{
+					"value": "2",
+					"label": "Yes – some difficulty"
+				},
+				{
+					"value": "3",
+					"label": "Yes – a lot of difficulty"
+				},
+				{
+					"value": "4",
+					"label": "Cannot do at all"
+				}
+			]
+		},
+		{
+			"type": "fixed",
+			"name": "vq7tc12",
+			"choicesType": "string",
+			"choices": [
+				{
+					"value": "1",
+					"label": "Awsi/Zone1"
+				},
+				{
+					"value": "2",
+					"label": "South Wollo Zone"
+				},
+				{
+					"value": "3",
+					"label": "Borana Zone"
+				},
+				{
+					"value": "4",
+					"label": "Gedeo Zone"
+				}
+			]
+		},
+		{
+			"type": "fixed",
+			"name": "wc4gn71",
+			"choicesType": "string",
+			"choices": [
+				{
+					"value": "1",
+					"label": "yes"
+				},
+				{
+					"value": "2",
+					"label": "no"
+				}
+			]
+		},
+		{
+			"type": "fixed",
+			"name": "wt1un80",
+			"choicesType": "string",
+			"choices": [
+				{
+					"value": "0",
+					"label": "No school level completed"
+				},
+				{
+					"value": "1",
+					"label": "Some years of primary"
+				},
+				{
+					"value": "2",
+					"label": "Primary completed"
+				},
+				{
+					"value": "3",
+					"label": "Some years of junior / lower secondary"
+				},
+				{
+					"value": "4",
+					"label": "junior / lower secondary completed"
+				},
+				{
+					"value": "5",
+					"label": "Some years of senior / upper secondary"
+				},
+				{
+					"value": "6",
+					"label": "Senior / upper secondary completed"
+				},
+				{
+					"value": "7",
+					"label": "Some years of higher education / university"
+				},
+				{
+					"value": "8",
+					"label": "Higher education / university completed"
+				},
+				{
+					"value": "99",
+					"label": "Don't know"
+				}
+			]
+		},
+		{
+			"type": "fixed",
+			"name": "yi2bt40",
+			"choicesType": "string",
+			"choices": [
+				{
+					"value": "1",
+					"label": "No- no difficulty"
+				},
+				{
+					"value": "2",
+					"label": "Yes – some difficulty"
+				},
+				{
+					"value": "3",
+					"label": "Yes – a lot of difficulty"
+				},
+				{
+					"value": "4",
+					"label": "Cannot do at all"
+				}
+			]
+		},
+		{
+			"type": "fixed",
+			"name": "yi8wj53",
+			"choicesType": "string",
+			"choices": [
+				{
+					"value": "1",
+					"label": "Afambo"
+				},
+				{
+					"value": "2",
+					"label": "Aysaita"
+				}
+			]
+		},
+		{
+			"type": "fixed",
+			"name": "zb4lw45",
+			"choicesType": "string",
+			"choices": [
+				{
+					"value": "1991",
+					"label": "1991"
+				},
+				{
+					"value": "1992",
+					"label": "1992"
+				},
+				{
+					"value": "1993",
+					"label": "1993"
+				},
+				{
+					"value": "1994",
+					"label": "1994"
+				},
+				{
+					"value": "1995",
+					"label": "1995"
+				},
+				{
+					"value": "1996",
+					"label": "1996"
+				},
+				{
+					"value": "1997",
+					"label": "1997"
+				},
+				{
+					"value": "1998",
+					"label": "1998"
+				},
+				{
+					"value": "1999",
+					"label": "1999"
+				},
+				{
+					"value": "2000",
+					"label": "2000"
+				},
+				{
+					"value": "2001",
+					"label": "2001"
+				},
+				{
+					"value": "2002",
+					"label": "2002"
+				},
+				{
+					"value": "2003",
+					"label": "2003"
+				},
+				{
+					"value": "99",
+					"label": "don't know"
+				}
+			]
+		},
+		{
+			"type": "fixed",
+			"name": "zn4ux81",
+			"choicesType": "string",
+			"choices": [
+				{
+					"value": "1",
+					"label": "Alasabolo"
+				},
+				{
+					"value": "2",
+					"label": "Daka"
+				},
+				{
+					"value": "3",
+					"label": "Genneti"
+				},
+				{
+					"value": "4",
+					"label": "Harisa"
+				},
+				{
+					"value": "5",
+					"label": "Horo gubi"
+				},
+				{
+					"value": "6",
+					"label": "Humodeyita"
+				},
+				{
+					"value": "7",
+					"label": "Mego"
+				}
+			]
+		},
+		{
+			"type": "fixed",
+			"name": "zs21c49",
+			"choicesType": "string",
+			"choices": [
+				{
+					"value": "1",
+					"label": "yes"
+				},
+				{
+					"value": "2",
+					"label": "no"
+				}
+			]
+		}
+	],
+	"nodes": [
+		{
+			"parent": 0,
+			"id": 1,
+			"name": "slide0",
+			"label": "",
+			"nodeType": 3,
+			"nodes": [
+				{
+					"parent": 1,
+					"id": 1001,
+					"name": "Enumerator_s_full_name",
+					"label": "Enumerator's full name",
+					"nodeType": 0,
+					"fieldType": 0,
+					"validation": {
+						"notEmpty": true
+					}
+				},
+				{
+					"parent": 1001,
+					"id": 1002,
+					"name": "Enumerator_s_phone_number",
+					"label": "Enumerator's phone number",
+					"nodeType": 0,
+					"fieldType": 2,
+					"validation": {
+						"notEmpty": true,
+						"conditions": [
+							{
+								"condition": "isInt(Enumerator_s_phone_number)",
+								"clientValidation": true,
+								"errorMessage": "The field value must be an integer."
+							}
+						]
+					}
+				},
+				{
+					"parent": 1002,
+					"id": 1003,
+					"name": "intro_q1_Responsible_NGO",
+					"label": "Responsible NGO",
+					"hint": "do not ask",
+					"nodeType": 0,
+					"fieldType": 4,
+					"choicesOriginRef": "dq22n41",
+					"validation": {
+						"notEmpty": true
+					}
+				},
+				{
+					"parent": 1003,
+					"id": 1004,
+					"name": "intro_q0_Introduction",
+					"label": "",
+					"nodeType": 0,
+					"fieldType": 7,
+					"HTML": "Introduction: Hello, I would like to ask for your permission to interview you and your family on behalf of a program which is aiming to improve girl’s education in lots of countries around the world.  We would like to ask you some questions about your family background, any education programmes your daughters are a part of and how they feel about education. If you chose to take part, the results will not be shared with your school and do not affect school grades. We will record the answers to use them in our research but we will not mention you by name or share your personal details with anybody outside of our team. Is that acceptable and do you agree to take part in the interview to help improve girl’s education?",
+					"validation": {}
+				},
+				{
+					"parent": 1004,
+					"id": 1005,
+					"name": "intro_q0_agree",
+					"label": "Did respondent agree",
+					"nodeType": 0,
+					"fieldType": 4,
+					"choicesOriginRef": "ap7ue07",
+					"validation": {
+						"notEmpty": true
+					}
+				},
+				{
+					"parent": 1005,
+					"id": 1006,
+					"name": "intro_q0_reason",
+					"label": "reasons for refusal with the interview",
+					"nodeType": 0,
+					"fieldType": 0,
+					"validation": {
+						"notEmpty": true
+					},
+					"visibility": {
+						"condition": "intro_q0_agree === '2'"
+					}
+				}
+			]
+		},
+		{
+			"parent": 1,
+			"id": 2,
+			"name": "group_geo",
+			"label": "Geographic information",
+			"nodeType": 3,
+			"visibility": {
+				"condition": "intro_q0_agree === '1'"
+			},
+			"nodes": [
+				{
+					"parent": 2,
+					"id": 2001,
+					"name": "ge_q2_zone",
+					"label": "Zone",
+					"hint": "do not ask",
+					"nodeType": 0,
+					"fieldType": 4,
+					"choicesOriginRef": "vq7tc12",
+					"validation": {
+						"notEmpty": true
+					}
+				},
+				{
+					"parent": 2001,
+					"id": 2002,
+					"name": "ge_q3_a_woreda",
+					"label": "woreda",
+					"hint": "Awsi/Zone1",
+					"nodeType": 0,
+					"fieldType": 4,
+					"choicesOriginRef": "yi8wj53",
+					"validation": {
+						"notEmpty": true
+					},
+					"visibility": {
+						"condition": "ge_q2_zone === '1'"
+					}
+				},
+				{
+					"parent": 2002,
+					"id": 2003,
+					"name": "ge_q3_b_woreda",
+					"label": "woreda",
+					"hint": "South Wollo Zone",
+					"nodeType": 0,
+					"fieldType": 4,
+					"choicesOriginRef": "on83y87",
+					"validation": {
+						"notEmpty": true
+					},
+					"visibility": {
+						"condition": "ge_q2_zone === '2'"
+					}
+				},
+				{
+					"parent": 2003,
+					"id": 2004,
+					"name": "ge_q3_c_woreda",
+					"label": "woreda",
+					"hint": "Borana",
+					"nodeType": 0,
+					"fieldType": 4,
+					"choicesOriginRef": "cb74d94",
+					"validation": {
+						"notEmpty": true
+					},
+					"visibility": {
+						"condition": "ge_q2_zone === '3'"
+					}
+				},
+				{
+					"parent": 2004,
+					"id": 2005,
+					"name": "ge_q3_d_woreda",
+					"label": "woreda",
+					"hint": "Gedeo",
+					"nodeType": 0,
+					"fieldType": 4,
+					"choicesOriginRef": "sy0wp67",
+					"validation": {
+						"notEmpty": true
+					},
+					"visibility": {
+						"condition": "ge_q2_zone === '4'"
+					}
+				},
+				{
+					"parent": 2005,
+					"id": 2006,
+					"name": "ge_q4_a_kebele_kochore",
+					"label": "kebele",
+					"hint": "in Kochore woreda",
+					"nodeType": 0,
+					"fieldType": 4,
+					"choicesOriginRef": "rw33b13",
+					"validation": {
+						"notEmpty": true
+					},
+					"visibility": {
+						"condition": "ge_q3_d_woreda === '1'"
+					}
+				},
+				{
+					"parent": 2006,
+					"id": 2007,
+					"name": "ge_q4_b_kebele_wenago",
+					"label": "kebele",
+					"hint": "in Wenago woreda",
+					"nodeType": 0,
+					"fieldType": 4,
+					"choicesOriginRef": "ov7zp76",
+					"validation": {
+						"notEmpty": true
+					},
+					"visibility": {
+						"condition": "ge_q3_d_woreda === '2'"
+					}
+				},
+				{
+					"parent": 2007,
+					"id": 2008,
+					"name": "ge_q4_c_kebele_yirgachefe",
+					"label": "kebele",
+					"hint": "in Yirgachefe woreda",
+					"nodeType": 0,
+					"fieldType": 4,
+					"choicesOriginRef": "nz4ki38",
+					"validation": {
+						"notEmpty": true
+					},
+					"visibility": {
+						"condition": "ge_q3_d_woreda === '3'"
+					}
+				},
+				{
+					"parent": 2008,
+					"id": 2009,
+					"name": "ge_q4_a_kebele_dessie",
+					"label": "kebele",
+					"hint": "in Dessie Zuria woreda",
+					"nodeType": 0,
+					"fieldType": 4,
+					"choicesOriginRef": "dn9cz37",
+					"validation": {
+						"notEmpty": true
+					},
+					"visibility": {
+						"condition": "ge_q3_b_woreda === '1'"
+					}
+				},
+				{
+					"parent": 2009,
+					"id": 2010,
+					"name": "ge_q4_b_kebele_legambo",
+					"label": "kebele",
+					"hint": "in Legambo woreda",
+					"nodeType": 0,
+					"fieldType": 4,
+					"choicesOriginRef": "ss9db73",
+					"validation": {
+						"notEmpty": true
+					},
+					"visibility": {
+						"condition": "ge_q3_b_woreda === '2'"
+					}
+				},
+				{
+					"parent": 2010,
+					"id": 2011,
+					"name": "ge_q4_a_kebele_afambo",
+					"label": "kebele",
+					"hint": "in Afambo woreda",
+					"nodeType": 0,
+					"fieldType": 4,
+					"choicesOriginRef": "zn4ux81",
+					"validation": {
+						"notEmpty": true
+					},
+					"visibility": {
+						"condition": "ge_q3_a_woreda === '1'"
+					}
+				},
+				{
+					"parent": 2011,
+					"id": 2012,
+					"name": "ge_q4_b_kebele_aysaita",
+					"label": "kebele",
+					"hint": "in Aysaita woreda",
+					"nodeType": 0,
+					"fieldType": 4,
+					"choicesOriginRef": "pa3js71",
+					"validation": {
+						"notEmpty": true
+					},
+					"visibility": {
+						"condition": "ge_q3_a_woreda === '2'"
+					}
+				},
+				{
+					"parent": 2012,
+					"id": 2013,
+					"name": "ge_q4_a_kebele_dillo",
+					"label": "Kebele",
+					"hint": "in Dillo woreda",
+					"nodeType": 0,
+					"fieldType": 4,
+					"choicesOriginRef": "kv6vk18",
+					"validation": {
+						"notEmpty": true
+					},
+					"visibility": {
+						"condition": "ge_q3_c_woreda === '1'"
+					}
+				},
+				{
+					"parent": 2013,
+					"id": 2014,
+					"name": "ge_q4_b_kebele_yabello",
+					"label": "Kebele",
+					"hint": "in Yabello woreda",
+					"nodeType": 0,
+					"fieldType": 4,
+					"choicesOriginRef": "io3by55",
+					"validation": {
+						"notEmpty": true
+					},
+					"visibility": {
+						"condition": "ge_q3_c_woreda === '3'"
+					}
+				},
+				{
+					"parent": 2014,
+					"id": 2015,
+					"name": "ge_q4_c_kebele_elwaye",
+					"label": "kebele",
+					"hint": "in El-waye woreda",
+					"nodeType": 0,
+					"fieldType": 4,
+					"choicesOriginRef": "vh7uh12",
+					"validation": {
+						"notEmpty": true
+					},
+					"visibility": {
+						"condition": "ge_q3_c_woreda === '2'"
+					}
+				},
+				{
+					"parent": 2015,
+					"id": 2016,
+					"name": "Village_gott",
+					"label": "Village/gott",
+					"nodeType": 0,
+					"fieldType": 0,
+					"validation": {
+						"notEmpty": true
+					}
+				}
+			]
+		},
+		{
+			"parent": 2,
+			"id": 3,
+			"name": "group_household",
+			"label": "Household information",
+			"nodeType": 3,
+			"visibility": {
+				"condition": "intro_q0_agree === '1'"
+			},
+			"nodes": [
+				{
+					"parent": 3,
+					"id": 3001,
+					"name": "hh_q0_bi_list",
+					"label": "Is the household on the list from previous phase of beneficiaries identification?",
+					"nodeType": 0,
+					"fieldType": 4,
+					"choicesOriginRef": "wc4gn71",
+					"validation": {
+						"notEmpty": true
+					}
+				},
+				{
+					"parent": 3001,
+					"id": 3002,
+					"name": "hh_q0_bi_list_a",
+					"label": "What is the household number from the list?",
+					"nodeType": 0,
+					"fieldType": 2,
+					"validation": {
+						"notEmpty": true,
+						"conditions": [
+							{
+								"condition": "isInt(hh_q0_bi_list_a)",
+								"clientValidation": true,
+								"errorMessage": "The field value must be an integer."
+							}
+						]
+					},
+					"visibility": {
+						"condition": "hh_q0_bi_list === '1'"
+					}
+				},
+				{
+					"parent": 3002,
+					"id": 3003,
+					"name": "hh_q0_a_resident",
+					"label": "what is the household residential status?",
+					"nodeType": 0,
+					"fieldType": 4,
+					"choicesOriginRef": "fi9py30",
+					"validation": {
+						"notEmpty": true
+					}
+				},
+				{
+					"parent": 3003,
+					"id": 3004,
+					"name": "hh_q0_b_language",
+					"label": "what is the main language spoken in the household?",
+					"nodeType": 0,
+					"fieldType": 4,
+					"choicesOriginRef": "dh1sw58",
+					"validation": {
+						"notEmpty": true
+					}
+				},
+				{
+					"parent": 3004,
+					"id": 3005,
+					"name": "hh_q0_c_language",
+					"label": "please specify",
+					"nodeType": 0,
+					"fieldType": 0,
+					"validation": {
+						"notEmpty": true
+					},
+					"visibility": {
+						"condition": "hh_q0_b_language === '5'"
+					}
+				},
+				{
+					"parent": 3005,
+					"id": 3006,
+					"name": "hh_q1_hh_head_name",
+					"label": "HH head full name",
+					"nodeType": 0,
+					"fieldType": 0,
+					"validation": {
+						"notEmpty": true
+					}
+				},
+				{
+					"parent": 3006,
+					"id": 3007,
+					"name": "hh_q2_hh_head_gender",
+					"label": "HH head gender",
+					"nodeType": 0,
+					"fieldType": 4,
+					"choicesOriginRef": "jo9bj70",
+					"validation": {
+						"notEmpty": true
+					}
+				},
+				{
+					"parent": 3007,
+					"id": 3008,
+					"name": "hh_q3_a_hh_head_marital_status",
+					"label": "HH head marital status",
+					"nodeType": 0,
+					"fieldType": 4,
+					"choicesOriginRef": "qm1ok87",
+					"validation": {
+						"notEmpty": true
+					}
+				},
+				{
+					"parent": 3008,
+					"id": 3009,
+					"name": "hh_q3_b_other",
+					"label": "Please specify",
+					"nodeType": 0,
+					"fieldType": 0,
+					"validation": {
+						"notEmpty": true
+					},
+					"visibility": {
+						"condition": "hh_q3_a_hh_head_marital_status === '4'"
+					}
+				},
+				{
+					"parent": 3009,
+					"id": 3010,
+					"name": "hh_q6_both_live",
+					"label": "Do both parents live in the HH?",
+					"nodeType": 0,
+					"fieldType": 4,
+					"choicesOriginRef": "hc3pe11",
+					"validation": {
+						"notEmpty": true
+					},
+					"visibility": {
+						"condition": "hh_q3_a_hh_head_marital_status === '1'"
+					}
+				},
+				{
+					"parent": 3010,
+					"id": 3011,
+					"name": "hh_q4_a_hh_head_occupation",
+					"label": "HH head primary occupation",
+					"nodeType": 0,
+					"fieldType": 4,
+					"choicesOriginRef": "kv1hk46",
+					"validation": {
+						"notEmpty": true
+					}
+				},
+				{
+					"parent": 3011,
+					"id": 3012,
+					"name": "hh_q4_b_other",
+					"label": "Please specify",
+					"nodeType": 0,
+					"fieldType": 0,
+					"validation": {
+						"notEmpty": true
+					},
+					"visibility": {
+						"condition": "hh_q4_a_hh_head_occupation === '8'"
+					}
+				},
+				{
+					"parent": 3012,
+					"id": 3013,
+					"name": "hh_q5_h_edu",
+					"label": "HH head highest school grade completed",
+					"nodeType": 0,
+					"fieldType": 4,
+					"choicesOriginRef": "wt1un80",
+					"validation": {
+						"notEmpty": true
+					}
+				},
+				{
+					"parent": 3013,
+					"id": 3014,
+					"name": "hh_q7_hh_total_number",
+					"label": "HH composition: what is the total number of household members",
+					"nodeType": 0,
+					"fieldType": 2,
+					"validation": {
+						"notEmpty": true,
+						"conditions": [
+							{
+								"condition": "isInt(hh_q7_hh_total_number)",
+								"clientValidation": true,
+								"errorMessage": "The field value must be an integer."
+							}
+						]
+					}
+				},
+				{
+					"parent": 3014,
+					"id": 3015,
+					"name": "hh_q8_hh_adults",
+					"label": "HH composition: how many adults live in the household? (18 years old and more)",
+					"hint": "the number cannot be bigger than: ${hh_q7_hh_total_number}",
+					"nodeType": 0,
+					"fieldType": 2,
+					"validation": {
+						"notEmpty": true,
+						"conditions": [
+							{
+								"condition": "isInt(hh_q8_hh_adults)",
+								"clientValidation": true,
+								"errorMessage": "The field value must be an integer."
+							},
+							{
+								"condition": "hh_q8_hh_adults <= hh_q7_hh_total_number",
+								"clientValidation": true,
+								"errorMessage": "too many"
+							}
+						]
+					}
+				},
+				{
+					"parent": 3015,
+					"id": 3016,
+					"name": "hh_q9_adults_women",
+					"label": "HH composition: how many of them are women?",
+					"hint": "the number cannot be bigger than: ${hh_q8_hh_adults}",
+					"nodeType": 0,
+					"fieldType": 2,
+					"validation": {
+						"notEmpty": true,
+						"conditions": [
+							{
+								"condition": "isInt(hh_q9_adults_women)",
+								"clientValidation": true,
+								"errorMessage": "The field value must be an integer."
+							},
+							{
+								"condition": "hh_q9_adults_women <= hh_q8_hh_adults",
+								"clientValidation": true,
+								"errorMessage": "too many"
+							}
+						]
+					}
+				},
+				{
+					"parent": 3016,
+					"id": 3017,
+					"name": "gi_q0_calc_children1",
+					"label": "",
+					"nodeType": 0,
+					"fieldType": 6,
+					"formula": {
+						"formula": "hh_q7_hh_total_number - hh_q8_hh_adults"
+					},
+					"validation": {}
+				},
+				{
+					"parent": 3017,
+					"id": 3018,
+					"name": "hh_q10_a_6_7",
+					"label": "HH composition: how many children between 6 and 7 years live in the household?",
+					"hint": "the number cannot be bigger than: ${gi_q0_calc_children1}",
+					"nodeType": 0,
+					"fieldType": 2,
+					"validation": {
+						"notEmpty": true,
+						"conditions": [
+							{
+								"condition": "isInt(hh_q10_a_6_7)",
+								"clientValidation": true,
+								"errorMessage": "The field value must be an integer."
+							},
+							{
+								"condition": "hh_q10_a_6_7 <= gi_q0_calc_children1",
+								"clientValidation": true,
+								"errorMessage": "too many"
+							}
+						]
+					}
+				},
+				{
+					"parent": 3018,
+					"id": 3019,
+					"name": "hh_q10_b_6_7_w",
+					"label": "HH composition: how many of them are women?",
+					"hint": "girls in age 6-7 years, the number cannot be bigger than: ${hh_q10_a_6_7}",
+					"nodeType": 0,
+					"fieldType": 2,
+					"validation": {
+						"notEmpty": true,
+						"conditions": [
+							{
+								"condition": "isInt(hh_q10_b_6_7_w)",
+								"clientValidation": true,
+								"errorMessage": "The field value must be an integer."
+							},
+							{
+								"condition": "hh_q10_b_6_7_w <= hh_q10_a_6_7",
+								"clientValidation": true,
+								"errorMessage": "too many"
+							}
+						]
+					}
+				},
+				{
+					"parent": 3019,
+					"id": 3020,
+					"name": "gi_q0_calc_children2",
+					"label": "",
+					"nodeType": 0,
+					"fieldType": 6,
+					"formula": {
+						"formula": "hh_q7_hh_total_number - hh_q8_hh_adults - hh_q10_a_6_7"
+					},
+					"validation": {}
+				},
+				{
+					"parent": 3020,
+					"id": 3021,
+					"name": "hh_q11_a_8_9",
+					"label": "HH composition: how many children between 8 and 9 years live in the household?",
+					"hint": "the number cannot be bigger than: ${gi_q0_calc_children2}",
+					"nodeType": 0,
+					"fieldType": 2,
+					"validation": {
+						"notEmpty": true,
+						"conditions": [
+							{
+								"condition": "isInt(hh_q11_a_8_9)",
+								"clientValidation": true,
+								"errorMessage": "The field value must be an integer."
+							},
+							{
+								"condition": "hh_q11_a_8_9 <= gi_q0_calc_children2",
+								"clientValidation": true,
+								"errorMessage": "too many"
+							}
+						]
+					}
+				},
+				{
+					"parent": 3021,
+					"id": 3022,
+					"name": "hh_q11_b_8_9_w",
+					"label": "HH composition: how many of them are women?",
+					"hint": "girls in age 8-9 years, the number cannot be bigger than: ${hh_q11_a_8_9}",
+					"nodeType": 0,
+					"fieldType": 2,
+					"validation": {
+						"notEmpty": true,
+						"conditions": [
+							{
+								"condition": "isInt(hh_q11_b_8_9_w)",
+								"clientValidation": true,
+								"errorMessage": "The field value must be an integer."
+							},
+							{
+								"condition": "hh_q11_b_8_9_w <= hh_q11_a_8_9",
+								"clientValidation": true,
+								"errorMessage": "too many"
+							}
+						]
+					}
+				},
+				{
+					"parent": 3022,
+					"id": 3023,
+					"name": "gi_q0_calc_children3",
+					"label": "",
+					"nodeType": 0,
+					"fieldType": 6,
+					"formula": {
+						"formula": "hh_q7_hh_total_number - hh_q8_hh_adults - hh_q10_a_6_7 - hh_q11_a_8_9"
+					},
+					"validation": {}
+				},
+				{
+					"parent": 3023,
+					"id": 3024,
+					"name": "hh_q12_a_10_14",
+					"label": "HH composition: how many children between 10 and 14 live in the household?",
+					"hint": "the number cannot be bigger than: ${gi_q0_calc_children3}",
+					"nodeType": 0,
+					"fieldType": 2,
+					"validation": {
+						"notEmpty": true,
+						"conditions": [
+							{
+								"condition": "isInt(hh_q12_a_10_14)",
+								"clientValidation": true,
+								"errorMessage": "The field value must be an integer."
+							},
+							{
+								"condition": "hh_q12_a_10_14 <= hh_q7_hh_total_number",
+								"clientValidation": true,
+								"errorMessage": "too many"
+							}
+						]
+					}
+				},
+				{
+					"parent": 3024,
+					"id": 3025,
+					"name": "hh_q12_b_10_14_w",
+					"label": "HH composition: how many of them are women?",
+					"hint": "girls in age 10-14 years, the number cannot be bigger than: ${hh_q12_a_10_14}",
+					"nodeType": 0,
+					"fieldType": 2,
+					"validation": {
+						"notEmpty": true,
+						"conditions": [
+							{
+								"condition": "isInt(hh_q12_b_10_14_w)",
+								"clientValidation": true,
+								"errorMessage": "The field value must be an integer."
+							},
+							{
+								"condition": "hh_q12_b_10_14_w <= hh_q12_a_10_14",
+								"clientValidation": true,
+								"errorMessage": "too many"
+							}
+						]
+					}
+				},
+				{
+					"parent": 3025,
+					"id": 3026,
+					"name": "gi_q0_calc_children4",
+					"label": "",
+					"nodeType": 0,
+					"fieldType": 6,
+					"formula": {
+						"formula": "hh_q7_hh_total_number - hh_q10_a_6_7 - hh_q11_a_8_9 - hh_q12_a_10_14"
+					},
+					"validation": {}
+				},
+				{
+					"parent": 3026,
+					"id": 3027,
+					"name": "hh_q13_a_15_19",
+					"label": "HH composition: how many children between 15 and 19 live in the household?",
+					"hint": "the number cannot be bigger than: ${gi_q0_calc_children4}",
+					"nodeType": 0,
+					"fieldType": 2,
+					"validation": {
+						"notEmpty": true,
+						"conditions": [
+							{
+								"condition": "isInt(hh_q13_a_15_19)",
+								"clientValidation": true,
+								"errorMessage": "The field value must be an integer."
+							},
+							{
+								"condition": "hh_q13_a_15_19 <= gi_q0_calc_children4",
+								"clientValidation": true,
+								"errorMessage": "too many"
+							}
+						]
+					}
+				},
+				{
+					"parent": 3027,
+					"id": 3028,
+					"name": "hh_q13_b_15_19_w",
+					"label": "HH composition: how many of them are women?",
+					"hint": "girls in age 15-19 years ,the number cannot be bigger than: ${hh_q13_a_15_19}",
+					"nodeType": 0,
+					"fieldType": 2,
+					"validation": {
+						"notEmpty": true,
+						"conditions": [
+							{
+								"condition": "isInt(hh_q13_b_15_19_w)",
+								"clientValidation": true,
+								"errorMessage": "The field value must be an integer."
+							},
+							{
+								"condition": "hh_q13_b_15_19_w <= hh_q13_a_15_19",
+								"clientValidation": true,
+								"errorMessage": "too many"
+							}
+						]
+					}
+				},
+				{
+					"parent": 3028,
+					"id": 3029,
+					"name": "hh_q14_distance_primary",
+					"label": "What is the distance from the HH to the nearest primary school/ABE?",
+					"hint": "in minutes. ask respondent to assess time to walk to the school. if respondent says 1 hour, put 60, if 1.5 hour, put 90, etc.",
+					"nodeType": 0,
+					"fieldType": 2,
+					"validation": {
+						"notEmpty": true
+					}
+				},
+				{
+					"parent": 3029,
+					"id": 3030,
+					"name": "hh_q15_name_primary",
+					"label": "What is the name of the school?",
+					"nodeType": 0,
+					"fieldType": 0,
+					"validation": {
+						"notEmpty": true
+					}
+				},
+				{
+					"parent": 3030,
+					"id": 3031,
+					"name": "hh_q16_distance_secondary",
+					"label": "What is the distance from the HH to the nearest secondary school/IFAL?",
+					"hint": "in minutes. ask respondent to assess time to walk to the school. if respondent says 1 hour, put 60, if 1.5 hour, put 90, etc.",
+					"nodeType": 0,
+					"fieldType": 2,
+					"validation": {
+						"notEmpty": true
+					}
+				},
+				{
+					"parent": 3031,
+					"id": 3032,
+					"name": "hh_q17_name_secondary",
+					"label": "What is the name of the school?",
+					"nodeType": 0,
+					"fieldType": 0,
+					"validation": {
+						"notEmpty": true
+					}
+				},
+				{
+					"parent": 3032,
+					"id": 3033,
+					"name": "gi_q0",
+					"label": "",
+					"hint": "for all girls in the HH between 8 and 19 years",
+					"nodeType": 0,
+					"fieldType": 7,
+					"HTML": "Girls information",
+					"validation": {}
+				},
+				{
+					"parent": 3033,
+					"id": 3034,
+					"name": "gi_q0_calculation",
+					"label": "",
+					"nodeType": 0,
+					"fieldType": 6,
+					"formula": {
+						"formula": "hh_q11_b_8_9_w + hh_q12_b_10_14_w + hh_q13_b_15_19_w"
+					},
+					"validation": {}
+				},
+				{
+					"parent": 3034,
+					"id": 3035,
+					"name": "gi_q0_totalgirls",
+					"label": "",
+					"hint": "Ask if girls' primary caregiver can participate during interview.",
+					"nodeType": 0,
+					"fieldType": 7,
+					"HTML": "There is: ${gi_q0_calculation} girls in age 8-19 in your household. Now we will focus only on these girls.",
+					"validation": {}
+				}
+			]
+		},
+		{
+			"parent": 3,
+			"id": 4,
+			"name": "group_girl1_age",
+			"label": "First girl age and school",
+			"nodeType": 3,
+			"visibility": {
+				"condition": "gi_q0_calculation >= 1"
+			},
+			"nodes": [
+				{
+					"parent": 4,
+					"id": 4001,
+					"name": "gi_q1_name",
+					"label": "What is the first girl's name?",
+					"nodeType": 0,
+					"fieldType": 0,
+					"validation": {
+						"notEmpty": true
+					}
+				},
+				{
+					"parent": 4001,
+					"id": 4002,
+					"name": "gi_q1_bi_list",
+					"label": "Is girl's name on the list from beneficiaries identification list?",
+					"nodeType": 0,
+					"fieldType": 4,
+					"choicesOriginRef": "an1cs99",
+					"validation": {
+						"notEmpty": true
+					}
+				},
+				{
+					"parent": 4002,
+					"id": 4003,
+					"name": "gi_q1_bi_list_a",
+					"label": "what is the girl's number on the list?",
+					"nodeType": 0,
+					"fieldType": 2,
+					"validation": {
+						"notEmpty": true,
+						"conditions": [
+							{
+								"condition": "isInt(gi_q1_bi_list_a)",
+								"clientValidation": true,
+								"errorMessage": "The field value must be an integer."
+							}
+						]
+					},
+					"visibility": {
+						"condition": "gi_q1_bi_list === 'yes'"
+					}
+				},
+				{
+					"parent": 4003,
+					"id": 4004,
+					"name": "gi_q2_married",
+					"label": "Is ${gi_q1_name} married?",
+					"nodeType": 0,
+					"fieldType": 4,
+					"choicesOriginRef": "zs21c49",
+					"validation": {
+						"notEmpty": true
+					}
+				},
+				{
+					"parent": 4004,
+					"id": 4005,
+					"name": "gi_age_q0",
+					"label": "",
+					"nodeType": 0,
+					"fieldType": 7,
+					"HTML": "Now we will focus on girl's age",
+					"validation": {}
+				},
+				{
+					"parent": 4005,
+					"id": 4006,
+					"name": "gi_age_q1",
+					"label": "How old is ${gi_q1_name}?",
+					"nodeType": 0,
+					"fieldType": 2,
+					"validation": {
+						"notEmpty": true,
+						"conditions": [
+							{
+								"condition": "isInt(gi_age_q1)",
+								"clientValidation": true,
+								"errorMessage": "The field value must be an integer."
+							}
+						]
+					}
+				},
+				{
+					"parent": 4006,
+					"id": 4007,
+					"name": "gi_age_q2_doc",
+					"label": "Do you have any documents that could prove ${gi_q1_name} actual age?",
+					"nodeType": 0,
+					"fieldType": 4,
+					"choicesOriginRef": "rs85c55",
+					"validation": {
+						"notEmpty": true
+					}
+				},
+				{
+					"parent": 4007,
+					"id": 4008,
+					"name": "gi_age_q2_a_doc",
+					"label": "if yes, can you show us the document for ${gi_q1_name} age confirmation?",
+					"nodeType": 0,
+					"fieldType": 4,
+					"choicesOriginRef": "pa8de94",
+					"validation": {
+						"notEmpty": true
+					},
+					"visibility": {
+						"condition": "gi_age_q2_doc === '1'"
+					}
+				},
+				{
+					"parent": 4008,
+					"id": 4009,
+					"name": "gi_age_q2_b_doc",
+					"label": "if no, based on what information do you assess ${gi_q1_name} age?",
+					"nodeType": 0,
+					"fieldType": 0,
+					"validation": {},
+					"visibility": {
+						"condition": "gi_age_q2_doc === '2'"
+					}
+				},
+				{
+					"parent": 4009,
+					"id": 4010,
+					"name": "gi_age_q3_year",
+					"label": "What is the year of birth",
+					"hint": "in Ethiopian calendar",
+					"nodeType": 0,
+					"fieldType": 4,
+					"choicesOriginRef": "zb4lw45",
+					"validation": {
+						"notEmpty": true
+					}
+				},
+				{
+					"parent": 4010,
+					"id": 4011,
+					"name": "gi_age_q4_month",
+					"label": "What is the month of birth?",
+					"hint": "in Ethiopian calendar",
+					"nodeType": 0,
+					"fieldType": 4,
+					"choicesOriginRef": "uk7jg49",
+					"validation": {
+						"notEmpty": true
+					}
+				},
+				{
+					"parent": 4011,
+					"id": 4012,
+					"name": "gi_age_q5_day",
+					"label": "What is the day of birth?",
+					"hint": "in Ethiopian calendar",
+					"nodeType": 0,
+					"fieldType": 4,
+					"choicesOriginRef": "uw4ue68",
+					"validation": {
+						"notEmpty": true
+					}
+				},
+				{
+					"parent": 4012,
+					"id": 4013,
+					"name": "gi_sch_q0",
+					"label": "",
+					"nodeType": 0,
+					"fieldType": 7,
+					"HTML": "Girl's school status",
+					"validation": {}
+				},
+				{
+					"parent": 4013,
+					"id": 4014,
+					"name": "gi_sch_q1_attend",
+					"label": "Since age five, has ${gi_q1_name} ever attended a formal school?",
+					"nodeType": 0,
+					"fieldType": 4,
+					"choicesOriginRef": "kh8hj12",
+					"validation": {
+						"notEmpty": true
+					}
+				},
+				{
+					"parent": 4014,
+					"id": 4015,
+					"name": "gi_sch_q2_enrolled",
+					"label": "Was ${gi_q1_name} enrolled at a formal school in this (2018/2019) year?",
+					"nodeType": 0,
+					"fieldType": 4,
+					"choicesOriginRef": "al79i76",
+					"validation": {
+						"notEmpty": true
+					}
+				},
+				{
+					"parent": 4015,
+					"id": 4016,
+					"name": "gi_sch_q2_level",
+					"label": "If yes: what was the grade level attended?",
+					"nodeType": 0,
+					"fieldType": 2,
+					"validation": {
+						"notEmpty": true,
+						"conditions": [
+							{
+								"condition": "isInt(gi_sch_q2_level)",
+								"clientValidation": true,
+								"errorMessage": "The field value must be an integer."
+							}
+						]
+					},
+					"visibility": {
+						"condition": "gi_sch_q2_enrolled === '1'"
+					}
+				},
+				{
+					"parent": 4016,
+					"id": 4017,
+					"name": "gi_sch_q3_exam",
+					"label": "If yes: has the girl finished (by conducting final exams) the school year?",
+					"nodeType": 0,
+					"fieldType": 4,
+					"choicesOriginRef": "al79i76",
+					"validation": {
+						"notEmpty": true
+					},
+					"visibility": {
+						"condition": "gi_sch_q2_enrolled === '1'"
+					}
+				},
+				{
+					"parent": 4017,
+					"id": 4018,
+					"name": "gi_sch_q4_name",
+					"label": "If yes: what was the school name?",
+					"nodeType": 0,
+					"fieldType": 0,
+					"validation": {
+						"notEmpty": true
+					},
+					"visibility": {
+						"condition": "gi_sch_q2_enrolled === '1'"
+					}
+				},
+				{
+					"parent": 4018,
+					"id": 4019,
+					"name": "gi_sch_q5_a_lastgrade",
+					"label": "if not: what was the last grade attended by ${gi_q1_name}?",
+					"hint": "if girl was never at school, put 0",
+					"nodeType": 0,
+					"fieldType": 2,
+					"validation": {
+						"notEmpty": true,
+						"conditions": [
+							{
+								"condition": "isInt(gi_sch_q5_a_lastgrade)",
+								"clientValidation": true,
+								"errorMessage": "The field value must be an integer."
+							}
+						]
+					},
+					"visibility": {
+						"condition": "gi_sch_q2_enrolled === '2'"
+					}
+				},
+				{
+					"parent": 4019,
+					"id": 4020,
+					"name": "gi_sch_q5_b_nonformal",
+					"label": "If not: Was ${gi_q1_name} attending any type of non-formal education in this (2018/2019) school year?",
+					"nodeType": 0,
+					"fieldType": 4,
+					"choicesOriginRef": "eb7eu22",
+					"validation": {
+						"notEmpty": true
+					},
+					"visibility": {
+						"condition": "gi_sch_q2_enrolled === '2'"
+					}
+				},
+				{
+					"parent": 4020,
+					"id": 4021,
+					"name": "gi_sch_q6_a_nonformal_type",
+					"label": "If yes: What type of non-formal education was ${gi_q1_name} enrolled in?",
+					"nodeType": 0,
+					"fieldType": 4,
+					"choicesOriginRef": "vg87o70",
+					"validation": {
+						"notEmpty": true
+					},
+					"visibility": {
+						"condition": "gi_sch_q5_b_nonformal === '1'"
+					}
+				},
+				{
+					"parent": 4021,
+					"id": 4022,
+					"name": "gi_sch_q6_b_nonformal_type",
+					"label": "please specify:",
+					"nodeType": 0,
+					"fieldType": 0,
+					"validation": {
+						"notEmpty": true
+					},
+					"visibility": {
+						"condition": "gi_sch_q6_a_nonformal_type === '3'"
+					}
+				}
+			]
+		},
+		{
+			"parent": 4,
+			"id": 5,
+			"name": "group_girl1_health",
+			"label": "first girl health",
+			"nodeType": 3,
+			"visibility": {
+				"condition": "gi_q0_calculation >= 1"
+			},
+			"nodes": [
+				{
+					"parent": 5,
+					"id": 5001,
+					"name": "gi_wgq_q0",
+					"label": "",
+					"nodeType": 0,
+					"fieldType": 7,
+					"HTML": "The next questions ask about difficulties ${gi_q1_name} may have doing certain activities because of a HEALTH PROBLEM. We would like to talk directly with ${gi_q1_name}.",
+					"validation": {}
+				},
+				{
+					"parent": 5001,
+					"id": 5002,
+					"name": "gi_wgq_q1_eyes",
+					"label": "Do you have difficulty seeing, even if wearing glasses?",
+					"nodeType": 0,
+					"fieldType": 4,
+					"choicesOriginRef": "mo14z33",
+					"validation": {
+						"notEmpty": true
+					}
+				},
+				{
+					"parent": 5002,
+					"id": 5003,
+					"name": "gi_wgq_q2_ears",
+					"label": "Do you have difficulty hearing, even if using a hearing aid?",
+					"nodeType": 0,
+					"fieldType": 4,
+					"choicesOriginRef": "qz49m34",
+					"validation": {
+						"notEmpty": true
+					}
+				},
+				{
+					"parent": 5003,
+					"id": 5004,
+					"name": "gi_wgq_q3_walk",
+					"label": "Do you have difficulty walking or climbing steps?",
+					"nodeType": 0,
+					"fieldType": 4,
+					"choicesOriginRef": "yi2bt40",
+					"validation": {
+						"notEmpty": true
+					}
+				},
+				{
+					"parent": 5004,
+					"id": 5005,
+					"name": "gi_wgq_q4_memory",
+					"label": "Do you have difficulty remembering or concentrating?",
+					"nodeType": 0,
+					"fieldType": 4,
+					"choicesOriginRef": "vm0cf13",
+					"validation": {
+						"notEmpty": true
+					}
+				},
+				{
+					"parent": 5005,
+					"id": 5006,
+					"name": "gi_wgq_q5_care",
+					"label": "Do you have difficulty (with self-care such as) washing all over or dressing?",
+					"nodeType": 0,
+					"fieldType": 4,
+					"choicesOriginRef": "fz7ew22",
+					"validation": {
+						"notEmpty": true
+					}
+				},
+				{
+					"parent": 5006,
+					"id": 5007,
+					"name": "gi_wgq_q6_comm",
+					"label": "Using your usual (customary) language, do you have difficulty communicating, for example understanding or being understood?",
+					"nodeType": 0,
+					"fieldType": 4,
+					"choicesOriginRef": "pl1no91",
+					"validation": {
+						"notEmpty": true
+					}
+				},
+				{
+					"parent": 5007,
+					"id": 5008,
+					"name": "gi_knw_q0_1",
+					"label": "",
+					"hint": "Give girls the hard copy of the story. After she reads the story, fill the following three questions (without asking girl).",
+					"nodeType": 0,
+					"fieldType": 7,
+					"HTML": "Now I would like to ask you to read aloud very short the story I have here in the paper.",
+					"validation": {}
+				},
+				{
+					"parent": 5008,
+					"id": 5009,
+					"name": "gi_knw_q1_1",
+					"label": "Does she reads the text as if she is reading a sentence, rather than a string of words?",
+					"nodeType": 0,
+					"fieldType": 4,
+					"choicesOriginRef": "dz3zg28",
+					"validation": {
+						"notEmpty": true
+					}
+				},
+				{
+					"parent": 5009,
+					"id": 5010,
+					"name": "gi_knw_q2_1",
+					"label": "Does she read the text fluently and with ease? The child may read slowly.",
+					"nodeType": 0,
+					"fieldType": 4,
+					"choicesOriginRef": "je49g40",
+					"validation": {
+						"notEmpty": true
+					}
+				},
+				{
+					"parent": 5010,
+					"id": 5011,
+					"name": "gi_knw_q3_1",
+					"label": "How many mistakes does she make?",
+					"hint": "put 99 if she can't read",
+					"nodeType": 0,
+					"fieldType": 2,
+					"validation": {
+						"notEmpty": true,
+						"conditions": [
+							{
+								"condition": "isInt(gi_knw_q3_1)",
+								"clientValidation": true,
+								"errorMessage": "The field value must be an integer."
+							}
+						]
+					}
+				}
+			]
+		},
+		{
+			"parent": 5,
+			"id": 6,
+			"name": "group_girl1_2_age",
+			"label": "Second girl age and school",
+			"nodeType": 3,
+			"visibility": {
+				"condition": "gi_q0_calculation >= 2"
+			},
+			"nodes": [
+				{
+					"parent": 6,
+					"id": 6001,
+					"name": "gi_q1_2_name",
+					"label": "What is the second girl's name?",
+					"nodeType": 0,
+					"fieldType": 0,
+					"validation": {
+						"notEmpty": true
+					}
+				},
+				{
+					"parent": 6001,
+					"id": 6002,
+					"name": "gi_q1_2_bi_list",
+					"label": "Is girl's name on the list from beneficiaries identification list?",
+					"nodeType": 0,
+					"fieldType": 4,
+					"choicesOriginRef": "an1cs99",
+					"validation": {
+						"notEmpty": true
+					}
+				},
+				{
+					"parent": 6002,
+					"id": 6003,
+					"name": "gi_q1_2_bi_list_a",
+					"label": "what is the girl's number on the list?",
+					"nodeType": 0,
+					"fieldType": 2,
+					"validation": {
+						"notEmpty": true,
+						"conditions": [
+							{
+								"condition": "isInt(gi_q1_2_bi_list_a)",
+								"clientValidation": true,
+								"errorMessage": "The field value must be an integer."
+							}
+						]
+					},
+					"visibility": {
+						"condition": "gi_q1_2_bi_list === 'yes'"
+					}
+				},
+				{
+					"parent": 6003,
+					"id": 6004,
+					"name": "gi_q2_2_married",
+					"label": "Is ${gi_q1_2_name} married?",
+					"nodeType": 0,
+					"fieldType": 4,
+					"choicesOriginRef": "zs21c49",
+					"validation": {
+						"notEmpty": true
+					}
+				},
+				{
+					"parent": 6004,
+					"id": 6005,
+					"name": "gi_age_q0_2",
+					"label": "",
+					"nodeType": 0,
+					"fieldType": 7,
+					"HTML": "Now we will focus on girl's age",
+					"validation": {}
+				},
+				{
+					"parent": 6005,
+					"id": 6006,
+					"name": "gi_age_q1_2",
+					"label": "How old is ${gi_q1_2_name}?",
+					"nodeType": 0,
+					"fieldType": 2,
+					"validation": {
+						"notEmpty": true,
+						"conditions": [
+							{
+								"condition": "isInt(gi_age_q1_2)",
+								"clientValidation": true,
+								"errorMessage": "The field value must be an integer."
+							}
+						]
+					}
+				},
+				{
+					"parent": 6006,
+					"id": 6007,
+					"name": "gi_age_q2_2_doc",
+					"label": "Do you have any documents that could prove ${gi_q1_2_name} actual age?",
+					"nodeType": 0,
+					"fieldType": 4,
+					"choicesOriginRef": "rs85c55",
+					"validation": {
+						"notEmpty": true
+					}
+				},
+				{
+					"parent": 6007,
+					"id": 6008,
+					"name": "gi_age_q2_a_2_doc",
+					"label": "if yes, can you show us the document for ${gi_q1_2_name} age confirmation?",
+					"nodeType": 0,
+					"fieldType": 4,
+					"choicesOriginRef": "pa8de94",
+					"validation": {
+						"notEmpty": true
+					},
+					"visibility": {
+						"condition": "gi_age_q2_2_doc === '1'"
+					}
+				},
+				{
+					"parent": 6008,
+					"id": 6009,
+					"name": "gi_age_q2_b_2_doc",
+					"label": "if no, based on what information do you assess ${gi_q1_2_name} age?",
+					"nodeType": 0,
+					"fieldType": 0,
+					"validation": {
+						"notEmpty": true
+					},
+					"visibility": {
+						"condition": "gi_age_q2_2_doc === '2'"
+					}
+				},
+				{
+					"parent": 6009,
+					"id": 6010,
+					"name": "gi_age_q3_2_year",
+					"label": "What is the year of birth",
+					"hint": "in Ethiopian calendar",
+					"nodeType": 0,
+					"fieldType": 4,
+					"choicesOriginRef": "zb4lw45",
+					"validation": {
+						"notEmpty": true
+					}
+				},
+				{
+					"parent": 6010,
+					"id": 6011,
+					"name": "gi_age_q4_2_month",
+					"label": "What is the month of birth?",
+					"hint": "in Ethiopian calendar",
+					"nodeType": 0,
+					"fieldType": 4,
+					"choicesOriginRef": "uk7jg49",
+					"validation": {
+						"notEmpty": true
+					}
+				},
+				{
+					"parent": 6011,
+					"id": 6012,
+					"name": "gi_age_q5_2_day",
+					"label": "What is the day of birth?",
+					"hint": "in Ethiopian calendar",
+					"nodeType": 0,
+					"fieldType": 4,
+					"choicesOriginRef": "uw4ue68",
+					"validation": {
+						"notEmpty": true
+					}
+				},
+				{
+					"parent": 6012,
+					"id": 6013,
+					"name": "gi_sch_q0_2",
+					"label": "",
+					"nodeType": 0,
+					"fieldType": 7,
+					"HTML": "Girl's school status",
+					"validation": {}
+				},
+				{
+					"parent": 6013,
+					"id": 6014,
+					"name": "gi_sch_q1_2_attend",
+					"label": "Since age five, has ${gi_q1_2_name} ever attended a formal school?",
+					"nodeType": 0,
+					"fieldType": 4,
+					"choicesOriginRef": "kh8hj12",
+					"validation": {
+						"notEmpty": true
+					}
+				},
+				{
+					"parent": 6014,
+					"id": 6015,
+					"name": "gi_sch_q2_2_enrolled",
+					"label": "Was ${gi_q1_2_name} enrolled at a formal school in this (2018/2019) year?",
+					"nodeType": 0,
+					"fieldType": 4,
+					"choicesOriginRef": "al79i76",
+					"validation": {
+						"notEmpty": true
+					}
+				},
+				{
+					"parent": 6015,
+					"id": 6016,
+					"name": "gi_sch_q2_2_level",
+					"label": "If yes: what was the grade level attended?",
+					"nodeType": 0,
+					"fieldType": 2,
+					"validation": {
+						"notEmpty": true,
+						"conditions": [
+							{
+								"condition": "isInt(gi_sch_q2_2_level)",
+								"clientValidation": true,
+								"errorMessage": "The field value must be an integer."
+							}
+						]
+					},
+					"visibility": {
+						"condition": "gi_sch_q2_2_enrolled === '1'"
+					}
+				},
+				{
+					"parent": 6016,
+					"id": 6017,
+					"name": "gi_sch_q3_2_exam",
+					"label": "If yes: has the girl finished (by conducting final exams) the school year?",
+					"nodeType": 0,
+					"fieldType": 4,
+					"choicesOriginRef": "al79i76",
+					"validation": {
+						"notEmpty": true
+					},
+					"visibility": {
+						"condition": "gi_sch_q2_2_enrolled === '1'"
+					}
+				},
+				{
+					"parent": 6017,
+					"id": 6018,
+					"name": "gi_sch_q4_2_name",
+					"label": "If yes: what was the school name?",
+					"nodeType": 0,
+					"fieldType": 0,
+					"validation": {
+						"notEmpty": true
+					},
+					"visibility": {
+						"condition": "gi_sch_q2_2_enrolled === '1'"
+					}
+				},
+				{
+					"parent": 6018,
+					"id": 6019,
+					"name": "gi_sch_q5_2_a_lastgrade",
+					"label": "if not: what was the last grade attended by ${gi_q1_2_name}?",
+					"hint": "if girl was never at school, put 0",
+					"nodeType": 0,
+					"fieldType": 2,
+					"validation": {
+						"notEmpty": true,
+						"conditions": [
+							{
+								"condition": "isInt(gi_sch_q5_2_a_lastgrade)",
+								"clientValidation": true,
+								"errorMessage": "The field value must be an integer."
+							}
+						]
+					},
+					"visibility": {
+						"condition": "gi_sch_q2_2_enrolled === '2'"
+					}
+				},
+				{
+					"parent": 6019,
+					"id": 6020,
+					"name": "gi_sch_q5_2_b_nonformal",
+					"label": "If not: Was ${gi_q1_2_name} attending any type of non-formal education in this (2018/2019) school year?",
+					"nodeType": 0,
+					"fieldType": 4,
+					"choicesOriginRef": "eb7eu22",
+					"validation": {
+						"notEmpty": true
+					},
+					"visibility": {
+						"condition": "gi_sch_q2_2_enrolled === '2'"
+					}
+				},
+				{
+					"parent": 6020,
+					"id": 6021,
+					"name": "gi_sch_q6_a_2_nonformal_type",
+					"label": "If yes: What type of non-formal education was ${gi_q1_2_name} enrolled in?",
+					"nodeType": 0,
+					"fieldType": 4,
+					"choicesOriginRef": "vg87o70",
+					"validation": {
+						"notEmpty": true
+					},
+					"visibility": {
+						"condition": "gi_sch_q5_2_b_nonformal === '1'"
+					}
+				},
+				{
+					"parent": 6021,
+					"id": 6022,
+					"name": "gi_sch_q6_b_2_nonformal_type",
+					"label": "please specify:",
+					"nodeType": 0,
+					"fieldType": 0,
+					"validation": {
+						"notEmpty": true
+					},
+					"visibility": {
+						"condition": "gi_sch_q6_a_2_nonformal_type === '3'"
+					}
+				}
+			]
+		},
+		{
+			"parent": 6,
+			"id": 7,
+			"name": "group_girl1_2_health",
+			"label": "second girl health",
+			"nodeType": 3,
+			"visibility": {
+				"condition": "gi_q0_calculation >= 2"
+			},
+			"nodes": [
+				{
+					"parent": 7,
+					"id": 7001,
+					"name": "gi_wgq_q0_2",
+					"label": "",
+					"nodeType": 0,
+					"fieldType": 7,
+					"HTML": "The next questions ask about difficulties ${gi_q1_2_name} may have doing certain activities because of a HEALTH PROBLEM. We would like to talk directly with ${gi_q1_2_name}.",
+					"validation": {}
+				},
+				{
+					"parent": 7001,
+					"id": 7002,
+					"name": "gi_wgq_q1_2_eyes",
+					"label": "Do you have difficulty seeing, even if wearing glasses?",
+					"nodeType": 0,
+					"fieldType": 4,
+					"choicesOriginRef": "mo14z33",
+					"validation": {
+						"notEmpty": true
+					}
+				},
+				{
+					"parent": 7002,
+					"id": 7003,
+					"name": "gi_wgq_q2_2_ears",
+					"label": "Do you have difficulty hearing, even if using a hearing aid?",
+					"nodeType": 0,
+					"fieldType": 4,
+					"choicesOriginRef": "qz49m34",
+					"validation": {
+						"notEmpty": true
+					}
+				},
+				{
+					"parent": 7003,
+					"id": 7004,
+					"name": "gi_wgq_q3_2_walk",
+					"label": "Do you have difficulty walking or climbing steps?",
+					"nodeType": 0,
+					"fieldType": 4,
+					"choicesOriginRef": "yi2bt40",
+					"validation": {
+						"notEmpty": true
+					}
+				},
+				{
+					"parent": 7004,
+					"id": 7005,
+					"name": "gi_wgq_q4_2_memory",
+					"label": "Do you have difficulty remembering or concentrating?",
+					"nodeType": 0,
+					"fieldType": 4,
+					"choicesOriginRef": "vm0cf13",
+					"validation": {
+						"notEmpty": true
+					}
+				},
+				{
+					"parent": 7005,
+					"id": 7006,
+					"name": "gi_wgq_q5_2_care",
+					"label": "Do you have difficulty (with self-care such as) washing all over or dressing?",
+					"nodeType": 0,
+					"fieldType": 4,
+					"choicesOriginRef": "fz7ew22",
+					"validation": {
+						"notEmpty": true
+					}
+				},
+				{
+					"parent": 7006,
+					"id": 7007,
+					"name": "gi_wgq_q6_2_comm",
+					"label": "Using your usual (customary) language, do you have difficulty communicating, for example understanding or being understood?",
+					"nodeType": 0,
+					"fieldType": 4,
+					"choicesOriginRef": "pl1no91",
+					"validation": {
+						"notEmpty": true
+					}
+				},
+				{
+					"parent": 7007,
+					"id": 7008,
+					"name": "gi_knw_q0_2",
+					"label": "",
+					"hint": "Give girls the hard copy of the story. After she reads the story, fill the following three questions (without asking girl).",
+					"nodeType": 0,
+					"fieldType": 7,
+					"HTML": "Now I would like to ask you to read aloud very short the story I have here in the paper.",
+					"validation": {}
+				},
+				{
+					"parent": 7008,
+					"id": 7009,
+					"name": "gi_knw_q1_2",
+					"label": "Does she reads the text as if she is reading a sentence, rather than a string of words?",
+					"nodeType": 0,
+					"fieldType": 4,
+					"choicesOriginRef": "dz3zg28",
+					"validation": {
+						"notEmpty": true
+					}
+				},
+				{
+					"parent": 7009,
+					"id": 7010,
+					"name": "gi_knw_q2_2",
+					"label": "Does she read the text fluently and with ease? The child may read slowly.",
+					"nodeType": 0,
+					"fieldType": 4,
+					"choicesOriginRef": "je49g40",
+					"validation": {
+						"notEmpty": true
+					}
+				},
+				{
+					"parent": 7010,
+					"id": 7011,
+					"name": "gi_knw_q3_2",
+					"label": "How many mistakes does she make?",
+					"hint": "put 99 if she can't read",
+					"nodeType": 0,
+					"fieldType": 2,
+					"validation": {
+						"notEmpty": true,
+						"conditions": [
+							{
+								"condition": "isInt(gi_knw_q3_2)",
+								"clientValidation": true,
+								"errorMessage": "The field value must be an integer."
+							}
+						]
+					}
+				}
+			]
+		},
+		{
+			"parent": 7,
+			"id": 8,
+			"name": "group_girl1_3_age",
+			"label": "Third girl age and school",
+			"nodeType": 3,
+			"visibility": {
+				"condition": "gi_q0_calculation >= 3"
+			},
+			"nodes": [
+				{
+					"parent": 8,
+					"id": 8001,
+					"name": "gi_q1_3_name",
+					"label": "What is the third girl's name?",
+					"nodeType": 0,
+					"fieldType": 0,
+					"validation": {
+						"notEmpty": true
+					}
+				},
+				{
+					"parent": 8001,
+					"id": 8002,
+					"name": "gi_q1_3_bi_list",
+					"label": "Is girl's name on the list from beneficiaries identification list?",
+					"nodeType": 0,
+					"fieldType": 4,
+					"choicesOriginRef": "an1cs99",
+					"validation": {
+						"notEmpty": true
+					}
+				},
+				{
+					"parent": 8002,
+					"id": 8003,
+					"name": "gi_q1_3_bi_list_a",
+					"label": "what is the girl's number on the list?",
+					"nodeType": 0,
+					"fieldType": 2,
+					"validation": {
+						"notEmpty": true,
+						"conditions": [
+							{
+								"condition": "isInt(gi_q1_3_bi_list_a)",
+								"clientValidation": true,
+								"errorMessage": "The field value must be an integer."
+							}
+						]
+					},
+					"visibility": {
+						"condition": "gi_q1_3_bi_list === 'yes'"
+					}
+				},
+				{
+					"parent": 8003,
+					"id": 8004,
+					"name": "gi_q2_3_married",
+					"label": "Is ${gi_q1_3_name} married?",
+					"nodeType": 0,
+					"fieldType": 4,
+					"choicesOriginRef": "zs21c49",
+					"validation": {
+						"notEmpty": true
+					}
+				},
+				{
+					"parent": 8004,
+					"id": 8005,
+					"name": "gi_age_q0_3",
+					"label": "",
+					"nodeType": 0,
+					"fieldType": 7,
+					"HTML": "Now we will focus on girl's age",
+					"validation": {}
+				},
+				{
+					"parent": 8005,
+					"id": 8006,
+					"name": "gi_age_q1_3",
+					"label": "How old is ${gi_q1_3_name}?",
+					"nodeType": 0,
+					"fieldType": 2,
+					"validation": {
+						"notEmpty": true,
+						"conditions": [
+							{
+								"condition": "isInt(gi_age_q1_3)",
+								"clientValidation": true,
+								"errorMessage": "The field value must be an integer."
+							}
+						]
+					}
+				},
+				{
+					"parent": 8006,
+					"id": 8007,
+					"name": "gi_age_q2_3_doc",
+					"label": "Do you have any documents that could prove ${gi_q1_3_name} actual age?",
+					"nodeType": 0,
+					"fieldType": 4,
+					"choicesOriginRef": "rs85c55",
+					"validation": {
+						"notEmpty": true
+					}
+				},
+				{
+					"parent": 8007,
+					"id": 8008,
+					"name": "gi_age_q2_a_3_doc",
+					"label": "if yes, can you show us the document for ${gi_q1_3_name} age confirmation?",
+					"nodeType": 0,
+					"fieldType": 4,
+					"choicesOriginRef": "pa8de94",
+					"validation": {
+						"notEmpty": true
+					},
+					"visibility": {
+						"condition": "gi_age_q2_3_doc === '1'"
+					}
+				},
+				{
+					"parent": 8008,
+					"id": 8009,
+					"name": "gi_age_q2_b_3_doc",
+					"label": "if no, based on what information do you assess ${gi_q1_3_name} age?",
+					"nodeType": 0,
+					"fieldType": 0,
+					"validation": {
+						"notEmpty": true
+					},
+					"visibility": {
+						"condition": "gi_age_q2_3_doc === '2'"
+					}
+				},
+				{
+					"parent": 8009,
+					"id": 8010,
+					"name": "gi_age_q3_3_year",
+					"label": "What is the year of birth",
+					"hint": "in Ethiopian calendar",
+					"nodeType": 0,
+					"fieldType": 4,
+					"choicesOriginRef": "zb4lw45",
+					"validation": {
+						"notEmpty": true
+					}
+				},
+				{
+					"parent": 8010,
+					"id": 8011,
+					"name": "gi_age_q4_3_month",
+					"label": "What is the month of birth?",
+					"hint": "in Ethiopian calendar",
+					"nodeType": 0,
+					"fieldType": 4,
+					"choicesOriginRef": "uk7jg49",
+					"validation": {
+						"notEmpty": true
+					}
+				},
+				{
+					"parent": 8011,
+					"id": 8012,
+					"name": "gi_age_q5_3_day",
+					"label": "What is the day of birth?",
+					"hint": "in Ethiopian calendar",
+					"nodeType": 0,
+					"fieldType": 4,
+					"choicesOriginRef": "uw4ue68",
+					"validation": {
+						"notEmpty": true
+					}
+				},
+				{
+					"parent": 8012,
+					"id": 8013,
+					"name": "gi_sch_q0_3",
+					"label": "",
+					"nodeType": 0,
+					"fieldType": 7,
+					"HTML": "Girl's school status",
+					"validation": {}
+				},
+				{
+					"parent": 8013,
+					"id": 8014,
+					"name": "gi_sch_q1_3_attend",
+					"label": "Since age five, has ${gi_q1_3_name} ever attended a formal school?",
+					"nodeType": 0,
+					"fieldType": 4,
+					"choicesOriginRef": "kh8hj12",
+					"validation": {
+						"notEmpty": true
+					}
+				},
+				{
+					"parent": 8014,
+					"id": 8015,
+					"name": "gi_sch_q2_3_enrolled",
+					"label": "Was ${gi_q1_3_name} enrolled at a formal school in this (2018/2019) year?",
+					"nodeType": 0,
+					"fieldType": 4,
+					"choicesOriginRef": "al79i76",
+					"validation": {
+						"notEmpty": true
+					}
+				},
+				{
+					"parent": 8015,
+					"id": 8016,
+					"name": "gi_sch_q2_3_level",
+					"label": "If yes: what was the grade level attended?",
+					"nodeType": 0,
+					"fieldType": 2,
+					"validation": {
+						"notEmpty": true,
+						"conditions": [
+							{
+								"condition": "isInt(gi_sch_q2_3_level)",
+								"clientValidation": true,
+								"errorMessage": "The field value must be an integer."
+							}
+						]
+					},
+					"visibility": {
+						"condition": "gi_sch_q2_3_enrolled === '1'"
+					}
+				},
+				{
+					"parent": 8016,
+					"id": 8017,
+					"name": "gi_sch_q3_3_exam",
+					"label": "If yes: has the girl finished (by conducting final exams) the school year?",
+					"nodeType": 0,
+					"fieldType": 4,
+					"choicesOriginRef": "al79i76",
+					"validation": {
+						"notEmpty": true
+					},
+					"visibility": {
+						"condition": "gi_sch_q2_3_enrolled === '1'"
+					}
+				},
+				{
+					"parent": 8017,
+					"id": 8018,
+					"name": "gi_sch_q4_3_name",
+					"label": "If yes: what was the school name?",
+					"nodeType": 0,
+					"fieldType": 0,
+					"validation": {
+						"notEmpty": true
+					},
+					"visibility": {
+						"condition": "gi_sch_q2_3_enrolled === '1'"
+					}
+				},
+				{
+					"parent": 8018,
+					"id": 8019,
+					"name": "gi_sch_q5_3_a_lastgrade",
+					"label": "if not: what was the last grade attended by ${gi_q1_3_name}?",
+					"hint": "if girl was never at school, put 0",
+					"nodeType": 0,
+					"fieldType": 2,
+					"validation": {
+						"notEmpty": true,
+						"conditions": [
+							{
+								"condition": "isInt(gi_sch_q5_3_a_lastgrade)",
+								"clientValidation": true,
+								"errorMessage": "The field value must be an integer."
+							}
+						]
+					},
+					"visibility": {
+						"condition": "gi_sch_q2_3_enrolled === '2'"
+					}
+				},
+				{
+					"parent": 8019,
+					"id": 8020,
+					"name": "gi_sch_q5_3_b_nonformal",
+					"label": "If not: Was ${gi_q1_3_name} attending any type of non-formal education in this (2018/2019) school year?",
+					"nodeType": 0,
+					"fieldType": 4,
+					"choicesOriginRef": "eb7eu22",
+					"validation": {
+						"notEmpty": true
+					},
+					"visibility": {
+						"condition": "gi_sch_q2_3_enrolled === '2'"
+					}
+				},
+				{
+					"parent": 8020,
+					"id": 8021,
+					"name": "gi_sch_q6_a_3_nonformal_type",
+					"label": "If yes: What type of non-formal education was ${gi_q1_3_name} enrolled in?",
+					"nodeType": 0,
+					"fieldType": 4,
+					"choicesOriginRef": "vg87o70",
+					"validation": {
+						"notEmpty": true
+					},
+					"visibility": {
+						"condition": "gi_sch_q5_3_b_nonformal === '1'"
+					}
+				},
+				{
+					"parent": 8021,
+					"id": 8022,
+					"name": "gi_sch_q6_b_3_nonformal_type",
+					"label": "please specify:",
+					"nodeType": 0,
+					"fieldType": 0,
+					"validation": {
+						"notEmpty": true
+					},
+					"visibility": {
+						"condition": "gi_sch_q6_a_3_nonformal_type === '3'"
+					}
+				}
+			]
+		},
+		{
+			"parent": 8,
+			"id": 9,
+			"name": "group_girl1_3_health",
+			"label": "third girl health",
+			"nodeType": 3,
+			"visibility": {
+				"condition": "gi_q0_calculation >= 3"
+			},
+			"nodes": [
+				{
+					"parent": 9,
+					"id": 9001,
+					"name": "gi_wgq_q0_3",
+					"label": "",
+					"nodeType": 0,
+					"fieldType": 7,
+					"HTML": "The next questions ask about difficulties ${gi_q1_3_name} may have doing certain activities because of a HEALTH PROBLEM. We would like to talk directly with ${gi_q1_3_name}.",
+					"validation": {}
+				},
+				{
+					"parent": 9001,
+					"id": 9002,
+					"name": "gi_wgq_q1_3_eyes",
+					"label": "Do you have difficulty seeing, even if wearing glasses?",
+					"nodeType": 0,
+					"fieldType": 4,
+					"choicesOriginRef": "mo14z33",
+					"validation": {
+						"notEmpty": true
+					}
+				},
+				{
+					"parent": 9002,
+					"id": 9003,
+					"name": "gi_wgq_q2_3_ears",
+					"label": "Do you have difficulty hearing, even if using a hearing aid?",
+					"nodeType": 0,
+					"fieldType": 4,
+					"choicesOriginRef": "qz49m34",
+					"validation": {
+						"notEmpty": true
+					}
+				},
+				{
+					"parent": 9003,
+					"id": 9004,
+					"name": "gi_wgq_q3_3_walk",
+					"label": "Do you have difficulty walking or climbing steps?",
+					"nodeType": 0,
+					"fieldType": 4,
+					"choicesOriginRef": "yi2bt40",
+					"validation": {
+						"notEmpty": true
+					}
+				},
+				{
+					"parent": 9004,
+					"id": 9005,
+					"name": "gi_wgq_q4_3_memory",
+					"label": "Do you have difficulty remembering or concentrating?",
+					"nodeType": 0,
+					"fieldType": 4,
+					"choicesOriginRef": "vm0cf13",
+					"validation": {
+						"notEmpty": true
+					}
+				},
+				{
+					"parent": 9005,
+					"id": 9006,
+					"name": "gi_wgq_q5_3_care",
+					"label": "Do you have difficulty (with self-care such as) washing all over or dressing?",
+					"nodeType": 0,
+					"fieldType": 4,
+					"choicesOriginRef": "fz7ew22",
+					"validation": {
+						"notEmpty": true
+					}
+				},
+				{
+					"parent": 9006,
+					"id": 9007,
+					"name": "gi_wgq_q6_3_comm",
+					"label": "Using your usual (customary) language, do you have difficulty communicating, for example understanding or being understood?",
+					"nodeType": 0,
+					"fieldType": 4,
+					"choicesOriginRef": "pl1no91",
+					"validation": {
+						"notEmpty": true
+					}
+				},
+				{
+					"parent": 9007,
+					"id": 9008,
+					"name": "gi_knw_q0_3",
+					"label": "",
+					"hint": "Give girls the hard copy of the story. After she reads the story, fill the following three questions (without asking girl).",
+					"nodeType": 0,
+					"fieldType": 7,
+					"HTML": "Now I would like to ask you to read aloud very short the story I have here in the paper.",
+					"validation": {}
+				},
+				{
+					"parent": 9008,
+					"id": 9009,
+					"name": "gi_knw_q1_3",
+					"label": "Does she reads the text as if she is reading a sentence, rather than a string of words?",
+					"nodeType": 0,
+					"fieldType": 4,
+					"choicesOriginRef": "dz3zg28",
+					"validation": {
+						"notEmpty": true
+					}
+				},
+				{
+					"parent": 9009,
+					"id": 9010,
+					"name": "gi_knw_q2_3",
+					"label": "Does she read the text fluently and with ease? The child may read slowly.",
+					"nodeType": 0,
+					"fieldType": 4,
+					"choicesOriginRef": "je49g40",
+					"validation": {
+						"notEmpty": true
+					}
+				},
+				{
+					"parent": 9010,
+					"id": 9011,
+					"name": "gi_knw_q3_3",
+					"label": "How many mistakes does she make?",
+					"hint": "put 99 if she can't read",
+					"nodeType": 0,
+					"fieldType": 2,
+					"validation": {
+						"notEmpty": true,
+						"conditions": [
+							{
+								"condition": "isInt(gi_knw_q3_3)",
+								"clientValidation": true,
+								"errorMessage": "The field value must be an integer."
+							}
+						]
+					}
+				}
+			]
+		},
+		{
+			"parent": 9,
+			"id": 10,
+			"name": "group_girl1_4_age",
+			"label": "Fourth girl age and school",
+			"nodeType": 3,
+			"visibility": {
+				"condition": "gi_q0_calculation >= 4"
+			},
+			"nodes": [
+				{
+					"parent": 10,
+					"id": 10001,
+					"name": "gi_q1_4_name",
+					"label": "What is the fourth girl's name?",
+					"nodeType": 0,
+					"fieldType": 0,
+					"validation": {
+						"notEmpty": true
+					}
+				},
+				{
+					"parent": 10001,
+					"id": 10002,
+					"name": "gi_q1_4_bi_list",
+					"label": "Is girl's name on the list from beneficiaries identification list?",
+					"nodeType": 0,
+					"fieldType": 4,
+					"choicesOriginRef": "an1cs99",
+					"validation": {
+						"notEmpty": true
+					}
+				},
+				{
+					"parent": 10002,
+					"id": 10003,
+					"name": "gi_q1_4_bi_list_a",
+					"label": "what is the girl's number on the list?",
+					"nodeType": 0,
+					"fieldType": 2,
+					"validation": {
+						"notEmpty": true,
+						"conditions": [
+							{
+								"condition": "isInt(gi_q1_4_bi_list_a)",
+								"clientValidation": true,
+								"errorMessage": "The field value must be an integer."
+							}
+						]
+					},
+					"visibility": {
+						"condition": "gi_q1_4_bi_list === 'yes'"
+					}
+				},
+				{
+					"parent": 10003,
+					"id": 10004,
+					"name": "gi_q2_4_married",
+					"label": "Is ${gi_q1_4_name} married?",
+					"nodeType": 0,
+					"fieldType": 4,
+					"choicesOriginRef": "zs21c49",
+					"validation": {
+						"notEmpty": true
+					}
+				},
+				{
+					"parent": 10004,
+					"id": 10005,
+					"name": "gi_age_q0_4",
+					"label": "",
+					"nodeType": 0,
+					"fieldType": 7,
+					"HTML": "Now we will focus on girl's age",
+					"validation": {}
+				},
+				{
+					"parent": 10005,
+					"id": 10006,
+					"name": "gi_age_q1_4",
+					"label": "How old is ${gi_q1_4_name}?",
+					"nodeType": 0,
+					"fieldType": 2,
+					"validation": {
+						"notEmpty": true,
+						"conditions": [
+							{
+								"condition": "isInt(gi_age_q1_4)",
+								"clientValidation": true,
+								"errorMessage": "The field value must be an integer."
+							}
+						]
+					}
+				},
+				{
+					"parent": 10006,
+					"id": 10007,
+					"name": "gi_age_q2_4_doc",
+					"label": "Do you have any documents that could prove ${gi_q1_4_name} actual age?",
+					"nodeType": 0,
+					"fieldType": 4,
+					"choicesOriginRef": "rs85c55",
+					"validation": {
+						"notEmpty": true
+					}
+				},
+				{
+					"parent": 10007,
+					"id": 10008,
+					"name": "gi_age_q2_a_4_doc",
+					"label": "if yes, can you show us the document for ${gi_q1_4_name} age confirmation?",
+					"nodeType": 0,
+					"fieldType": 4,
+					"choicesOriginRef": "pa8de94",
+					"validation": {
+						"notEmpty": true
+					},
+					"visibility": {
+						"condition": "gi_age_q2_4_doc === '1'"
+					}
+				},
+				{
+					"parent": 10008,
+					"id": 10009,
+					"name": "gi_age_q2_b_4_doc",
+					"label": "if no, based on what information do you assess ${gi_q1_4_name} age?",
+					"nodeType": 0,
+					"fieldType": 0,
+					"validation": {
+						"notEmpty": true
+					},
+					"visibility": {
+						"condition": "gi_age_q2_4_doc === '2'"
+					}
+				},
+				{
+					"parent": 10009,
+					"id": 10010,
+					"name": "gi_age_q3_4_year",
+					"label": "What is the year of birth",
+					"hint": "in Ethiopian calendar",
+					"nodeType": 0,
+					"fieldType": 4,
+					"choicesOriginRef": "zb4lw45",
+					"validation": {
+						"notEmpty": true
+					}
+				},
+				{
+					"parent": 10010,
+					"id": 10011,
+					"name": "gi_age_q4_4_month",
+					"label": "What is the month of birth?",
+					"hint": "in Ethiopian calendar",
+					"nodeType": 0,
+					"fieldType": 4,
+					"choicesOriginRef": "uk7jg49",
+					"validation": {
+						"notEmpty": true
+					}
+				},
+				{
+					"parent": 10011,
+					"id": 10012,
+					"name": "gi_age_q5_4_day",
+					"label": "What is the day of birth?",
+					"hint": "in Ethiopian calendar",
+					"nodeType": 0,
+					"fieldType": 4,
+					"choicesOriginRef": "uw4ue68",
+					"validation": {
+						"notEmpty": true
+					}
+				},
+				{
+					"parent": 10012,
+					"id": 10013,
+					"name": "gi_sch_q0_4",
+					"label": "",
+					"nodeType": 0,
+					"fieldType": 7,
+					"HTML": "Girl's school status",
+					"validation": {}
+				},
+				{
+					"parent": 10013,
+					"id": 10014,
+					"name": "gi_sch_q1_4_attend",
+					"label": "Since age five, has ${gi_q1_4_name} ever attended a formal school?",
+					"nodeType": 0,
+					"fieldType": 4,
+					"choicesOriginRef": "kh8hj12",
+					"validation": {
+						"notEmpty": true
+					}
+				},
+				{
+					"parent": 10014,
+					"id": 10015,
+					"name": "gi_sch_q2_4_enrolled",
+					"label": "Was ${gi_q1_4_name} enrolled at a formal school in this (2018/2019) year?",
+					"nodeType": 0,
+					"fieldType": 4,
+					"choicesOriginRef": "al79i76",
+					"validation": {
+						"notEmpty": true
+					}
+				},
+				{
+					"parent": 10015,
+					"id": 10016,
+					"name": "gi_sch_q2_4_level",
+					"label": "If yes: what was the grade level attended?",
+					"nodeType": 0,
+					"fieldType": 2,
+					"validation": {
+						"notEmpty": true,
+						"conditions": [
+							{
+								"condition": "isInt(gi_sch_q2_4_level)",
+								"clientValidation": true,
+								"errorMessage": "The field value must be an integer."
+							}
+						]
+					},
+					"visibility": {
+						"condition": "gi_sch_q2_4_enrolled === '1'"
+					}
+				},
+				{
+					"parent": 10016,
+					"id": 10017,
+					"name": "gi_sch_q3_4_exam",
+					"label": "If yes: has the girl finished (by conducting final exams) the school year?",
+					"nodeType": 0,
+					"fieldType": 4,
+					"choicesOriginRef": "al79i76",
+					"validation": {
+						"notEmpty": true
+					},
+					"visibility": {
+						"condition": "gi_sch_q2_4_enrolled === '1'"
+					}
+				},
+				{
+					"parent": 10017,
+					"id": 10018,
+					"name": "gi_sch_q4_4_name",
+					"label": "If yes: what was the school name?",
+					"nodeType": 0,
+					"fieldType": 0,
+					"validation": {
+						"notEmpty": true
+					},
+					"visibility": {
+						"condition": "gi_sch_q2_4_enrolled === '1'"
+					}
+				},
+				{
+					"parent": 10018,
+					"id": 10019,
+					"name": "gi_sch_q5_4_a_lastgrade",
+					"label": "if not: what was the last grade attended by ${gi_q1_4_name}?",
+					"hint": "if girl was never at school, put 0",
+					"nodeType": 0,
+					"fieldType": 2,
+					"validation": {
+						"notEmpty": true,
+						"conditions": [
+							{
+								"condition": "isInt(gi_sch_q5_4_a_lastgrade)",
+								"clientValidation": true,
+								"errorMessage": "The field value must be an integer."
+							}
+						]
+					},
+					"visibility": {
+						"condition": "gi_sch_q2_4_enrolled === '2'"
+					}
+				},
+				{
+					"parent": 10019,
+					"id": 10020,
+					"name": "gi_sch_q5_4_b_nonformal",
+					"label": "If not: Was ${gi_q1_4_name} attending any type of non-formal education in this (2018/2019) school year?",
+					"nodeType": 0,
+					"fieldType": 4,
+					"choicesOriginRef": "eb7eu22",
+					"validation": {
+						"notEmpty": true
+					},
+					"visibility": {
+						"condition": "gi_sch_q2_4_enrolled === '2'"
+					}
+				},
+				{
+					"parent": 10020,
+					"id": 10021,
+					"name": "gi_sch_q6_a_4_nonformal_type",
+					"label": "If yes: What type of non-formal education was ${gi_q1_4_name} enrolled in?",
+					"nodeType": 0,
+					"fieldType": 4,
+					"choicesOriginRef": "vg87o70",
+					"validation": {
+						"notEmpty": true
+					},
+					"visibility": {
+						"condition": "gi_sch_q5_4_b_nonformal === '1'"
+					}
+				},
+				{
+					"parent": 10021,
+					"id": 10022,
+					"name": "gi_sch_q6_b_4_nonformal_type",
+					"label": "please specify:",
+					"nodeType": 0,
+					"fieldType": 0,
+					"validation": {
+						"notEmpty": true
+					},
+					"visibility": {
+						"condition": "gi_sch_q6_a_4_nonformal_type === '3'"
+					}
+				}
+			]
+		},
+		{
+			"parent": 10,
+			"id": 11,
+			"name": "group_girl1_4_health",
+			"label": "fourth girl health",
+			"nodeType": 3,
+			"visibility": {
+				"condition": "gi_q0_calculation >= 4"
+			},
+			"nodes": [
+				{
+					"parent": 11,
+					"id": 11001,
+					"name": "gi_wgq_q0_4",
+					"label": "",
+					"nodeType": 0,
+					"fieldType": 7,
+					"HTML": "The next questions ask about difficulties ${gi_q1_4_name} may have doing certain activities because of a HEALTH PROBLEM. We would like to talk directly with ${gi_q1_4_name}.",
+					"validation": {}
+				},
+				{
+					"parent": 11001,
+					"id": 11002,
+					"name": "gi_wgq_q1_4_eyes",
+					"label": "Do you have difficulty seeing, even if wearing glasses?",
+					"nodeType": 0,
+					"fieldType": 4,
+					"choicesOriginRef": "mo14z33",
+					"validation": {
+						"notEmpty": true
+					}
+				},
+				{
+					"parent": 11002,
+					"id": 11003,
+					"name": "gi_wgq_q2_4_ears",
+					"label": "Do you have difficulty hearing, even if using a hearing aid?",
+					"nodeType": 0,
+					"fieldType": 4,
+					"choicesOriginRef": "qz49m34",
+					"validation": {
+						"notEmpty": true
+					}
+				},
+				{
+					"parent": 11003,
+					"id": 11004,
+					"name": "gi_wgq_q3_4_walk",
+					"label": "Do you have difficulty walking or climbing steps?",
+					"nodeType": 0,
+					"fieldType": 4,
+					"choicesOriginRef": "yi2bt40",
+					"validation": {
+						"notEmpty": true
+					}
+				},
+				{
+					"parent": 11004,
+					"id": 11005,
+					"name": "gi_wgq_q4_4_memory",
+					"label": "Do you have difficulty remembering or concentrating?",
+					"nodeType": 0,
+					"fieldType": 4,
+					"choicesOriginRef": "vm0cf13",
+					"validation": {
+						"notEmpty": true
+					}
+				},
+				{
+					"parent": 11005,
+					"id": 11006,
+					"name": "gi_wgq_q5_4_care",
+					"label": "Do you have difficulty (with self-care such as) washing all over or dressing?",
+					"nodeType": 0,
+					"fieldType": 4,
+					"choicesOriginRef": "fz7ew22",
+					"validation": {
+						"notEmpty": true
+					}
+				},
+				{
+					"parent": 11006,
+					"id": 11007,
+					"name": "gi_wgq_q6_4_comm",
+					"label": "Using your usual (customary) language, do you have difficulty communicating, for example understanding or being understood?",
+					"nodeType": 0,
+					"fieldType": 4,
+					"choicesOriginRef": "pl1no91",
+					"validation": {
+						"notEmpty": true
+					}
+				},
+				{
+					"parent": 11007,
+					"id": 11008,
+					"name": "gi_knw_q0_4",
+					"label": "",
+					"hint": "Give girls the hard copy of the story. After she reads the story, fill the following three questions (without asking girl).",
+					"nodeType": 0,
+					"fieldType": 7,
+					"HTML": "Now I would like to ask you to read aloud very short the story I have here in the paper.",
+					"validation": {}
+				},
+				{
+					"parent": 11008,
+					"id": 11009,
+					"name": "gi_knw_q1_4",
+					"label": "Does she reads the text as if she is reading a sentence, rather than a string of words?",
+					"nodeType": 0,
+					"fieldType": 4,
+					"choicesOriginRef": "dz3zg28",
+					"validation": {
+						"notEmpty": true
+					}
+				},
+				{
+					"parent": 11009,
+					"id": 11010,
+					"name": "gi_knw_q2_4",
+					"label": "Does she read the text fluently and with ease? The child may read slowly.",
+					"nodeType": 0,
+					"fieldType": 4,
+					"choicesOriginRef": "je49g40",
+					"validation": {
+						"notEmpty": true
+					}
+				},
+				{
+					"parent": 11010,
+					"id": 11011,
+					"name": "gi_knw_q3_4",
+					"label": "How many mistakes does she make?",
+					"hint": "put 99 if she can't read",
+					"nodeType": 0,
+					"fieldType": 2,
+					"validation": {
+						"notEmpty": true,
+						"conditions": [
+							{
+								"condition": "isInt(gi_knw_q3_4)",
+								"clientValidation": true,
+								"errorMessage": "The field value must be an integer."
+							}
+						]
+					}
+				}
+			]
+		},
+		{
+			"parent": 11,
+			"id": 12,
+			"name": "group_girl1_5_age",
+			"label": "Fifth girl age and school",
+			"nodeType": 3,
+			"visibility": {
+				"condition": "gi_q0_calculation >= 5"
+			},
+			"nodes": [
+				{
+					"parent": 12,
+					"id": 12001,
+					"name": "gi_q1_5_name",
+					"label": "What is the fifth girl's name?",
+					"nodeType": 0,
+					"fieldType": 0,
+					"validation": {
+						"notEmpty": true
+					}
+				},
+				{
+					"parent": 12001,
+					"id": 12002,
+					"name": "gi_q1_5_bi_list",
+					"label": "Is girl's name on the list from beneficiaries identification list?",
+					"nodeType": 0,
+					"fieldType": 4,
+					"choicesOriginRef": "an1cs99",
+					"validation": {
+						"notEmpty": true
+					}
+				},
+				{
+					"parent": 12002,
+					"id": 12003,
+					"name": "gi_q1_5_bi_list_a",
+					"label": "what is the girl's number on the list?",
+					"nodeType": 0,
+					"fieldType": 2,
+					"validation": {
+						"notEmpty": true,
+						"conditions": [
+							{
+								"condition": "isInt(gi_q1_5_bi_list_a)",
+								"clientValidation": true,
+								"errorMessage": "The field value must be an integer."
+							}
+						]
+					},
+					"visibility": {
+						"condition": "gi_q1_5_bi_list === 'yes'"
+					}
+				},
+				{
+					"parent": 12003,
+					"id": 12004,
+					"name": "gi_q2_5_married",
+					"label": "Is ${gi_q1_5_name} married?",
+					"nodeType": 0,
+					"fieldType": 4,
+					"choicesOriginRef": "zs21c49",
+					"validation": {
+						"notEmpty": true
+					}
+				},
+				{
+					"parent": 12004,
+					"id": 12005,
+					"name": "gi_age_q0_5",
+					"label": "",
+					"nodeType": 0,
+					"fieldType": 7,
+					"HTML": "Now we will focus on girl's age",
+					"validation": {}
+				},
+				{
+					"parent": 12005,
+					"id": 12006,
+					"name": "gi_age_q1_5",
+					"label": "How old is ${gi_q1_5_name}?",
+					"nodeType": 0,
+					"fieldType": 2,
+					"validation": {
+						"notEmpty": true,
+						"conditions": [
+							{
+								"condition": "isInt(gi_age_q1_5)",
+								"clientValidation": true,
+								"errorMessage": "The field value must be an integer."
+							}
+						]
+					}
+				},
+				{
+					"parent": 12006,
+					"id": 12007,
+					"name": "gi_age_q2_5_doc",
+					"label": "Do you have any documents that could prove ${gi_q1_5_name} actual age?",
+					"nodeType": 0,
+					"fieldType": 4,
+					"choicesOriginRef": "rs85c55",
+					"validation": {
+						"notEmpty": true
+					}
+				},
+				{
+					"parent": 12007,
+					"id": 12008,
+					"name": "gi_age_q2_a_5_doc",
+					"label": "if yes, can you show us the document for ${gi_q1_5_name} age confirmation?",
+					"nodeType": 0,
+					"fieldType": 4,
+					"choicesOriginRef": "pa8de94",
+					"validation": {
+						"notEmpty": true
+					},
+					"visibility": {
+						"condition": "gi_age_q2_5_doc === '1'"
+					}
+				},
+				{
+					"parent": 12008,
+					"id": 12009,
+					"name": "gi_age_q2_b_5_doc",
+					"label": "if no, based on what information do you assess ${gi_q1_5_name} age?",
+					"nodeType": 0,
+					"fieldType": 0,
+					"validation": {
+						"notEmpty": true
+					},
+					"visibility": {
+						"condition": "gi_age_q2_5_doc === '2'"
+					}
+				},
+				{
+					"parent": 12009,
+					"id": 12010,
+					"name": "gi_age_q3_5_year",
+					"label": "What is the year of birth",
+					"hint": "in Ethiopian calendar",
+					"nodeType": 0,
+					"fieldType": 4,
+					"choicesOriginRef": "zb4lw45",
+					"validation": {
+						"notEmpty": true
+					}
+				},
+				{
+					"parent": 12010,
+					"id": 12011,
+					"name": "gi_age_q4_5_month",
+					"label": "What is the month of birth?",
+					"hint": "in Ethiopian calendar",
+					"nodeType": 0,
+					"fieldType": 4,
+					"choicesOriginRef": "uk7jg49",
+					"validation": {
+						"notEmpty": true
+					}
+				},
+				{
+					"parent": 12011,
+					"id": 12012,
+					"name": "gi_age_q5_5_day",
+					"label": "What is the day of birth?",
+					"hint": "in Ethiopian calendar",
+					"nodeType": 0,
+					"fieldType": 4,
+					"choicesOriginRef": "uw4ue68",
+					"validation": {
+						"notEmpty": true
+					}
+				},
+				{
+					"parent": 12012,
+					"id": 12013,
+					"name": "gi_sch_q0_5",
+					"label": "",
+					"nodeType": 0,
+					"fieldType": 7,
+					"HTML": "Girl's school status",
+					"validation": {}
+				},
+				{
+					"parent": 12013,
+					"id": 12014,
+					"name": "gi_sch_q1_5_attend",
+					"label": "Since age five, has ${gi_q1_5_name} ever attended a formal school?",
+					"nodeType": 0,
+					"fieldType": 4,
+					"choicesOriginRef": "kh8hj12",
+					"validation": {
+						"notEmpty": true
+					}
+				},
+				{
+					"parent": 12014,
+					"id": 12015,
+					"name": "gi_sch_q2_5_enrolled",
+					"label": "Was ${gi_q1_5_name} enrolled at a formal school in this (2018/2019) year?",
+					"nodeType": 0,
+					"fieldType": 4,
+					"choicesOriginRef": "al79i76",
+					"validation": {
+						"notEmpty": true
+					}
+				},
+				{
+					"parent": 12015,
+					"id": 12016,
+					"name": "gi_sch_q2_5_level",
+					"label": "If yes: what was the grade level attended?",
+					"nodeType": 0,
+					"fieldType": 2,
+					"validation": {
+						"notEmpty": true,
+						"conditions": [
+							{
+								"condition": "isInt(gi_sch_q2_5_level)",
+								"clientValidation": true,
+								"errorMessage": "The field value must be an integer."
+							}
+						]
+					},
+					"visibility": {
+						"condition": "gi_sch_q2_5_enrolled === '1'"
+					}
+				},
+				{
+					"parent": 12016,
+					"id": 12017,
+					"name": "gi_sch_q3_5_exam",
+					"label": "If yes: has the girl finished (by conducting final exams) the school year?",
+					"nodeType": 0,
+					"fieldType": 4,
+					"choicesOriginRef": "al79i76",
+					"validation": {
+						"notEmpty": true
+					},
+					"visibility": {
+						"condition": "gi_sch_q2_5_enrolled === '1'"
+					}
+				},
+				{
+					"parent": 12017,
+					"id": 12018,
+					"name": "gi_sch_q4_5_name",
+					"label": "If yes: what was the school name?",
+					"nodeType": 0,
+					"fieldType": 0,
+					"validation": {
+						"notEmpty": true
+					},
+					"visibility": {
+						"condition": "gi_sch_q2_5_enrolled === '1'"
+					}
+				},
+				{
+					"parent": 12018,
+					"id": 12019,
+					"name": "gi_sch_q5_5_a_lastgrade",
+					"label": "if not: what was the last grade attended by ${gi_q1_5_name}?",
+					"hint": "if girl was never at school, put 0",
+					"nodeType": 0,
+					"fieldType": 2,
+					"validation": {
+						"notEmpty": true,
+						"conditions": [
+							{
+								"condition": "isInt(gi_sch_q5_5_a_lastgrade)",
+								"clientValidation": true,
+								"errorMessage": "The field value must be an integer."
+							}
+						]
+					},
+					"visibility": {
+						"condition": "gi_sch_q2_5_enrolled === '2'"
+					}
+				},
+				{
+					"parent": 12019,
+					"id": 12020,
+					"name": "gi_sch_q5_5_b_nonformal",
+					"label": "If not: Was ${gi_q1_5_name} attending any type of non-formal education in this (2018/2019) school year?",
+					"nodeType": 0,
+					"fieldType": 4,
+					"choicesOriginRef": "eb7eu22",
+					"validation": {
+						"notEmpty": true
+					},
+					"visibility": {
+						"condition": "gi_sch_q2_5_enrolled === '2'"
+					}
+				},
+				{
+					"parent": 12020,
+					"id": 12021,
+					"name": "gi_sch_q6_a_5_nonformal_type",
+					"label": "If yes: What type of non-formal education was ${gi_q1_5_name} enrolled in?",
+					"nodeType": 0,
+					"fieldType": 4,
+					"choicesOriginRef": "vg87o70",
+					"validation": {
+						"notEmpty": true
+					},
+					"visibility": {
+						"condition": "gi_sch_q5_5_b_nonformal === '1'"
+					}
+				},
+				{
+					"parent": 12021,
+					"id": 12022,
+					"name": "gi_sch_q6_b_5_nonformal_type",
+					"label": "please specify:",
+					"nodeType": 0,
+					"fieldType": 0,
+					"validation": {
+						"notEmpty": true
+					},
+					"visibility": {
+						"condition": "gi_sch_q6_a_5_nonformal_type === '3'"
+					}
+				}
+			]
+		},
+		{
+			"parent": 12,
+			"id": 13,
+			"name": "group_girl1_5_health",
+			"label": "fifth girl health",
+			"nodeType": 3,
+			"visibility": {
+				"condition": "gi_q0_calculation >= 5"
+			},
+			"nodes": [
+				{
+					"parent": 13,
+					"id": 13001,
+					"name": "gi_wgq_q0_5",
+					"label": "",
+					"nodeType": 0,
+					"fieldType": 7,
+					"HTML": "The next questions ask about difficulties ${gi_q1_5_name} may have doing certain activities because of a HEALTH PROBLEM. We would like to talk directly with ${gi_q1_5_name}.",
+					"validation": {}
+				},
+				{
+					"parent": 13001,
+					"id": 13002,
+					"name": "gi_wgq_q1_5_eyes",
+					"label": "Do you have difficulty seeing, even if wearing glasses?",
+					"nodeType": 0,
+					"fieldType": 4,
+					"choicesOriginRef": "mo14z33",
+					"validation": {
+						"notEmpty": true
+					}
+				},
+				{
+					"parent": 13002,
+					"id": 13003,
+					"name": "gi_wgq_q2_5_ears",
+					"label": "Do you have difficulty hearing, even if using a hearing aid?",
+					"nodeType": 0,
+					"fieldType": 4,
+					"choicesOriginRef": "qz49m34",
+					"validation": {
+						"notEmpty": true
+					}
+				},
+				{
+					"parent": 13003,
+					"id": 13004,
+					"name": "gi_wgq_q3_5_walk",
+					"label": "Do you have difficulty walking or climbing steps?",
+					"nodeType": 0,
+					"fieldType": 4,
+					"choicesOriginRef": "yi2bt40",
+					"validation": {
+						"notEmpty": true
+					}
+				},
+				{
+					"parent": 13004,
+					"id": 13005,
+					"name": "gi_wgq_q4_5_memory",
+					"label": "Do you have difficulty remembering or concentrating?",
+					"nodeType": 0,
+					"fieldType": 4,
+					"choicesOriginRef": "vm0cf13",
+					"validation": {
+						"notEmpty": true
+					}
+				},
+				{
+					"parent": 13005,
+					"id": 13006,
+					"name": "gi_wgq_q5_5_care",
+					"label": "Do you have difficulty (with self-care such as) washing all over or dressing?",
+					"nodeType": 0,
+					"fieldType": 4,
+					"choicesOriginRef": "fz7ew22",
+					"validation": {
+						"notEmpty": true
+					}
+				},
+				{
+					"parent": 13006,
+					"id": 13007,
+					"name": "gi_wgq_q6_5_comm",
+					"label": "Using your usual (customary) language, do you have difficulty communicating, for example understanding or being understood?",
+					"nodeType": 0,
+					"fieldType": 4,
+					"choicesOriginRef": "pl1no91",
+					"validation": {
+						"notEmpty": true
+					}
+				},
+				{
+					"parent": 13007,
+					"id": 13008,
+					"name": "gi_knw_q0_5",
+					"label": "",
+					"hint": "Give girls the hard copy of the story. After she reads the story, fill the following three questions (without asking girl).",
+					"nodeType": 0,
+					"fieldType": 7,
+					"HTML": "Now I would like to ask you to read aloud very short the story I have here in the paper.",
+					"validation": {}
+				},
+				{
+					"parent": 13008,
+					"id": 13009,
+					"name": "gi_knw_q1_5",
+					"label": "Does she reads the text as if she is reading a sentence, rather than a string of words?",
+					"nodeType": 0,
+					"fieldType": 4,
+					"choicesOriginRef": "dz3zg28",
+					"validation": {
+						"notEmpty": true
+					}
+				},
+				{
+					"parent": 13009,
+					"id": 13010,
+					"name": "gi_knw_q2_5",
+					"label": "Does she read the text fluently and with ease? The child may read slowly.",
+					"nodeType": 0,
+					"fieldType": 4,
+					"choicesOriginRef": "je49g40",
+					"validation": {
+						"notEmpty": true
+					}
+				},
+				{
+					"parent": 13010,
+					"id": 13011,
+					"name": "gi_knw_q3_5",
+					"label": "How many mistakes does she make?",
+					"hint": "put 99 if she can't read",
+					"nodeType": 0,
+					"fieldType": 2,
+					"validation": {
+						"notEmpty": true,
+						"conditions": [
+							{
+								"condition": "isInt(gi_knw_q3_5)",
+								"clientValidation": true,
+								"errorMessage": "The field value must be an integer."
+							}
+						]
+					}
+				}
+			]
+		},
+		{
+			"parent": 13,
+			"id": 14,
+			"name": "group_recontact",
+			"label": "Recontact consent",
+			"nodeType": 3,
+			"visibility": {
+				"condition": "intro_q0_agree === '1'"
+			},
+			"nodes": [
+				{
+					"parent": 14,
+					"id": 14001,
+					"name": "gi_fin_q1",
+					"label": "Thank you for your time helping this research. We may recontact HH head (and GIRL's caregiver) again in one or two years' time. Is that acceptable?",
+					"nodeType": 0,
+					"fieldType": 4,
+					"choicesOriginRef": "pf2mj40",
+					"validation": {
+						"notEmpty": true
+					}
+				},
+				{
+					"parent": 14001,
+					"id": 14002,
+					"name": "gi_fin_q2_a",
+					"label": "What is the best contact number to reach you on?",
+					"nodeType": 0,
+					"fieldType": 2,
+					"validation": {
+						"notEmpty": true,
+						"conditions": [
+							{
+								"condition": "isInt(gi_fin_q2_a)",
+								"clientValidation": true,
+								"errorMessage": "The field value must be an integer."
+							}
+						]
+					},
+					"visibility": {
+						"condition": "gi_fin_q1 === '1'"
+					}
+				},
+				{
+					"parent": 14002,
+					"id": 14003,
+					"name": "gi_fin_q2_b",
+					"label": "who is the owner of the phone number? (it could be HH member, village leader, 1 to 5 leader, etc)",
+					"hint": "full name",
+					"nodeType": 0,
+					"fieldType": 0,
+					"validation": {
+						"notEmpty": true
+					},
+					"visibility": {
+						"condition": "gi_fin_q1 === '1'"
+					}
+				},
+				{
+					"parent": 14003,
+					"id": 14004,
+					"name": "gi_fin_q3_reason",
+					"label": "reasons for refusal with the recontact",
+					"nodeType": 0,
+					"fieldType": 0,
+					"validation": {
+						"notEmpty": true
+					},
+					"visibility": {
+						"condition": "gi_fin_q1 === '2'"
+					}
+				}
+			]
+		},
+		{
+			"parent": 14,
+			"id": 15,
+			"name": "slide1",
+			"label": "",
+			"nodeType": 3,
+			"nodes": [
+				{
+					"parent": 15,
+					"id": 15001,
+					"name": "gi_fin_q3",
+					"label": "",
+					"nodeType": 0,
+					"fieldType": 7,
+					"HTML": "thank you all for your time",
+					"validation": {}
+				},
+				{
+					"parent": 15001,
+					"id": 15002,
+					"name": "__version__",
+					"label": "",
+					"nodeType": 0,
+					"fieldType": 6,
+					"formula": {
+						"formula": "'vEyih6HVoEaneSFaiG8Gcj'"
+					},
+					"validation": {}
+				},
+				{
+					"parent": 15002,
+					"id": 15003,
+					"name": "_version_",
+					"label": "",
+					"nodeType": 0,
+					"fieldType": 6,
+					"formula": {
+						"formula": "'vHkqsLvzaEV4K4xvyjKSJj'"
+					}
+				},
+				{
+					"parent": 15003,
+					"id": 15004,
+					"name": "_version__001",
+					"label": "",
+					"nodeType": 0,
+					"fieldType": 6,
+					"formula": {
+						"formula": "'vdSDxsvzFGJkXqUiGPPLW5'"
+					}
+				},
+				{
+					"parent": 15004,
+					"id": 15005,
+					"name": "_version__002",
+					"label": "",
+					"nodeType": 0,
+					"fieldType": 6,
+					"formula": {
+						"formula": "'vfY3bhcoJT3jqXVEJ8bSBk'"
+					}
+				}
+			]
+		}
+	]
+}
