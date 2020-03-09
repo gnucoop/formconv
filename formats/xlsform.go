@@ -294,7 +294,7 @@ func ListLanguages(rows [][]string) map[string]bool {
 	return langs
 }
 
-// splitLang retrieves the name and language af a cell.
+// splitLang retrieves the name and language as a cell.
 // "label::English"      -> ("label", "English")
 // "label::English (en)" -> ("label", "English")
 // "label"               -> ("label", "")
