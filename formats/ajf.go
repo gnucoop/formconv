@@ -8,8 +8,14 @@ import (
 )
 
 type AjfForm struct {
-	ChoicesOrigins []ChoicesOrigin `json:"choicesOrigins,omitempty"`
-	Slides         []Node          `json:"nodes"`
+	StringIdentifier []Tag           `json:"stringIdentifier,omitempty"`
+	ChoicesOrigins   []ChoicesOrigin `json:"choicesOrigins,omitempty"`
+	Slides           []Node          `json:"nodes"`
+}
+
+type Tag struct {
+	Label string    `json:"label"`
+	Value [1]string `json:"value"`
 }
 
 type ChoicesOrigin struct {

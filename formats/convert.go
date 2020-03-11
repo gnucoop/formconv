@@ -43,6 +43,11 @@ func Convert(xls *XlsForm) (*AjfForm, error) {
 		}
 	}
 	assignIds(ajf.Slides, 0)
+
+	err = processSettings(xls.Settings, &ajf)
+	if err != nil {
+		return nil, err
+	}
 	return &ajf, nil
 }
 
@@ -405,6 +410,25 @@ func assignIds(nodes []Node, parent int) {
 		nodes[i].Id = nodes[i-1].Id + 1
 		assignIds(nodes[i].Nodes, nodes[i].Id)
 	}
+}
+
+func processSettings(settings []SettingsRow, ajf *AjfForm) error {
+	for _, row := range settings {
+		if row.TagLabel == "" && row.TagValue == "" {
+			continue
+		}
+		if row.TagLabel == "" {
+			return fmtSrcErr(row.LineNum, "Tag with no label.")
+		}
+		if !isIdentifier(row.TagValue) {
+			return fmtSrcErr(row.LineNum, "Tag value %q is not a valid identifier.", row.TagValue)
+		}
+		var t Tag
+		t.Label = row.TagLabel
+		t.Value[0] = row.TagValue
+		ajf.StringIdentifier = append(ajf.StringIdentifier, t)
+	}
+	return nil
 }
 
 const (

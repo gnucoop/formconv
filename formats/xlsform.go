@@ -13,8 +13,9 @@ import (
 )
 
 type XlsForm struct {
-	Survey  []SurveyRow
-	Choices []ChoicesRow
+	Survey   []SurveyRow
+	Choices  []ChoicesRow
+	Settings []SettingsRow
 }
 type SurveyRow struct {
 	Type, Name, Label,
@@ -24,6 +25,10 @@ type SurveyRow struct {
 type ChoicesRow struct {
 	ListName, Name, Label string
 	LineNum               int
+}
+type SettingsRow struct {
+	TagLabel, TagValue string
+	LineNum            int
 }
 
 // Defines which sheets/columns to read from an excel file.
@@ -51,6 +56,12 @@ var sheetInfos = []sheetInfo{
 			{name: "list name", mandatory: true},
 			{name: "name", mandatory: true},
 			{name: "label", mandatory: true},
+		},
+	}, {
+		name: "settings",
+		columns: []columnInfo{
+			{name: "tag label"},
+			{name: "tag value"},
 		},
 	},
 }

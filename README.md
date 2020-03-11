@@ -215,3 +215,16 @@ A form may include multiple languages with the following syntax:
 |type      |name      |label::English (en) |label::Español (es)   |
 |----------|----------|--------------------|----------------------|
 |integer   |age       |How old are you?    |¿Cuántos años tienes? |
+
+## Form tags
+
+Tags are (label, value) pairs that can be used in ajf to highlight some fields of a compiled form.
+The tag label is a string that provides a description of the tag, while the tag value is the identifier of a field in the form.
+Tags can be specified in formconv using a "settings" sheet with the following syntax:
+
+|tag label |tag value |
+|----------|----------|
+|Gender    |gender    |
+|Age       |age       |
+
+Such tags will be added to the `stringIdentifier` list of tags in the resulting ajf form.
