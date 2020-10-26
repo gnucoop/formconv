@@ -55,6 +55,8 @@ The following table lists the supported question types.
 |time            |time            |Time            |
 |barcode         |barcode         |Scan a barcode  |
 |geopoint        |geolocation     |A location as GPS coordinates |
+|file            |file            |Upload a file   |
+|image           |image           |Take a picture or upload an image |
 |calculate       |formula         |Perform a [calculation](#calculation) |
 
 ## Hints

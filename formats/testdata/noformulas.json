@@ -120,6 +120,22 @@
 					"label": "Geopoint",
 					"nodeType": 0,
 					"fieldType": 12
+				},
+				{
+					"parent": 1006,
+					"id": 1007,
+					"name": "file",
+					"label": "File",
+					"nodeType": 0,
+					"fieldType": 14
+				},
+				{
+					"parent": 1007,
+					"id": 1008,
+					"name": "image",
+					"label": "Image",
+					"nodeType": 0,
+					"fieldType": 15
 				}
 			]
 		},

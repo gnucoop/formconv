@@ -342,6 +342,10 @@ func (b *nodeBuilder) buildField(row *SurveyRow) (Node, error) {
 		// may want to do field.TileLayer = row.Label
 	case row.Type == "barcode":
 		field.FieldType = &FtBarcode
+	case row.Type == "file":
+		field.FieldType = &FtFile
+	case row.Type == "image":
+		field.FieldType = &FtImage
 	default:
 		panic("unexpected row type")
 	}
@@ -441,7 +445,7 @@ const (
 var supportedField = map[string]bool{
 	"decimal": true, "integer": true, "text": true, "boolean": true,
 	"note": true, "date": true, "time": true, "calculate": true,
-	"barcode": true, "geopoint": true,
+	"barcode": true, "geopoint": true, "file": true, "image": true,
 }
 
 func isSupportedField(typ string) bool {
@@ -460,7 +464,7 @@ func isIgnoredField(typ string) bool { return ignoredField[typ] }
 
 var unsupportedField = map[string]bool{
 	"range": true, "geotrace": true, "geoshape": true,
-	"datetime": true, "image": true, "audio": true, "video": true, "file": true,
+	"datetime": true, "audio": true, "video": true,
 	"acknowledge": true, "hidden": true, "xml-external": true,
 }
 

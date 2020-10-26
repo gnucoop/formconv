@@ -80,6 +80,8 @@ var (
 	FtTime           FieldType = 10
 	FtGeolocation    FieldType = 12
 	FtBarcode        FieldType = 13
+	FtFile           FieldType = 14
+	FtImage          FieldType = 15
 )
 
 type Formula struct {
