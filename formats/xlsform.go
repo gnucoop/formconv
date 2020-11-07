@@ -5,7 +5,6 @@ import (
 	"io"
 	"os"
 	"path/filepath"
-	"reflect"
 	"strings"
 
 	"github.com/extrame/xls"
@@ -17,63 +16,97 @@ type XlsForm struct {
 	Choices  []ChoicesRow
 	Settings []SettingsRow
 }
-type SurveyRow struct {
-	Type, Name, Label,
-	Hint, Relevant, Constraint, ConstraintMessage, Calculation, Required, RepeatCount string
+
+type Row struct {
+	cells   map[string]string
 	LineNum int
 }
-type ChoicesRow struct {
-	ListName, Name, Label string
-	LineNum               int
-}
-type SettingsRow struct {
-	TagLabel, TagValue string
-	LineNum            int
+
+func makeRow(keyIsValid func(string) bool, keyVals ...string) Row {
+	var row Row
+	row.cells = make(map[string]string)
+	for k, v := 0, 1; v < len(keyVals); k, v = k+2, v+2 {
+		key := keyVals[k]
+		if !keyIsValid(key) {
+			panic(fmt.Sprintf("Invalid column %q in row", key))
+		}
+		row.cells[key] = keyVals[v]
+	}
+	return row
 }
 
-// Defines which sheets/columns to read from an excel file.
-// Names must appear in the same order as the fields of XlsForm.
-var sheetInfos = []sheetInfo{
-	{
-		name:      "survey",
-		mandatory: true,
-		columns: []columnInfo{
-			{name: "type", mandatory: true},
-			{name: "name", mandatory: true},
-			{name: "label", mandatory: true},
-			{name: "hint"},
-			{name: "relevant"},
-			{name: "constraint"},
-			{name: "constraint_message"},
-			{name: "calculation"},
-			{name: "required"},
-			{name: "repeat_count"},
-		},
-	}, {
-		name:      "choices",
-		mandatory: true,
-		columns: []columnInfo{
-			{name: "list name", mandatory: true},
-			{name: "name", mandatory: true},
-			{name: "label", mandatory: true},
-		},
-	}, {
-		name: "settings",
-		columns: []columnInfo{
-			{name: "tag label"},
-			{name: "tag value"},
-		},
-	},
+func (r Row) langCell(name string) string {
+	cell := r.cells[name]
+	if cell != "" {
+		return cell
+	}
+	engName := name + "::English"
+	for n, cell := range r.cells {
+		if strings.HasPrefix(n, engName) {
+			return cell
+		}
+	}
+	return ""
 }
 
-type sheetInfo struct {
-	name      string
-	mandatory bool
-	columns   []columnInfo
+type SurveyRow struct {
+	Row
+	// Type is kept here as an optimization,
+	// to avoid accessing Row.cells["type"] too frequently.
+	Type string
 }
-type columnInfo struct {
-	name      string
-	mandatory bool
+
+func MakeSurveyRow(keyVals ...string) SurveyRow {
+	row := makeRow(isSurveyCol, keyVals...)
+	return SurveyRow{row, row.cells["type"]}
+}
+
+func (r SurveyRow) Name() string          { return r.cells["name"] }
+func (r SurveyRow) Label() string         { return r.langCell("label") }
+func (r SurveyRow) Hint() string          { return r.langCell("hint") }
+func (r SurveyRow) Relevant() string      { return r.cells["relevant"] }
+func (r SurveyRow) Constraint() string    { return r.cells["constraint"] }
+func (r SurveyRow) ConstraintMsg() string { return r.langCell("constraint_message") }
+func (r SurveyRow) Calculation() string   { return r.cells["calculation"] }
+func (r SurveyRow) Required() string      { return r.cells["required"] }
+func (r SurveyRow) RepeatCount() string   { return r.cells["repeat_count"] }
+
+var surveyCols = map[string]bool{
+	"type": true, "name": true, "label": true, "hint": true,
+	"relevant": true, "constraint": true, "constraint_message": true,
+	"calculation": true, "required": true, "repeat_count": true,
+}
+
+func isSurveyCol(name string) bool {
+	return surveyCols[name] || strings.HasPrefix(name, "label") ||
+		strings.HasPrefix(name, "hint") || strings.HasPrefix(name, "constraint_message")
+}
+
+type ChoicesRow struct{ Row }
+
+func MakeChoicesRow(keyVals ...string) ChoicesRow {
+	return ChoicesRow{makeRow(isChoicesCol, keyVals...)}
+}
+
+func (r ChoicesRow) ListName() string { return r.cells["list name"] }
+func (r ChoicesRow) Name() string     { return r.cells["name"] }
+func (r ChoicesRow) Label() string    { return r.langCell("label") }
+
+func isChoicesCol(name string) bool {
+	return name == "list name" || name == "name" || strings.HasPrefix(name, "label")
+}
+
+type SettingsRow struct{ Row }
+
+func MakeSettingsRow(keyVals ...string) SettingsRow {
+	return SettingsRow{makeRow(isSettingsCol, keyVals...)}
+}
+
+func (r SettingsRow) TagLabel() string { return r.cells["tag label"] }
+func (r SettingsRow) TagValue() string { return r.cells["tag value"] }
+
+func isSettingsCol(name string) bool {
+	return name == "tag label" || name == "tag value"
 }
 
 type File interface {
@@ -84,42 +117,38 @@ type File interface {
 
 func DecXlsform(wb WorkBook) (*XlsForm, error) {
 	var form XlsForm
-	formVal := reflect.ValueOf(&form).Elem()
-	for s, sheetInfo := range sheetInfos {
-		rows := wb.Rows(sheetInfo.name)
-		if rows == nil && sheetInfo.mandatory {
-			return nil, fmt.Errorf("Missing mandatory sheet %q.", sheetInfo.name)
-		}
-		if rows == nil {
-			continue // not mandatory, skip
-		}
+	for _, sheetName := range []string{"survey", "choices", "settings"} {
+		rows := wb.Rows(sheetName)
 		canonicalize(rows)
 		headIndex := firstNonempty(rows)
+		if headIndex == -1 && sheetName == "settings" {
+			continue // ok, settings sheet is optional
+		}
 		if headIndex == -1 {
-			return nil, fmt.Errorf("Empty sheet %q.", sheetInfo.name)
+			return nil, fmt.Errorf("Mandatory sheet %q missing or empty.", sheetName)
 		}
 		head := rows[headIndex]
-		colIndices := make([]int, len(sheetInfo.columns))
-		for j, colInfo := range sheetInfo.columns {
-			colIndices[j] = columnIndex(head, colInfo.name)
-			if colIndices[j] == -1 && colInfo.mandatory {
-				return nil, fmt.Errorf("Column %q in sheet %q is mandatory.", colInfo.name, sheetInfo.name)
-			}
-		}
-		destSlice := formVal.Field(s)
 		for i := headIndex + 1; i < len(rows); i++ {
-			row := rows[i]
-			if isEmpty(row) {
+			if isEmpty(rows[i]) {
 				continue
 			}
-			destRow := reflect.New(destSlice.Type().Elem()).Elem()
-			destRow.FieldByName("LineNum").Set(reflect.ValueOf(i + 1))
-			for j := range sheetInfo.columns {
-				if colIndices[j] != -1 {
-					destRow.Field(j).Set(reflect.ValueOf(row[colIndices[j]]))
+			var destRow Row
+			destRow.cells = make(map[string]string)
+			destRow.LineNum = i + 1
+			for j, cell := range rows[i] {
+				colName := head[j]
+				if colName != "" && cell != "" {
+					destRow.cells[colName] = cell
 				}
 			}
-			destSlice.Set(reflect.Append(destSlice, destRow))
+			switch sheetName {
+			case "survey":
+				form.Survey = append(form.Survey, SurveyRow{destRow, destRow.cells["type"]})
+			case "choices":
+				form.Choices = append(form.Choices, ChoicesRow{destRow})
+			case "settings":
+				form.Settings = append(form.Settings, SettingsRow{destRow})
+			}
 		}
 	}
 	return &form, nil
@@ -252,21 +281,6 @@ func isEmpty(row []string) bool {
 func firstNonempty(rows [][]string) int {
 	for i, row := range rows {
 		if !isEmpty(row) {
-			return i
-		}
-	}
-	return -1
-}
-
-func columnIndex(row []string, name string) int {
-	for i, cell := range row {
-		if cell == name {
-			return i
-		}
-	}
-	engName := name + "::English"
-	for i, cell := range row {
-		if strings.HasPrefix(cell, engName) {
 			return i
 		}
 	}

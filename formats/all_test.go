@@ -28,30 +28,38 @@ func TestDecodeXls(t *testing.T) {
 	fileName := "testdata/skeleton"
 	expected := &XlsForm{
 		Survey: []SurveyRow{
-			{LineNum: 2, Type: "type1", Name: "name1", Label: "label1", Required: "yes"},
-			{LineNum: 3, Type: "type2", Name: "name2", Label: "label2", Required: "yes"},
+			MakeSurveyRow("type", "type1", "name", "name1", "label", "label1", "required", "yes"),
+			MakeSurveyRow("type", "type2", "name", "name2", "label", "label2", "required", "yes"),
 		},
 		Choices: []ChoicesRow{
-			{LineNum: 4, ListName: "listname1", Name: "name1", Label: "label1"},
-			{LineNum: 6, ListName: "listname2", Name: "name2", Label: "label2"},
-			{LineNum: 8, ListName: "listname3", Name: "name3", Label: "label3"},
+			MakeChoicesRow("list name", "listname1", "name", "name1", "label", "label1"),
+			MakeChoicesRow("list name", "listname2", "name", "name2", "label", "label2"),
+			MakeChoicesRow("list name", "listname3", "name", "name3", "label", "label3"),
 		},
 	}
 	for _, ext := range []string{".xls", ".xlsx"} {
 		xls, err := DecXlsFromFile(fileName + ext)
 		check(t, err)
-		if !reflect.DeepEqual(xls, expected) {
-			t.Errorf("Error decoding %s, unexpected result:", fileName+ext)
-			logFatalDiff(t, xls, expected)
+		for i, row := range expected.Survey {
+			if !reflect.DeepEqual(xls.Survey[i].cells, row.cells) {
+				t.Errorf("Error decoding %s, unexpected result:", fileName+ext)
+				logFatalDiff(t, xls.Survey[i].cells, row.cells)
+			}
+		}
+		for i, row := range expected.Choices {
+			if !reflect.DeepEqual(xls.Choices[i].cells, row.cells) {
+				t.Errorf("Error decoding %s, unexpected result:", fileName+ext)
+				logFatalDiff(t, xls.Choices[i].cells, row.cells)
+			}
 		}
 	}
 }
 
 func TestBuildChoicesOrigins(t *testing.T) {
 	choicesSheet := []ChoicesRow{
-		{"list1", "elem1a", "label1a", 0},
-		{"list2", "elem2a", "label2a", 0},
-		{"list1", "elem1b", "label1b", 0},
+		MakeChoicesRow("list name", "list1", "name", "elem1a", "label", "label1a"),
+		MakeChoicesRow("list name", "list2", "name", "elem2a", "label", "label2a"),
+		MakeChoicesRow("list name", "list1", "name", "elem1b", "label", "label1b"),
 	}
 	choices, _ := buildChoicesOrigins(choicesSheet)
 	expected := []ChoicesOrigin{{
@@ -87,34 +95,36 @@ func TestPreprocessGroups(t *testing.T) {
 	}
 
 	survey := []SurveyRow{
-		{Type: "decimal"},
-		{Type: "integer"},
-		{Type: beginGroup},
-		{Type: "text"},
-		{Type: endGroup},
-		{Type: "date"},
-		{Type: "time"},
+		MakeSurveyRow("type", "decimal"),
+		MakeSurveyRow("type", "integer"),
+		MakeSurveyRow("type", beginGroup),
+		MakeSurveyRow("type", "text"),
+		MakeSurveyRow("type", endGroup),
+		MakeSurveyRow("type", "date"),
+		MakeSurveyRow("type", "time"),
 	}
 	processed, err := preprocessGroups(survey)
 	check(t, err)
 	expected := []SurveyRow{
-		{Type: beginGroup, Name: "global"},
-		{Type: beginGroup, Name: "slide0"},
-		{Type: "decimal"},
-		{Type: "integer"},
-		{Type: endGroup},
-		{Type: beginGroup},
-		{Type: "text"},
-		{Type: endGroup},
-		{Type: beginGroup, Name: "slide1"},
-		{Type: "date"},
-		{Type: "time"},
-		{Type: endGroup},
-		{Type: endGroup}, // global
+		MakeSurveyRow("type", beginGroup, "name", "global"),
+		MakeSurveyRow("type", beginGroup, "name", "slide0"),
+		MakeSurveyRow("type", "decimal"),
+		MakeSurveyRow("type", "integer"),
+		MakeSurveyRow("type", endGroup),
+		MakeSurveyRow("type", beginGroup),
+		MakeSurveyRow("type", "text"),
+		MakeSurveyRow("type", endGroup),
+		MakeSurveyRow("type", beginGroup, "name", "slide1"),
+		MakeSurveyRow("type", "date"),
+		MakeSurveyRow("type", "time"),
+		MakeSurveyRow("type", endGroup),
+		MakeSurveyRow("type", endGroup), // global
 	}
-	if !reflect.DeepEqual(processed, expected) {
-		t.Error(`Error preprocessing groups, unexpected result:`)
-		logFatalDiff(t, processed, expected)
+	for i, row := range expected {
+		if !reflect.DeepEqual(processed[i].cells, row.cells) {
+			t.Error(`Error preprocessing groups, unexpected result:`)
+			logFatalDiff(t, processed[i].cells, row.cells)
+		}
 	}
 }
 

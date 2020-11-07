@@ -54,9 +54,9 @@ func Convert(xls *XlsForm) (*AjfForm, error) {
 func buildChoicesOrigins(rows []ChoicesRow) ([]ChoicesOrigin, map[string][]Choice) {
 	choicesMap := make(map[string][]Choice)
 	for _, row := range rows {
-		choicesMap[row.ListName] = append(choicesMap[row.ListName], Choice{
-			Value: row.Name,
-			Label: row.Label,
+		choicesMap[row.ListName()] = append(choicesMap[row.ListName()], Choice{
+			Value: row.Name(),
+			Label: row.Label(),
 		})
 	}
 	co := make(coSlice, 0, len(choicesMap))
@@ -118,19 +118,20 @@ func checkTypes(survey []SurveyRow) error {
 
 func checkNames(survey []SurveyRow) error {
 	for _, row := range survey {
+		name := row.Name()
 		switch row.Type {
 		case endGroup, endRepeat:
-			if row.Name != "" {
+			if name != "" {
 				return fmtSrcErr(row.LineNum, "End of group/repeat can't have a name.")
 			}
 		case "note":
-			if row.Name == "" {
+			if name == "" {
 				continue // name is optional for note
 			}
 			fallthrough
 		default:
-			if !isIdentifier(row.Name) {
-				return fmtSrcErr(row.LineNum, "Name %q is not a valid identifier.", row.Name)
+			if !isIdentifier(name) {
+				return fmtSrcErr(row.LineNum, "Name %q is not a valid identifier.", name)
 			}
 		}
 	}
@@ -164,7 +165,8 @@ func preprocessGroups(survey []SurveyRow) ([]SurveyRow, error) {
 		case beginGroup:
 			stack = append(stack, row)
 		case endRepeat, endGroup:
-			if len(stack) == 0 || stack[len(stack)-1].Type[len("begin"):] != row.Type[len("end"):] {
+			if len(stack) == 0 ||
+				stack[len(stack)-1].Type[len("begin"):] != row.Type[len("end"):] {
 				return nil, fmtSrcErr(row.LineNum, "Unexpected end of group/repeat.")
 			}
 			stack = stack[0 : len(stack)-1]
@@ -177,7 +179,7 @@ func preprocessGroups(survey []SurveyRow) ([]SurveyRow, error) {
 	// Wrap everything into a temporary global group,
 	// it allows building the form with a single call to buildGroup;
 	// also create groups for adjacent ungrouped questions.
-	newSurvey := []SurveyRow{{Type: beginGroup, Name: "global"}}
+	newSurvey := []SurveyRow{MakeSurveyRow("type", beginGroup, "name", "global")}
 	groupDepth := 0
 	grouping := false
 	slideNum := 0
@@ -185,7 +187,7 @@ func preprocessGroups(survey []SurveyRow) ([]SurveyRow, error) {
 		switch row.Type {
 		case beginGroup, beginRepeat:
 			if grouping {
-				newSurvey = append(newSurvey, SurveyRow{Type: endGroup})
+				newSurvey = append(newSurvey, MakeSurveyRow("type", endGroup))
 				grouping = false
 			}
 			groupDepth++
@@ -196,15 +198,15 @@ func preprocessGroups(survey []SurveyRow) ([]SurveyRow, error) {
 				grouping = true
 				slideName := "slide" + strconv.Itoa(slideNum)
 				slideNum++
-				newSurvey = append(newSurvey, SurveyRow{Type: beginGroup, Name: slideName})
+				newSurvey = append(newSurvey, MakeSurveyRow("type", beginGroup, "name", slideName))
 			}
 		}
 		newSurvey = append(newSurvey, row)
 	}
 	if grouping {
-		newSurvey = append(newSurvey, SurveyRow{Type: endGroup})
+		newSurvey = append(newSurvey, MakeSurveyRow("type", endGroup))
 	}
-	newSurvey = append(newSurvey, SurveyRow{Type: endGroup}) // global
+	newSurvey = append(newSurvey, MakeSurveyRow("type", endGroup)) // global group
 	return newSurvey, nil
 }
 
@@ -218,8 +220,8 @@ func (b *nodeBuilder) buildGroup(survey []SurveyRow) (Node, error) {
 		panic("not a group")
 	}
 	group := Node{
-		Name:  row.Name,
-		Label: row.Label,
+		Name:  row.Name(),
+		Label: row.Label(),
 		Type:  NtGroup,
 		Nodes: make([]Node, 0, 8),
 	}
@@ -230,8 +232,8 @@ func (b *nodeBuilder) buildGroup(survey []SurveyRow) (Node, error) {
 	}
 	if row.Type == beginRepeat {
 		group.Type = NtRepeatingSlide
-		if row.RepeatCount != "" {
-			reps, ok := parseExcelUint(row.RepeatCount)
+		if row.RepeatCount() != "" {
+			reps, ok := parseExcelUint(row.RepeatCount())
 			if !ok {
 				return Node{}, fmtSrcErr(row.LineNum, "repeat_count is not an unsigned integer.")
 			}
@@ -295,9 +297,9 @@ func groupEnd(survey []SurveyRow, groupStart int) int {
 
 func (b *nodeBuilder) buildField(row *SurveyRow) (Node, error) {
 	field := Node{
-		Name:  row.Name,
-		Label: row.Label,
-		Hint:  row.Hint,
+		Name:  row.Name(),
+		Label: row.Label(),
+		Hint:  row.Hint(),
 		Type:  NtField,
 	}
 	var err error
@@ -325,21 +327,21 @@ func (b *nodeBuilder) buildField(row *SurveyRow) (Node, error) {
 	case row.Type == "note":
 		field.Label = ""
 		field.FieldType = &FtNote
-		field.HTML = row.Label
+		field.HTML = row.Label()
 	case row.Type == "date":
 		field.FieldType = &FtDate
 	case row.Type == "time":
 		field.FieldType = &FtTime
 	case row.Type == "calculate":
 		field.FieldType = &FtFormula
-		js, err := b.parser.Parse(row.Calculation, "calculation", row.Name)
+		js, err := b.parser.Parse(row.Calculation(), "calculation", row.Name())
 		if err != nil {
 			return Node{}, fmtSrcErr(row.LineNum, "%s", err)
 		}
 		field.Formula = &Formula{js}
 	case row.Type == "geopoint":
 		field.FieldType = &FtGeolocation
-		// may want to do field.TileLayer = row.Label
+		// may want to do field.TileLayer = row.Label()
 	case row.Type == "barcode":
 		field.FieldType = &FtBarcode
 	case row.Type == "file":
@@ -353,10 +355,11 @@ func (b *nodeBuilder) buildField(row *SurveyRow) (Node, error) {
 }
 
 func (b *nodeBuilder) nodeVisibility(row *SurveyRow) (*NodeVisibility, error) {
-	if row.Relevant == "" {
+	rel := row.Relevant()
+	if rel == "" {
 		return nil, nil
 	}
-	js, err := b.parser.Parse(row.Relevant, "relevant", row.Name)
+	js, err := b.parser.Parse(rel, "relevant", row.Name())
 	if err != nil {
 		return nil, fmtSrcErr(row.LineNum, "%s", err)
 	}
@@ -366,36 +369,38 @@ func (b *nodeBuilder) nodeVisibility(row *SurveyRow) (*NodeVisibility, error) {
 var requiredVals = map[string]bool{"": true, "yes": true, "no": true, "true": true, "false": true}
 
 func (b *nodeBuilder) fieldValidation(row *SurveyRow) (*FieldValidation, error) {
-	if row.Required == "" && row.Constraint == "" && row.Type != "integer" {
+	req := row.Required()
+	con := row.Constraint()
+	if req == "" && con == "" && row.Type != "integer" {
 		return nil, nil
 	}
 	v := new(FieldValidation)
 
-	if !requiredVals[row.Required] {
-		return nil, fmtSrcErr(row.LineNum, `Invalid value %q in "required" column.`, row.Required)
+	if !requiredVals[req] {
+		return nil, fmtSrcErr(row.LineNum, `Invalid value %q in "required" column.`, req)
 	}
-	if row.Required == "yes" || row.Required == "true" {
+	if req == "yes" || req == "true" {
 		v.NotEmpty = true
 	}
 
 	if row.Type == "integer" {
 		v.Conditions = []ValidationCondition{{
-			Condition:        "isInt(" + row.Name + ")", // ajf function
+			Condition:        "isInt(" + row.Name() + ")", // ajf function
 			ClientValidation: true,
 			ErrorMessage:     "The field value must be an integer.",
 		}}
 	}
-	if row.Constraint == "" {
+	if con == "" {
 		return v, nil
 	}
-	js, err := b.parser.Parse(row.Constraint, "constraint", row.Name)
+	js, err := b.parser.Parse(con, "constraint", row.Name())
 	if err != nil {
 		return nil, fmtSrcErr(row.LineNum, "%s", err)
 	}
 	v.Conditions = append(v.Conditions, ValidationCondition{
 		Condition:        js,
 		ClientValidation: true,
-		ErrorMessage:     row.ConstraintMessage,
+		ErrorMessage:     row.ConstraintMsg(),
 	})
 	return v, nil
 }
@@ -418,18 +423,20 @@ func assignIds(nodes []Node, parent int) {
 
 func processSettings(settings []SettingsRow, ajf *AjfForm) error {
 	for _, row := range settings {
-		if row.TagLabel == "" && row.TagValue == "" {
+		lab := row.TagLabel()
+		val := row.TagValue()
+		if lab == "" && val == "" {
 			continue
 		}
-		if row.TagLabel == "" {
+		if lab == "" {
 			return fmtSrcErr(row.LineNum, "Tag with no label.")
 		}
-		if !isIdentifier(row.TagValue) {
-			return fmtSrcErr(row.LineNum, "Tag value %q is not a valid identifier.", row.TagValue)
+		if !isIdentifier(val) {
+			return fmtSrcErr(row.LineNum, "Tag value %q is not a valid identifier.", val)
 		}
 		var t Tag
-		t.Label = row.TagLabel
-		t.Value[0] = row.TagValue
+		t.Label = lab
+		t.Value[0] = val
 		ajf.StringIdentifier = append(ajf.StringIdentifier, t)
 	}
 	return nil
@@ -442,31 +449,30 @@ const (
 	endRepeat   = "end repeat"
 )
 
-var supportedField = map[string]bool{
+var supportedFields = map[string]bool{
 	"decimal": true, "integer": true, "text": true, "boolean": true,
 	"note": true, "date": true, "time": true, "calculate": true,
 	"barcode": true, "geopoint": true, "file": true, "image": true,
 }
 
 func isSupportedField(typ string) bool {
-	return supportedField[typ] || isSelectOne(typ) || isSelectMultiple(typ)
+	return supportedFields[typ] || isSelectOne(typ) || isSelectMultiple(typ)
 }
 func isSelectOne(typ string) bool      { return strings.HasPrefix(typ, "select_one ") }
 func isSelectMultiple(typ string) bool { return strings.HasPrefix(typ, "select_multiple ") }
 
-var ignoredField = map[string]bool{
-	// metadata:
+var ignoredFields = map[string]bool{ // metadata:
 	"start": true, "end": true, "today": true, "deviceid": true, "subscriberid": true,
 	"simserial": true, "phonenumber": true, "username": true, "email": true,
 }
 
-func isIgnoredField(typ string) bool { return ignoredField[typ] }
+func isIgnoredField(typ string) bool { return ignoredFields[typ] }
 
-var unsupportedField = map[string]bool{
+var unsupportedFields = map[string]bool{
 	"range": true, "geotrace": true, "geoshape": true,
 	"datetime": true, "audio": true, "video": true,
 	"acknowledge": true, "hidden": true, "xml-external": true,
 }
 
-func isUnsupportedField(typ string) bool { return unsupportedField[typ] || isRank(typ) }
+func isUnsupportedField(typ string) bool { return unsupportedFields[typ] || isRank(typ) }
 func isRank(typ string) bool             { return strings.HasPrefix(typ, "rank ") }
