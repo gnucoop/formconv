@@ -230,6 +230,10 @@ With the `choices` sheet containing the appropriate information to perform the f
 |cities    |berlin    |Berlin    |germany   |
 |cities    |hamburg   |Hamburg   |germany   |
 
+In this case, the user-defined column "country" has been added to the choices sheet.
+Any column name can be used, as long as it is a valid identifier
+(as it has to be referenced as an identifier in the `choice_filter` formula)
+
 ## Multiple language support
 
 A form may include multiple languages with the following syntax:
