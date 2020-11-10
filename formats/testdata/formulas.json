@@ -1,4 +1,48 @@
 {
+	"choicesOrigins": [
+		{
+			"type": "fixed",
+			"name": "pet_size",
+			"choicesType": "string",
+			"choices": [
+				{
+					"label": "Small",
+					"value": "small"
+				},
+				{
+					"label": "Big",
+					"value": "big"
+				}
+			]
+		},
+		{
+			"type": "fixed",
+			"name": "pets",
+			"choicesType": "string",
+			"choices": [
+				{
+					"label": "Dog",
+					"size": "big",
+					"value": "dog"
+				},
+				{
+					"label": "Cat",
+					"size": "big",
+					"value": "cat"
+				},
+				{
+					"label": "Hamster",
+					"size": "small",
+					"value": "hamster"
+				},
+				{
+					"label": "Bird",
+					"size": "small",
+					"value": "bird"
+				}
+			]
+		}
+	],
 	"nodes": [
 		{
 			"parent": 0,
@@ -106,6 +150,36 @@
 							"fieldType": 0
 						}
 					]
+				}
+			]
+		},
+		{
+			"parent": 2,
+			"id": 3,
+			"name": "pets_group",
+			"label": "Pets Group",
+			"nodeType": 3,
+			"nodes": [
+				{
+					"parent": 3,
+					"id": 3001,
+					"name": "size",
+					"label": "Do you prefer small or big pets?",
+					"nodeType": 0,
+					"fieldType": 4,
+					"choicesOriginRef": "pet_size"
+				},
+				{
+					"parent": 3001,
+					"id": 3002,
+					"name": "pets",
+					"label": "Select your favorite pets!",
+					"nodeType": 0,
+					"fieldType": 5,
+					"choicesOriginRef": "pets",
+					"choicesFilter": {
+						"formula": "$choice.size === size"
+					}
 				}
 			]
 		}

@@ -210,6 +210,26 @@ Calculations can be performed using the values of other questions:
 
 The results of calculations will appear as read-only fields in the form.
 
+## Choice filters
+
+The list of values for a single- or multiple-choice question can be filtered depending on the answer to previous questions, using the `choice_filter` column:
+
+|type                 |name         |label                         |choice_filter |
+|---------------------|-------------|------------------------------|--------------|
+|select_one countries |user_country |In which country do you live? |              |
+|select_one cities    |user_city    |In which city do you live?    |`country = ${user_country}`|
+
+With the `choices` sheet containing the appropriate information to perform the filtering:
+
+|list name |name      |label     |country   |
+|----------|----------|----------|----------|
+|countries |italy     |Italy     |          |
+|countries |germany   |Germany   |          |
+|cities    |milan     |Milan     |italy     |
+|cities    |rome      |Rome      |italy     |
+|cities    |berlin    |Berlin    |germany   |
+|cities    |hamburg   |Hamburg   |germany   |
+
 ## Multiple language support
 
 A form may include multiple languages with the following syntax:

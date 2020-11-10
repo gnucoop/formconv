@@ -54,10 +54,10 @@ func Convert(xls *XlsForm) (*AjfForm, error) {
 func buildChoicesOrigins(rows []ChoicesRow) ([]ChoicesOrigin, map[string][]Choice) {
 	choicesMap := make(map[string][]Choice)
 	for _, row := range rows {
-		choicesMap[row.ListName()] = append(choicesMap[row.ListName()], Choice{
-			Value: row.Name(),
-			Label: row.Label(),
-		})
+		choice := row.UserDefCells()
+		choice["value"] = row.Name()
+		choice["label"] = row.Label()
+		choicesMap[row.ListName()] = append(choicesMap[row.ListName()], choice)
 	}
 	co := make(coSlice, 0, len(choicesMap))
 	for name, list := range choicesMap {
@@ -90,7 +90,21 @@ func checkChoicesRef(survey []SurveyRow, choicesMap map[string][]Choice) error {
 	return nil
 }
 
-func choiceName(rowType string) string { return rowType[strings.Index(rowType, " ")+1:] }
+func choiceType(rowType string) *FieldType {
+	if isSelectOne(rowType) {
+		return &FtSingleChoice
+	}
+	if isSelectMultiple(rowType) {
+		return &FtMultipleChoice
+	}
+	panic("not a choice")
+}
+func choiceName(rowType string) string {
+	if !isSelectOne(rowType) && !isSelectMultiple(rowType) {
+		panic("not a choice")
+	}
+	return rowType[strings.Index(rowType, " ")+1:]
+}
 
 func fmtSrcErr(lineNum int, format string, a ...interface{}) error {
 	return fmt.Errorf("line %d: "+format, append([]interface{}{lineNum}, a...)...)
@@ -226,7 +240,7 @@ func (b *nodeBuilder) buildGroup(survey []SurveyRow) (Node, error) {
 		Nodes: make([]Node, 0, 8),
 	}
 	var err error
-	group.Visibility, err = b.nodeVisibility(&row)
+	group.Visibility, err = b.nodeVisibility(row)
 	if err != nil {
 		return Node{}, err
 	}
@@ -246,7 +260,7 @@ func (b *nodeBuilder) buildGroup(survey []SurveyRow) (Node, error) {
 		case isIgnoredField(row.Type):
 			continue
 		case isSupportedField(row.Type):
-			field, err := b.buildField(&row)
+			field, err := b.buildField(row)
 			if err != nil {
 				return Node{}, err
 			}
@@ -295,7 +309,7 @@ func groupEnd(survey []SurveyRow, groupStart int) int {
 	panic("group end not found")
 }
 
-func (b *nodeBuilder) buildField(row *SurveyRow) (Node, error) {
+func (b *nodeBuilder) buildField(row SurveyRow) (Node, error) {
 	field := Node{
 		Name:  row.Name(),
 		Label: row.Label(),
@@ -318,12 +332,16 @@ func (b *nodeBuilder) buildField(row *SurveyRow) (Node, error) {
 		field.FieldType = &FtString
 	case row.Type == "boolean":
 		field.FieldType = &FtBoolean
-	case isSelectOne(row.Type):
-		field.FieldType = &FtSingleChoice
+	case isSelectOne(row.Type) || isSelectMultiple(row.Type):
+		field.FieldType = choiceType(row.Type)
 		field.ChoicesOriginRef = choiceName(row.Type)
-	case isSelectMultiple(row.Type):
-		field.FieldType = &FtMultipleChoice
-		field.ChoicesOriginRef = choiceName(row.Type)
+		if filter := row.ChoiceFilter(); filter != "" {
+			js, err := b.parser.Parse(filter, "choice_filter", row.Name())
+			if err != nil {
+				return Node{}, fmtSrcErr(row.LineNum, "%s", err)
+			}
+			field.ChoicesFilter = &Formula{js}
+		}
 	case row.Type == "note":
 		field.Label = ""
 		field.FieldType = &FtNote
@@ -354,7 +372,7 @@ func (b *nodeBuilder) buildField(row *SurveyRow) (Node, error) {
 	return field, nil
 }
 
-func (b *nodeBuilder) nodeVisibility(row *SurveyRow) (*NodeVisibility, error) {
+func (b *nodeBuilder) nodeVisibility(row SurveyRow) (*NodeVisibility, error) {
 	rel := row.Relevant()
 	if rel == "" {
 		return nil, nil
@@ -368,7 +386,7 @@ func (b *nodeBuilder) nodeVisibility(row *SurveyRow) (*NodeVisibility, error) {
 
 var requiredVals = map[string]bool{"": true, "yes": true, "no": true, "true": true, "false": true}
 
-func (b *nodeBuilder) fieldValidation(row *SurveyRow) (*FieldValidation, error) {
+func (b *nodeBuilder) fieldValidation(row SurveyRow) (*FieldValidation, error) {
 	req := row.Required()
 	con := row.Constraint()
 	if req == "" && con == "" && row.Type != "integer" {

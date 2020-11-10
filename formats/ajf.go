@@ -33,10 +33,9 @@ type ChoiceType string
 
 const CtString ChoiceType = "string"
 
-type Choice struct {
-	Value string `json:"value"`
-	Label string `json:"label"`
-}
+// Choice has fields "value", "label" and possibly others
+// defined by the user to be used in choice filters.
+type Choice map[string]string
 
 type Node struct {
 	Previous int      `json:"parent"`
@@ -48,6 +47,7 @@ type Node struct {
 
 	FieldType        *FieldType       `json:"fieldType,omitempty"`
 	ChoicesOriginRef string           `json:"choicesOriginRef,omitempty"`
+	ChoicesFilter    *Formula         `json:"choicesFilter,omitempty"`
 	HTML             string           `json:"HTML,omitempty"`
 	MaxReps          *int             `json:"maxReps,omitempty"`
 	Formula          *Formula         `json:"formula,omitempty"`

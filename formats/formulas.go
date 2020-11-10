@@ -269,7 +269,14 @@ func (p *formulaParser) parseExpressionIdent(expectedEnd rune) {
 	case "count", "starts", "ends", "substring", "string", "boolean":
 		p.parseFuncCall()
 	default:
-		p.error(fmt.Sprintf("Unknown identifier %q.", p.TokenText()))
+		if p.Filename == "choice_filter" {
+			// Formulas in choice filters can have unbound identifiers,
+			// which must be interpreted as fields of the choice.
+			p.WriteString("$choice.")
+			p.WriteString(p.TokenText())
+		} else {
+			p.error(fmt.Sprintf("Unknown identifier %q.", p.TokenText()))
+		}
 	}
 }
 

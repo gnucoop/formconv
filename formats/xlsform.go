@@ -61,6 +61,18 @@ func MakeSurveyRow(keyVals ...string) SurveyRow {
 	return SurveyRow{row, row.cells["type"]}
 }
 
+var surveyCols = map[string]bool{
+	"type": true, "name": true, "label": true, "hint": true,
+	"relevant": true, "constraint": true, "constraint_message": true,
+	"calculation": true, "required": true, "repeat_count": true,
+	"choice_filter": true,
+}
+
+func isSurveyCol(name string) bool {
+	return surveyCols[name] || strings.HasPrefix(name, "label") ||
+		strings.HasPrefix(name, "hint") || strings.HasPrefix(name, "constraint_message")
+}
+
 func (r SurveyRow) Name() string          { return r.cells["name"] }
 func (r SurveyRow) Label() string         { return r.langCell("label") }
 func (r SurveyRow) Hint() string          { return r.langCell("hint") }
@@ -70,17 +82,7 @@ func (r SurveyRow) ConstraintMsg() string { return r.langCell("constraint_messag
 func (r SurveyRow) Calculation() string   { return r.cells["calculation"] }
 func (r SurveyRow) Required() string      { return r.cells["required"] }
 func (r SurveyRow) RepeatCount() string   { return r.cells["repeat_count"] }
-
-var surveyCols = map[string]bool{
-	"type": true, "name": true, "label": true, "hint": true,
-	"relevant": true, "constraint": true, "constraint_message": true,
-	"calculation": true, "required": true, "repeat_count": true,
-}
-
-func isSurveyCol(name string) bool {
-	return surveyCols[name] || strings.HasPrefix(name, "label") ||
-		strings.HasPrefix(name, "hint") || strings.HasPrefix(name, "constraint_message")
-}
+func (r SurveyRow) ChoiceFilter() string  { return r.cells["choice_filter"] }
 
 type ChoicesRow struct{ Row }
 
@@ -88,12 +90,21 @@ func MakeChoicesRow(keyVals ...string) ChoicesRow {
 	return ChoicesRow{makeRow(isChoicesCol, keyVals...)}
 }
 
+func isChoicesCol(name string) bool {
+	return name == "list name" || name == "name" || strings.HasPrefix(name, "label")
+}
+
 func (r ChoicesRow) ListName() string { return r.cells["list name"] }
 func (r ChoicesRow) Name() string     { return r.cells["name"] }
 func (r ChoicesRow) Label() string    { return r.langCell("label") }
-
-func isChoicesCol(name string) bool {
-	return name == "list name" || name == "name" || strings.HasPrefix(name, "label")
+func (r ChoicesRow) UserDefCells() map[string]string {
+	ud := make(map[string]string)
+	for k, v := range r.cells {
+		if !isChoicesCol(k) {
+			ud[k] = v
+		}
+	}
+	return ud
 }
 
 type SettingsRow struct{ Row }
@@ -102,12 +113,12 @@ func MakeSettingsRow(keyVals ...string) SettingsRow {
 	return SettingsRow{makeRow(isSettingsCol, keyVals...)}
 }
 
-func (r SettingsRow) TagLabel() string { return r.cells["tag label"] }
-func (r SettingsRow) TagValue() string { return r.cells["tag value"] }
-
 func isSettingsCol(name string) bool {
 	return name == "tag label" || name == "tag value"
 }
+
+func (r SettingsRow) TagLabel() string { return r.cells["tag label"] }
+func (r SettingsRow) TagValue() string { return r.cells["tag value"] }
 
 type File interface {
 	io.Reader

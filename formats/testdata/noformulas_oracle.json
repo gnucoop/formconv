@@ -20,16 +20,16 @@
 			"choicesType": "string",
 			"choices": [
 				{
-					"value": "breakfast",
-					"label": "Breakfast"
+					"label": "Breakfast",
+					"value": "breakfast"
 				},
 				{
-					"value": "lunch",
-					"label": "Lunch"
+					"label": "Lunch",
+					"value": "lunch"
 				},
 				{
-					"value": "dinner",
-					"label": "Dinner"
+					"label": "Dinner",
+					"value": "dinner"
 				}
 			]
 		}

@@ -66,12 +66,15 @@ func TestBuildChoicesOrigins(t *testing.T) {
 		Type:        OtFixed,
 		Name:        "list1",
 		ChoicesType: CtString,
-		Choices:     []Choice{{"elem1a", "label1a"}, {"elem1b", "label1b"}},
+		Choices: []Choice{
+			{"value": "elem1a", "label": "label1a"},
+			{"value": "elem1b", "label": "label1b"},
+		},
 	}, {
 		Type:        OtFixed,
 		Name:        "list2",
 		ChoicesType: CtString,
-		Choices:     []Choice{{"elem2a", "label2a"}},
+		Choices:     []Choice{{"value": "elem2a", "label": "label2a"}},
 	}}
 	if !reflect.DeepEqual(choices, expected) {
 		t.Errorf("Error building choices origins of\n%# v\nunexpected result:",
