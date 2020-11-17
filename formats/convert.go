@@ -61,6 +61,11 @@ func buildChoicesOrigins(rows []ChoicesRow) ([]ChoicesOrigin, map[string][]Choic
 	}
 	co := make(coSlice, 0, len(choicesMap))
 	for name, list := range choicesMap {
+		// Skip empty choice lists; useful in case the choice list
+		// is to be omitted in the resulting json and defined later.
+		if len(list) == 1 && list[0]["value"] == "" && list[0]["label"] == "" {
+			continue
+		}
 		co = append(co, ChoicesOrigin{
 			Type:        OtFixed,
 			Name:        name,
