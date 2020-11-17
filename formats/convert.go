@@ -335,6 +335,8 @@ func (b *nodeBuilder) buildField(row SurveyRow) (Node, error) {
 		field.FieldType = &FtNumber
 	case row.Type == "text":
 		field.FieldType = &FtString
+	case row.Type == "textarea":
+		field.FieldType = &FtText
 	case row.Type == "boolean":
 		field.FieldType = &FtBoolean
 	case isSelectOne(row.Type) || isSelectMultiple(row.Type):
@@ -473,7 +475,7 @@ const (
 )
 
 var supportedFields = map[string]bool{
-	"decimal": true, "integer": true, "text": true, "boolean": true,
+	"decimal": true, "integer": true, "text": true, "textarea": true, "boolean": true,
 	"note": true, "date": true, "time": true, "calculate": true,
 	"barcode": true, "geopoint": true, "file": true, "image": true,
 }

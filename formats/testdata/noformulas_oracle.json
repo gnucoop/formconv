@@ -77,6 +77,14 @@
 							"hint": "type some text",
 							"nodeType": 0,
 							"fieldType": 0
+						},
+						{
+							"parent": 1001003,
+							"id": 1001004,
+							"name": "textarea",
+							"label": "Textarea",
+							"nodeType": 0,
+							"fieldType": 1
 						}
 					]
 				},

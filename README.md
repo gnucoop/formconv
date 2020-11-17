@@ -7,7 +7,7 @@ and used as:
 
 ```formconv form1.xlsx form2.xls form3.xls```
 
-formconv implements a subset of the xlsform specification.
+formconv implements a (slightly customized) subset of the xlsform specification.
 Supported features are listed in this document.
 
 ## Introduction to xlsforms
@@ -47,6 +47,7 @@ The following table lists the supported question types.
 |decimal         |number          |64-bit floating point number |
 |integer         |number          |A number with the added constraint of being an integer |
 |text            |string          |Free text response |
+|textarea        |text            |Free text response, but with a larger textarea |
 |boolean         |boolean         |Boolean answer (a checkbox) |
 |select_one      |single choice   |Single choice answer |
 |select_multiple |multiple choice |Multiple choice answer |

@@ -70,6 +70,7 @@ type FieldType int
 
 var (
 	FtString         FieldType = 0
+	FtText           FieldType = 1
 	FtNumber         FieldType = 2
 	FtBoolean        FieldType = 3
 	FtSingleChoice   FieldType = 4
