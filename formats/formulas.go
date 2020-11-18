@@ -360,8 +360,10 @@ func (p *formulaParser) parseFuncArgs() {
 		return
 	}
 	for {
+		// parseExpression always consumes input or sets err,
+		// so this loop should be finite.
 		p.parseExpression(',') // argument
-		if p.peekNonspace() == ')' {
+		if p.err != nil || p.peekNonspace() == ')' {
 			return
 		}
 		p.consume(',')
