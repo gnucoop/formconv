@@ -210,6 +210,10 @@ type xlsxWorkBook struct {
 	xlsx.File
 }
 
+// When we find more than 50 consecutive empty rows in a sheet,
+// we assume the rest of the sheet is empty and truncate it.
+const maxConsecEmptyRows = 50
+
 func (wb *xlsxWorkBook) Rows(sheetName string) [][]string {
 	sheet, ok := wb.Sheet[sheetName]
 	if !ok {
@@ -217,10 +221,19 @@ func (wb *xlsxWorkBook) Rows(sheetName string) [][]string {
 	}
 	rows := make([][]string, sheet.MaxRow+1)
 	numCols := sheet.MaxCol + 1
+	consecEmptyRows := 0
 	for i := range rows {
 		rows[i] = make([]string, numCols)
 		for j := range rows[i] {
 			rows[i][j] = sheet.Cell(i, j).Value
+		}
+		if isEmpty(rows[i]) {
+			consecEmptyRows++
+		} else {
+			consecEmptyRows = 0
+		}
+		if consecEmptyRows > maxConsecEmptyRows {
+			return rows[0 : i+1]
 		}
 	}
 	return rows
@@ -248,6 +261,7 @@ func (wb *xlsWorkBook) Rows(sheetName string) [][]string {
 			numCols = row.LastCol() + 1
 		}
 	}
+	consecEmptyRows := 0
 	for i := range rows {
 		rows[i] = make([]string, numCols)
 		row := sheet.Row(i)
@@ -256,6 +270,14 @@ func (wb *xlsWorkBook) Rows(sheetName string) [][]string {
 		}
 		for j := range rows[i] {
 			rows[i][j] = row.Col(j)
+		}
+		if isEmpty(rows[i]) {
+			consecEmptyRows++
+		} else {
+			consecEmptyRows = 0
+		}
+		if consecEmptyRows > maxConsecEmptyRows {
+			return rows[0 : i+1]
 		}
 	}
 	return rows
