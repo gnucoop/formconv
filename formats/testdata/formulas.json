@@ -96,7 +96,7 @@
 					"validation": {
 						"conditions": [
 							{
-								"condition": "isInt(age) || !notEmpty(age)",
+								"condition": "!notEmpty(age) || isInt(age)",
 								"clientValidation": true,
 								"errorMessage": "The field value must be an integer."
 							},

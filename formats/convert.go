@@ -373,6 +373,8 @@ func (b *nodeBuilder) buildField(row SurveyRow) (Node, error) {
 		field.FieldType = &FtFile
 	case row.Type == "image":
 		field.FieldType = &FtImage
+	case row.Type == "video":
+		field.FieldType = &FtVideoUrl
 	default:
 		panic("unexpected row type")
 	}
@@ -410,7 +412,7 @@ func (b *nodeBuilder) fieldValidation(row SurveyRow) (*FieldValidation, error) {
 
 	if row.Type == "integer" {
 		v.Conditions = []ValidationCondition{{
-			Condition:        "isInt(" + row.Name() + ") || !notEmpty(" + row.Name() + ")",
+			Condition:        "!notEmpty(" + row.Name() + ") || isInt(" + row.Name() + ")",
 			ClientValidation: true,
 			ErrorMessage:     "The field value must be an integer.",
 		}}
@@ -477,7 +479,7 @@ const (
 var supportedFields = map[string]bool{
 	"decimal": true, "integer": true, "text": true, "textarea": true, "boolean": true,
 	"note": true, "date": true, "time": true, "calculate": true,
-	"barcode": true, "geopoint": true, "file": true, "image": true,
+	"barcode": true, "geopoint": true, "file": true, "image": true, "video": true,
 }
 
 func isSupportedField(typ string) bool {
@@ -495,7 +497,7 @@ func isIgnoredField(typ string) bool { return ignoredFields[typ] }
 
 var unsupportedFields = map[string]bool{
 	"range": true, "geotrace": true, "geoshape": true,
-	"datetime": true, "audio": true, "video": true,
+	"datetime": true, "audio": true,
 	"acknowledge": true, "hidden": true, "xml-external": true,
 }
 

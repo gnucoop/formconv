@@ -144,6 +144,14 @@
 					"label": "Image",
 					"nodeType": 0,
 					"fieldType": 15
+				},
+				{
+					"parent": 1008,
+					"id": 1009,
+					"name": "video",
+					"label": "Video",
+					"nodeType": 0,
+					"fieldType": 16
 				}
 			]
 		},

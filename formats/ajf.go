@@ -83,6 +83,7 @@ var (
 	FtBarcode        FieldType = 13
 	FtFile           FieldType = 14
 	FtImage          FieldType = 15
+	FtVideoUrl       FieldType = 16
 )
 
 type Formula struct {

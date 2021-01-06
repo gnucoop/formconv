@@ -58,6 +58,7 @@ The following table lists the supported question types.
 |geopoint        |geolocation     |A location as GPS coordinates |
 |file            |file            |Upload a file   |
 |image           |image           |Take a picture or upload an image |
+|video           |video url       |The url of a video |
 |calculate       |formula         |Perform a [calculation](#calculation) |
 
 ## Hints
