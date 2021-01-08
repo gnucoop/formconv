@@ -455,9 +455,6 @@ func processSettings(settings []SettingsRow, ajf *AjfForm) error {
 		if lab == "" && val == "" {
 			continue
 		}
-		if lab == "" {
-			return fmtSrcErr(row.LineNum, "Tag with no label.")
-		}
 		if !isIdentifier(val) {
 			return fmtSrcErr(row.LineNum, "Tag value %q is not a valid identifier.", val)
 		}
