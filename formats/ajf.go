@@ -43,6 +43,7 @@ type Node struct {
 	Name     string   `json:"name"`
 	Label    string   `json:"label"`
 	Hint     string   `json:"hint,omitempty"`
+	Editable *bool    `json:"editable,omitempty"`
 	Type     NodeType `json:"nodeType"`
 
 	FieldType        *FieldType       `json:"fieldType,omitempty"`

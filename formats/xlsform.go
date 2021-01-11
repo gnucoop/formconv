@@ -65,7 +65,7 @@ var surveyCols = map[string]bool{
 	"type": true, "name": true, "label": true, "hint": true,
 	"relevant": true, "constraint": true, "constraint_message": true,
 	"calculation": true, "required": true, "repeat_count": true,
-	"choice_filter": true,
+	"choice_filter": true, "readonly": true,
 }
 
 func isSurveyCol(name string) bool {
@@ -77,6 +77,7 @@ func (r SurveyRow) Name() string          { return r.cells["name"] }
 func (r SurveyRow) Label() string         { return r.langCell("label") }
 func (r SurveyRow) Hint() string          { return r.langCell("hint") }
 func (r SurveyRow) Relevant() string      { return r.cells["relevant"] }
+func (r SurveyRow) ReadOnly() string      { return r.cells["readonly"] }
 func (r SurveyRow) Constraint() string    { return r.cells["constraint"] }
 func (r SurveyRow) ConstraintMsg() string { return r.langCell("constraint_message") }
 func (r SurveyRow) Calculation() string   { return r.cells["calculation"] }

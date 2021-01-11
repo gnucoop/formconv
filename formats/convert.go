@@ -321,6 +321,9 @@ func (b *nodeBuilder) buildField(row SurveyRow) (Node, error) {
 		Hint:  row.Hint(),
 		Type:  NtField,
 	}
+	if ro := row.ReadOnly(); ro == "yes" || ro == "true" {
+		field.Editable = new(bool) // &false
+	}
 	var err error
 	field.Visibility, err = b.nodeVisibility(row)
 	if err != nil {

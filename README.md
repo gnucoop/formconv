@@ -77,6 +77,14 @@ It is possible to flag questions as required, so that the user won't be able to 
 |----------|----------|----------|----------|
 |text      |color     |Your favorite color (very important information, mandatory): |yes |
 
+## Readonly
+
+Fields can be made read-only using the "readonly" column, which translates to `editable: false` in ajf:
+
+|type      |name       |label       |readonly  |
+|----------|-----------|------------|----------|
+|date      |event_date |Event Date: |yes       |
+
 ## Grouping
 
 Questions can be grouped, as shown in the [introductory example](#introduction-to-xlsforms); groups can be nested.
