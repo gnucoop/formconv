@@ -46,6 +46,7 @@ The following table lists the supported question types.
 |----------------|----------------|----------------|
 |decimal         |number          |64-bit floating point number |
 |integer         |number          |A number with the added constraint of being an integer |
+|range           |range           |A number in a specific [range](#range) |
 |text            |string          |Free text response |
 |textarea        |text            |Free text response, but with a larger textarea |
 |boolean         |boolean         |Boolean answer (a checkbox) |
@@ -99,7 +100,7 @@ Repeats give the user the possibility to repeat a group of questions:
 
 |type         |name         |label        |repeat_count |
 |-------------|-------------|-------------|-------------|
-|begin repeat |child_repeat |Answer the following questions for each one of your childs |20 |
+|begin repeat |child_repeat |Answer the following questions for each one of your children |20 |
 |text         |name         |Child's name |             |
 |decimal      |birthweight  |Child's birthweight |      |
 |end repeat   |             |             |             |
@@ -129,6 +130,17 @@ The relevant column allows skipping a question or making and additional question
 |text               |dog_name  |Name of your dog: |`${pet_type} = "dog"`|
 
 The feature can also be applied to groups.
+
+## Range
+
+A range input restricts a numeric input to a specific range.
+In this example form, the user can provide a rating from 1 to 5:
+
+|type      |name      |label                         |parameters           |
+|----------|----------|------------------------------|---------------------|
+|range     |rating    |How do you rate our services? |start=1 end=5 step=1 |
+
+The default values for the parameters are: start=0 end=10 step=1.
 
 ## Formulas
 

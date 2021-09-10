@@ -72,6 +72,17 @@
 						{
 							"parent": 1001002,
 							"id": 1001003,
+							"name": "range",
+							"label": "Range",
+							"nodeType": 0,
+							"fieldType": 17,
+							"start": 3,
+							"end": 30,
+							"step": 6
+						},
+						{
+							"parent": 1001003,
+							"id": 1001004,
 							"name": "text",
 							"label": "Text",
 							"hint": "type some text",
@@ -79,8 +90,8 @@
 							"fieldType": 0
 						},
 						{
-							"parent": 1001003,
-							"id": 1001004,
+							"parent": 1001004,
+							"id": 1001005,
 							"name": "textarea",
 							"label": "Textarea",
 							"editable": false,

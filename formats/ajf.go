@@ -47,6 +47,9 @@ type Node struct {
 	Type     NodeType `json:"nodeType"`
 
 	FieldType        *FieldType       `json:"fieldType,omitempty"`
+	RangeStart       *int             `json:"start,omitempty"`
+	RangeEnd         *int             `json:"end,omitempty"`
+	RangeStep        *int             `json:"step,omitempty"`
 	ChoicesOriginRef string           `json:"choicesOriginRef,omitempty"`
 	ChoicesFilter    *Formula         `json:"choicesFilter,omitempty"`
 	HTML             string           `json:"HTML,omitempty"`
@@ -85,6 +88,7 @@ var (
 	FtFile           FieldType = 14
 	FtImage          FieldType = 15
 	FtVideoUrl       FieldType = 16
+	FtRange          FieldType = 17
 )
 
 type Formula struct {

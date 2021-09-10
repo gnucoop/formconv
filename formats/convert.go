@@ -336,6 +336,13 @@ func (b *nodeBuilder) buildField(row SurveyRow) (Node, error) {
 	switch {
 	case row.Type == "decimal" || row.Type == "integer":
 		field.FieldType = &FtNumber
+	case row.Type == "range":
+		field.FieldType = &FtRange
+		start, end, step, err := parseRangeParams(row.Parameters())
+		if err != nil {
+			return Node{}, fmtSrcErr(row.LineNum, "%s", err)
+		}
+		field.RangeStart, field.RangeEnd, field.RangeStep = &start, &end, &step
 	case row.Type == "text":
 		field.FieldType = &FtString
 	case row.Type == "textarea":
@@ -435,6 +442,33 @@ func (b *nodeBuilder) fieldValidation(row SurveyRow) (*FieldValidation, error) {
 	return v, nil
 }
 
+// params is in the form "start=0 end=10 step=1"
+// (those being the default values)
+func parseRangeParams(params string) (start, end, step int, err error) {
+	start, end, step = 0, 10, 1
+	assigns := strings.Split(params, " ")
+	for _, a := range assigns {
+		keyVal := strings.Split(a, "=")
+		if len(keyVal) != 2 {
+			continue
+		}
+		key := keyVal[0]
+		val, err := strconv.Atoi(keyVal[1])
+		if err != nil {
+			return 0, 0, 0, fmt.Errorf(`Invalid integer value in "parameters" column.`)
+		}
+		switch key {
+		case "start":
+			start = val
+		case "end":
+			end = val
+		case "step":
+			step = val
+		}
+	}
+	return
+}
+
 const idMultiplier = 1000
 
 func assignIds(nodes []Node, parent int) {
@@ -478,7 +512,7 @@ const (
 
 var supportedFields = map[string]bool{
 	"decimal": true, "integer": true, "text": true, "textarea": true, "boolean": true,
-	"note": true, "date": true, "time": true, "calculate": true,
+	"note": true, "date": true, "time": true, "calculate": true, "range": true,
 	"barcode": true, "geopoint": true, "file": true, "image": true, "video": true,
 }
 
