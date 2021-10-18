@@ -205,11 +205,20 @@ func DecXlsFromFile(fileName string) (*XlsForm, error) {
 }
 
 type WorkBook interface {
+	SheetNames() []string
 	Rows(sheetName string) [][]string
 }
 
 type xlsxWorkBook struct {
 	xlsx.File
+}
+
+func (wb *xlsxWorkBook) SheetNames() []string {
+	var names []string
+	for n := range wb.Sheet {
+		names = append(names, n)
+	}
+	return names
 }
 
 // When we find more than 50 consecutive empty rows in a sheet,
@@ -243,6 +252,14 @@ func (wb *xlsxWorkBook) Rows(sheetName string) [][]string {
 
 type xlsWorkBook struct {
 	xls.WorkBook
+}
+
+func (wb *xlsWorkBook) SheetNames() []string {
+	var names []string
+	for i := 0; i < wb.NumSheets(); i++ {
+		names = append(names, wb.GetSheet(i).Name)
+	}
+	return names
 }
 
 func (wb *xlsWorkBook) Rows(sheetName string) [][]string {
