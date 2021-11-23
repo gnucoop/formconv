@@ -1,6 +1,8 @@
 module github.com/gnucoop/formconv
 
-go 1.12
+go 1.17
+
+// +heroku goVersion go1.17
 
 require (
 	github.com/extrame/goyymmdd v0.0.0-20181026012948-914eb450555b // indirect
