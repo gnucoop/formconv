@@ -1,18 +1,27 @@
 # github.com/extrame/goyymmdd v0.0.0-20181026012948-914eb450555b
+## explicit
 github.com/extrame/goyymmdd
 # github.com/extrame/ole2 v0.0.0-20160812065207-d69429661ad7
+## explicit
 github.com/extrame/ole2
 # github.com/extrame/xls v0.0.2-0.20180905092746-539786826ced
+## explicit
 github.com/extrame/xls
-# github.com/kr/pretty v0.1.0
+# github.com/kr/pretty v0.2.1
+## explicit; go 1.12
 github.com/kr/pretty
 # github.com/kr/text v0.1.0
+## explicit
 github.com/kr/text
 # github.com/tealeg/xlsx v1.0.4-0.20190403190220-b7005b5d48cb
+## explicit
 github.com/tealeg/xlsx
 # golang.org/x/text v0.3.2
-golang.org/x/text/encoding/charmap
+## explicit
 golang.org/x/text/encoding
+golang.org/x/text/encoding/charmap
 golang.org/x/text/encoding/internal
 golang.org/x/text/encoding/internal/identifier
 golang.org/x/text/transform
+# gopkg.in/check.v1 v1.0.0-20201130134442-10cb98267c6c
+## explicit; go 1.11
