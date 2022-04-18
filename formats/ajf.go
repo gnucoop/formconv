@@ -55,8 +55,12 @@ type Node struct {
 	HTML             string           `json:"HTML,omitempty"`
 	MaxReps          *int             `json:"maxReps,omitempty"`
 	Formula          *Formula         `json:"formula,omitempty"`
+	ColumnTypes      []string         `json:"columnTypes,omitempty"`
+	ColumnLabels     []string         `json:"columnLabels,omitempty"`
+	RowLabels        []string         `json:"rowLabels,omitempty"`
 	Validation       *FieldValidation `json:"validation,omitempty"`
 	Visibility       *NodeVisibility  `json:"visibility,omitempty"`
+	Rows             [][]interface{}  `json:"rows,omitempty"`
 	Nodes            []Node           `json:"nodes,omitempty"`
 }
 
@@ -83,6 +87,7 @@ var (
 	FtNote           FieldType = 7
 	FtDate           FieldType = 9
 	FtTime           FieldType = 10
+	FtTable          FieldType = 11
 	FtGeolocation    FieldType = 12
 	FtBarcode        FieldType = 13
 	FtFile           FieldType = 14
@@ -92,7 +97,8 @@ var (
 )
 
 type Formula struct {
-	Formula string `json:"formula"`
+	Formula  string `json:"formula"`
+	Editable *bool  `json:"editable,omitempty"`
 }
 
 type FieldValidation struct {

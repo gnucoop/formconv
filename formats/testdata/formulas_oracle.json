@@ -107,6 +107,55 @@
 							}
 						]
 					}
+				},
+				{
+					"parent": 1005,
+					"id": 1006,
+					"name": "attendees",
+					"label": "Attendees",
+					"nodeType": 0,
+					"fieldType": 11,
+					"columnTypes": [
+						"number",
+						"number",
+						"number"
+					],
+					"columnLabels": [
+						"Males",
+						"Females",
+						"Total"
+					],
+					"rowLabels": [
+						"Day 1",
+						"Day 2",
+						"Day 3"
+					],
+					"rows": [
+						[
+							"attendees__0__0",
+							"attendees__0__1",
+							{
+								"formula": "attendees__0__0 + attendees__0__1",
+								"editable": false
+							}
+						],
+						[
+							"attendees__1__0",
+							"attendees__1__1",
+							{
+								"formula": "attendees__1__0 + attendees__1__1",
+								"editable": false
+							}
+						],
+						[
+							"attendees__2__0",
+							"attendees__2__1",
+							{
+								"formula": "attendees__2__0 + attendees__2__1",
+								"editable": false
+							}
+						]
+					]
 				}
 			]
 		},

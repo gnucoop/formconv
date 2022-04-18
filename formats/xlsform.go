@@ -15,6 +15,7 @@ type XlsForm struct {
 	Survey   []SurveyRow
 	Choices  []ChoicesRow
 	Settings []SettingsRow
+	Tables   map[string][][]string
 }
 
 type Row struct {
@@ -164,6 +165,17 @@ func DecXlsform(wb WorkBook) (*XlsForm, error) {
 			}
 		}
 	}
+	form.Tables = make(map[string][][]string)
+	for _, row := range form.Survey {
+		if row.Type == "table" {
+			name := row.Name()
+			tab := wb.Rows(name)
+			if tab == nil {
+				return nil, fmt.Errorf("No sheet for table %q.", name)
+			}
+			form.Tables[name] = tab
+		}
+	}
 	return &form, nil
 }
 
@@ -205,20 +217,11 @@ func DecXlsFromFile(fileName string) (*XlsForm, error) {
 }
 
 type WorkBook interface {
-	SheetNames() []string
 	Rows(sheetName string) [][]string
 }
 
 type xlsxWorkBook struct {
 	xlsx.File
-}
-
-func (wb *xlsxWorkBook) SheetNames() []string {
-	var names []string
-	for n := range wb.Sheet {
-		names = append(names, n)
-	}
-	return names
 }
 
 // When we find more than 50 consecutive empty rows in a sheet,
@@ -252,14 +255,6 @@ func (wb *xlsxWorkBook) Rows(sheetName string) [][]string {
 
 type xlsWorkBook struct {
 	xls.WorkBook
-}
-
-func (wb *xlsWorkBook) SheetNames() []string {
-	var names []string
-	for i := 0; i < wb.NumSheets(); i++ {
-		names = append(names, wb.GetSheet(i).Name)
-	}
-	return names
 }
 
 func (wb *xlsWorkBook) Rows(sheetName string) [][]string {

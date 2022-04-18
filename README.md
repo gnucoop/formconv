@@ -55,6 +55,7 @@ The following table lists the supported question types.
 |note            |empty           |Inserts an HTML note in the form |
 |date            |date input      |A date          |
 |time            |time            |Time            |
+|table           |table           |A [table](#tables) |
 |barcode         |barcode         |Scan a barcode  |
 |geopoint        |geolocation     |A location as GPS coordinates |
 |file            |file            |Upload a file   |
@@ -255,6 +256,32 @@ With the `choices` sheet containing the appropriate information to perform the f
 In this case, the user-defined column "country" has been added to the choices sheet.
 Any column name can be used, as long as it is a valid identifier
 (as it has to be referenced as an identifier in the `choice_filter` formula)
+
+## Tables
+
+Ajf allows organizing form inputs in tables.
+
+To define a table, use the field type "table":
+
+|type      |name      |label     |
+|----------|----------|----------|
+|table     |attendees |Attendees |
+
+Then, create an excel sheet named like the table ("attendees", in this case):
+
+|          |number Males |number Females |number Total |
+|----------|-------------|---------------|-------------|
+|Day 1     |             |               |`${attendees__0__0} + ${attendees__0__1}`|
+|Day 2     |             |               |`${attendees__1__0} + ${attendees__1__1}`|
+|Day 3     |             |               |`${attendees__2__0} + ${attendees__2__1}`|
+
+The column headers must be in the format "type label",
+where type can be "text", "number" or "date".
+
+Some of the fields can be computed as a function of other cells in the table itself,
+as shown in the example.
+
+The sheet must not contain empty columns or rows in leading position nor mid-table.
 
 ## Multiple language support
 

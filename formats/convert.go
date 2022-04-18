@@ -1,6 +1,7 @@
 package formats
 
 import (
+	"errors"
 	"fmt"
 	"math"
 	"sort"
@@ -31,7 +32,7 @@ func Convert(xls *XlsForm) (*AjfForm, error) {
 	if err != nil {
 		return nil, err
 	}
-	var b nodeBuilder
+	b := nodeBuilder{tables: xls.Tables}
 	global, err := b.buildGroup(survey)
 	if err != nil {
 		return nil, err
@@ -231,6 +232,7 @@ func preprocessGroups(survey []SurveyRow) ([]SurveyRow, error) {
 
 type nodeBuilder struct {
 	parser formulaParser
+	tables map[string][][]string
 }
 
 func (b *nodeBuilder) buildGroup(survey []SurveyRow) (Node, error) {
@@ -357,7 +359,7 @@ func (b *nodeBuilder) buildField(row SurveyRow) (Node, error) {
 			if err != nil {
 				return Node{}, fmtSrcErr(row.LineNum, "%s", err)
 			}
-			field.ChoicesFilter = &Formula{js}
+			field.ChoicesFilter = &Formula{Formula: js}
 		}
 	case row.Type == "note":
 		field.Label = ""
@@ -373,7 +375,13 @@ func (b *nodeBuilder) buildField(row SurveyRow) (Node, error) {
 		if err != nil {
 			return Node{}, fmtSrcErr(row.LineNum, "%s", err)
 		}
-		field.Formula = &Formula{js}
+		field.Formula = &Formula{Formula: js}
+	case row.Type == "table":
+		field.FieldType = &FtTable
+		err := b.convertTableField(&field, row.Name())
+		if err != nil {
+			return Node{}, err
+		}
 	case row.Type == "geopoint":
 		field.FieldType = &FtGeolocation
 		// may want to do field.TileLayer = row.Label()
@@ -440,6 +448,77 @@ func (b *nodeBuilder) fieldValidation(row SurveyRow) (*FieldValidation, error) {
 		ErrorMessage:     row.ConstraintMsg(),
 	})
 	return v, nil
+}
+
+func (b *nodeBuilder) convertTableField(field *Node, name string) (err error) {
+	defer func() {
+		if err != nil {
+			err = fmt.Errorf("Table %s: %s", name, err)
+		}
+	}()
+	tab := b.tables[name]
+	if len(tab) < 2 {
+		return errors.New("no rows.")
+	}
+	if len(tab[0]) < 2 {
+		return errors.New("no columns.")
+	}
+
+	for i := 1; i < len(tab[0]); i++ {
+		col := tab[0][i]
+		if col == "" {
+			break
+		}
+		s := strings.Index(col, " ")
+		if s == -1 {
+			return fmt.Errorf("column header %q must be in the format \"type label\".", col)
+		}
+		typ := col[0:s]
+		label := col[s+1:]
+		if typ != "number" && typ != "text" && typ != "date" {
+			return fmt.Errorf("invalid column type %q", typ)
+		}
+		field.ColumnTypes = append(field.ColumnTypes, typ)
+		field.ColumnLabels = append(field.ColumnLabels, label)
+	}
+	if len(field.ColumnTypes) == 0 {
+		return errors.New("no columns.")
+	}
+
+	for i := 1; i < len(tab); i++ {
+		row := tab[i]
+		if len(row) == 0 || row[0] == "" {
+			break
+		}
+		field.RowLabels = append(field.RowLabels, row[0])
+	}
+	if len(field.RowLabels) == 0 {
+		return errors.New("no rows.")
+	}
+
+	field.Rows = make([][]interface{}, len(field.RowLabels))
+	for i := range field.RowLabels {
+		row := tab[i+1]
+		for j := range field.ColumnLabels {
+			cell := ""
+			if j+1 < len(row) {
+				cell = row[j+1]
+			}
+			cellName := fmt.Sprintf("%s__%d__%d", name, i, j)
+			if cell == "" {
+				field.Rows[i] = append(field.Rows[i], cellName)
+				continue
+			}
+			var f Formula
+			f.Editable = new(bool) // &false
+			f.Formula, err = b.parser.Parse(cell, cellName, cellName)
+			if err != nil {
+				return err
+			}
+			field.Rows[i] = append(field.Rows[i], f)
+		}
+	}
+	return nil
 }
 
 // params is in the form "start=0 end=10 step=1"
@@ -512,7 +591,7 @@ const (
 
 var supportedFields = map[string]bool{
 	"decimal": true, "integer": true, "text": true, "textarea": true, "boolean": true,
-	"note": true, "date": true, "time": true, "calculate": true, "range": true,
+	"note": true, "date": true, "time": true, "calculate": true, "range": true, "table": true,
 	"barcode": true, "geopoint": true, "file": true, "image": true, "video": true,
 }
 
