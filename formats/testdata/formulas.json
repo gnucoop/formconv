@@ -156,6 +156,7 @@
 					"id": 2003,
 					"name": "attendees",
 					"label": "Attendees",
+					"editable": true,
 					"nodeType": 0,
 					"fieldType": 11,
 					"columnTypes": [

@@ -378,6 +378,8 @@ func (b *nodeBuilder) buildField(row SurveyRow) (Node, error) {
 		field.Formula = &Formula{Formula: js}
 	case row.Type == "table":
 		field.FieldType = &FtTable
+		field.Editable = new(bool)
+		*field.Editable = true
 		err := b.convertTableField(&field, row.Name())
 		if err != nil {
 			return Node{}, err
