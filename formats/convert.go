@@ -323,6 +323,13 @@ func (b *nodeBuilder) buildField(row SurveyRow) (Node, error) {
 		Hint:  row.Hint(),
 		Type:  NtField,
 	}
+	if def := row.Default(); def != "" {
+		js, err := b.parser.Parse(def, "default", row.Name())
+		if err != nil {
+			return Node{}, fmtSrcErr(row.LineNum, "%s", err)
+		}
+		field.DefaultVal = &Formula{Formula: js}
+	}
 	if ro := row.ReadOnly(); ro == "yes" || ro == "true" {
 		field.Editable = new(bool) // &false
 	}

@@ -72,6 +72,9 @@
 					"id": 1003,
 					"name": "show_field",
 					"label": "show field",
+					"defaultValue": {
+						"formula": "show_group || true"
+					},
 					"nodeType": 0,
 					"fieldType": 3
 				},

@@ -38,13 +38,14 @@ const CtString ChoiceType = "string"
 type Choice map[string]string
 
 type Node struct {
-	Previous int      `json:"parent"`
-	Id       int      `json:"id"`
-	Name     string   `json:"name"`
-	Label    string   `json:"label"`
-	Hint     string   `json:"hint,omitempty"`
-	Editable *bool    `json:"editable,omitempty"`
-	Type     NodeType `json:"nodeType"`
+	Previous   int      `json:"parent"`
+	Id         int      `json:"id"`
+	Name       string   `json:"name"`
+	Label      string   `json:"label"`
+	Hint       string   `json:"hint,omitempty"`
+	DefaultVal *Formula `json:"defaultValue,omitempty"`
+	Editable   *bool    `json:"editable,omitempty"`
+	Type       NodeType `json:"nodeType"`
 
 	FieldType        *FieldType       `json:"fieldType,omitempty"`
 	RangeStart       *int             `json:"start,omitempty"`

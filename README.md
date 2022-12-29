@@ -79,6 +79,14 @@ It is possible to flag questions as required, so that the user won't be able to 
 |----------|----------|----------|----------|
 |text      |color     |Your favorite color (very important information, mandatory): |yes |
 
+## Default values
+
+The default value for a field can be provided as a [formula](#formulas) with the "default" column:
+
+|type      |name          |label              |default   |
+|----------|--------------|-------------------|----------|
+|boolean   |priority_ship |Priority Shipping: |False     |
+
 ## Readonly
 
 Fields can be made read-only using the "readonly" column, which translates to `editable: false` in ajf:
@@ -145,7 +153,7 @@ The default values for the parameters are: start=0 end=10 step=1.
 
 ## Formulas
 
-Formulas are used in the constraint, relevant and calculation columns.
+Formulas are used in the default, constraint, relevant and calculation columns.
 formconv supports a subset of xlsform formulas.
 In particular, the features involving nodesets are omitted, as ajf doesn't have an equivalent concept.
 
