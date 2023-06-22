@@ -137,6 +137,7 @@ func checkTypes(survey []SurveyRow) error {
 }
 
 func checkNames(survey []SurveyRow) error {
+	fieldHasRelevant := make(map[string]bool)
 	for _, row := range survey {
 		name := row.Name()
 		switch row.Type {
@@ -153,6 +154,11 @@ func checkNames(survey []SurveyRow) error {
 			if !isIdentifier(name) {
 				return fmtSrcErr(row.LineNum, "Name %q is not a valid identifier.", name)
 			}
+			r, seen := fieldHasRelevant[name]
+			if seen && (!r || row.Relevant() == "") {
+				return fmtSrcErr(row.LineNum, "Field name %q is already used.", name)
+			}
+			fieldHasRelevant[name] = row.Relevant() != ""
 		}
 	}
 	return nil
