@@ -441,6 +441,7 @@ func (b *nodeBuilder) fieldValidation(row SurveyRow) (*FieldValidation, error) {
 	}
 	if req == "yes" || req == "true" {
 		v.NotEmpty = true
+		v.NotEmptyMsg = row.RequiredMessage()
 	}
 
 	if row.Type == "integer" {

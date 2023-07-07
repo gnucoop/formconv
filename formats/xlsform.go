@@ -65,7 +65,7 @@ func MakeSurveyRow(keyVals ...string) SurveyRow {
 var surveyCols = map[string]bool{
 	"type": true, "name": true, "label": true, "hint": true,
 	"relevant": true, "constraint": true, "constraint_message": true,
-	"calculation": true, "required": true, "repeat_count": true,
+	"calculation": true, "required": true, "required_message": true, "repeat_count": true,
 	"choice_filter": true, "default": true, "readonly": true, "parameters": true,
 }
 
@@ -74,19 +74,20 @@ func isSurveyCol(name string) bool {
 		strings.HasPrefix(name, "hint") || strings.HasPrefix(name, "constraint_message")
 }
 
-func (r SurveyRow) Name() string          { return r.cells["name"] }
-func (r SurveyRow) Label() string         { return r.langCell("label") }
-func (r SurveyRow) Hint() string          { return r.langCell("hint") }
-func (r SurveyRow) Relevant() string      { return r.cells["relevant"] }
-func (r SurveyRow) Default() string       { return r.cells["default"] }
-func (r SurveyRow) ReadOnly() string      { return r.cells["readonly"] }
-func (r SurveyRow) Constraint() string    { return r.cells["constraint"] }
-func (r SurveyRow) ConstraintMsg() string { return r.langCell("constraint_message") }
-func (r SurveyRow) Calculation() string   { return r.cells["calculation"] }
-func (r SurveyRow) Required() string      { return r.cells["required"] }
-func (r SurveyRow) RepeatCount() string   { return r.cells["repeat_count"] }
-func (r SurveyRow) ChoiceFilter() string  { return r.cells["choice_filter"] }
-func (r SurveyRow) Parameters() string    { return r.cells["parameters"] }
+func (r SurveyRow) Name() string            { return r.cells["name"] }
+func (r SurveyRow) Label() string           { return r.langCell("label") }
+func (r SurveyRow) Hint() string            { return r.langCell("hint") }
+func (r SurveyRow) Relevant() string        { return r.cells["relevant"] }
+func (r SurveyRow) Default() string         { return r.cells["default"] }
+func (r SurveyRow) ReadOnly() string        { return r.cells["readonly"] }
+func (r SurveyRow) Constraint() string      { return r.cells["constraint"] }
+func (r SurveyRow) ConstraintMsg() string   { return r.langCell("constraint_message") }
+func (r SurveyRow) Calculation() string     { return r.cells["calculation"] }
+func (r SurveyRow) Required() string        { return r.cells["required"] }
+func (r SurveyRow) RequiredMessage() string { return r.cells["required_message"] }
+func (r SurveyRow) RepeatCount() string     { return r.cells["repeat_count"] }
+func (r SurveyRow) ChoiceFilter() string    { return r.cells["choice_filter"] }
+func (r SurveyRow) Parameters() string      { return r.cells["parameters"] }
 
 type ChoicesRow struct{ Row }
 

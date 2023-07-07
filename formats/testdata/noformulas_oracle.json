@@ -58,7 +58,8 @@
 							"nodeType": 0,
 							"fieldType": 2,
 							"validation": {
-								"notEmpty": true
+								"notEmpty": true,
+								"notEmptyMessage": "better not empto pls"
 							}
 						},
 						{
@@ -67,7 +68,10 @@
 							"name": "boolean",
 							"label": "Boolean",
 							"nodeType": 0,
-							"fieldType": 3
+							"fieldType": 3,
+							"validation": {
+								"notEmpty": true
+							}
 						},
 						{
 							"parent": 1001002,

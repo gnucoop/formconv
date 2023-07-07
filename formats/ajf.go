@@ -103,8 +103,9 @@ type Formula struct {
 }
 
 type FieldValidation struct {
-	NotEmpty   bool                  `json:"notEmpty,omitempty"`
-	Conditions []ValidationCondition `json:"conditions,omitempty"`
+	NotEmpty    bool                  `json:"notEmpty,omitempty"`
+	NotEmptyMsg string                `json:"notEmptyMessage,omitempty"`
+	Conditions  []ValidationCondition `json:"conditions,omitempty"`
 }
 
 type ValidationCondition struct {

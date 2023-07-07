@@ -75,9 +75,11 @@ Hints can be provided to help the user answer some questions of the form:
 
 It is possible to flag questions as required, so that the user won't be able to submit the form without providing a value:
 
-|type      |name      |label     |required  |
-|----------|----------|----------|----------|
-|text      |color     |Your favorite color (very important information, mandatory): |yes |
+|type      |name      |label               |required  |required_message |
+|----------|----------|--------------------|----------|-----------------|
+|text      |color     |Your favorite color |yes       |This field is mandatory |
+
+The required_message column is optional.
 
 ## Default values
 
