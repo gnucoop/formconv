@@ -48,7 +48,6 @@ The following table lists the supported question types.
 |integer         |number          |A number with the added constraint of being an integer |
 |range           |range           |A number in a specific [range](#range) |
 |text            |string          |Free text response |
-|textarea        |text            |Free text response, but with a larger textarea |
 |boolean         |boolean         |Boolean answer (a checkbox) |
 |select_one      |single choice   |Single choice answer |
 |select_multiple |multiple choice |Multiple choice answer |
