@@ -53,6 +53,7 @@ type Node struct {
 	RangeStep        *int             `json:"step,omitempty"`
 	ChoicesOriginRef string           `json:"choicesOriginRef,omitempty"`
 	ChoicesFilter    *Formula         `json:"choicesFilter,omitempty"`
+	ForceNarrow      bool             `json:"forceNarrow,omitempty"`
 	HTML             string           `json:"HTML,omitempty"`
 	MaxReps          *int             `json:"maxReps,omitempty"`
 	Formula          *Formula         `json:"formula,omitempty"`

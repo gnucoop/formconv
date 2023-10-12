@@ -63,7 +63,7 @@ func MakeSurveyRow(keyVals ...string) SurveyRow {
 }
 
 var surveyCols = map[string]bool{
-	"type": true, "name": true, "label": true, "hint": true,
+	"type": true, "name": true, "label": true, "hint": true, "appearance": true,
 	"relevant": true, "constraint": true, "constraint_message": true,
 	"calculation": true, "required": true, "required_message": true, "repeat_count": true,
 	"choice_filter": true, "default": true, "readonly": true, "parameters": true,
@@ -88,6 +88,7 @@ func (r SurveyRow) RequiredMessage() string { return r.cells["required_message"]
 func (r SurveyRow) RepeatCount() string     { return r.cells["repeat_count"] }
 func (r SurveyRow) ChoiceFilter() string    { return r.cells["choice_filter"] }
 func (r SurveyRow) Parameters() string      { return r.cells["parameters"] }
+func (r SurveyRow) Appearance() string      { return r.cells["appearance"] }
 
 type ChoicesRow struct{ Row }
 

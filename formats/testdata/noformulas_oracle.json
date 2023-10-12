@@ -185,7 +185,8 @@
 					"label": "Single Mealtime",
 					"nodeType": 0,
 					"fieldType": 4,
-					"choicesOriginRef": "mealtime"
+					"choicesOriginRef": "mealtime",
+					"forceNarrow": true
 				},
 				{
 					"parent": 2001,

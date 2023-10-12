@@ -374,6 +374,7 @@ func (b *nodeBuilder) buildField(row SurveyRow) (Node, error) {
 			}
 			field.ChoicesFilter = &Formula{Formula: js}
 		}
+		field.ForceNarrow = row.Appearance() == "minimal"
 	case row.Type == "note":
 		field.Label = ""
 		field.FieldType = &FtNote
