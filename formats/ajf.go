@@ -96,6 +96,7 @@ var (
 	FtImage          FieldType = 15
 	FtVideoUrl       FieldType = 16
 	FtRange          FieldType = 17
+	FtSignature      FieldType = 18
 )
 
 type Formula struct {

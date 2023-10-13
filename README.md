@@ -152,6 +152,17 @@ In this example form, the user can provide a rating from 1 to 5:
 
 The default values for the parameters are: start=0 end=10 step=1.
 
+## Appearance
+
+The appearance column allows to modify the appearance of some form fields,
+as shown in the following example:
+
+|type                |appearance |label                   |
+|--------------------|-----------|------------------------|
+|text                |multiline  |Shows a bigger text box |
+|select_one whatever |minimal    |Choices appear in a pull-down menu (works for single and multiple choices) |
+|image               |signature  |Presents a canvas to draw a signature |
+
 ## Formulas
 
 Formulas are used in the default, constraint, relevant and calculation columns.

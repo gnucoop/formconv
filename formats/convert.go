@@ -408,7 +408,11 @@ func (b *nodeBuilder) buildField(row SurveyRow) (Node, error) {
 	case row.Type == "file":
 		field.FieldType = &FtFile
 	case row.Type == "image":
-		field.FieldType = &FtImage
+		if row.Appearance() == "signature" {
+			field.FieldType = &FtSignature
+		} else {
+			field.FieldType = &FtImage
+		}
 	case row.Type == "video":
 		field.FieldType = &FtVideoUrl
 	default:

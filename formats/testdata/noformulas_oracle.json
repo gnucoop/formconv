@@ -164,6 +164,14 @@
 				{
 					"parent": 1008,
 					"id": 1009,
+					"name": "signature",
+					"label": "Signature",
+					"nodeType": 0,
+					"fieldType": 18
+				},
+				{
+					"parent": 1009,
+					"id": 1010,
 					"name": "video",
 					"label": "Video",
 					"nodeType": 0,
