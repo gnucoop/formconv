@@ -154,14 +154,14 @@ The default values for the parameters are: start=0 end=10 step=1.
 
 ## Appearance
 
-The appearance column allows to modify the appearance of some form fields,
-as shown in the following example:
+The appearance column allows to modify the appearance of some fields,
+as described in the following table:
 
-|type                |appearance |label                   |
-|--------------------|-----------|------------------------|
-|text                |multiline  |Shows a bigger text box |
-|select_one whatever |minimal    |Choices appear in a pull-down menu (works for single and multiple choices) |
-|image               |signature  |Presents a canvas to draw a signature |
+|question type               |appearance |description             |
+|----------------------------|-----------|------------------------|
+|text                        |multiline  |Shows a bigger text box |
+|select_one, select_multiple |minimal    |Choices appear in a pull-down menu    |
+|image                       |signature  |Presents a canvas to draw a signature |
 
 ## Formulas
 
