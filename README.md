@@ -307,9 +307,12 @@ The sheet must not contain empty columns or rows in leading position nor mid-tab
 
 A form may include multiple languages with the following syntax:
 
-|type      |name      |label::English (en) |label::Español (es)   |
-|----------|----------|--------------------|----------------------|
-|integer   |age       |How old are you?    |¿Cuántos años tienes? |
+|type      |name      |label            |label::ESP            |label::ITA       |
+|----------|----------|-----------------|----------------------|-----------------|
+|integer   |age       |How old are you? |¿Cuántos años tienes? |Quanti anni hai? |
+
+The columns that support multiple languages are: label, hint, constraint_message and required_message
+(including label in the choices sheet).
 
 ## Form tags
 

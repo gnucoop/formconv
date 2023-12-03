@@ -1,7 +1,7 @@
 package formats
 
 import (
-	"io/ioutil"
+	"os"
 	"reflect"
 	"testing"
 
@@ -142,9 +142,9 @@ func TestNonformulaFeatures(t *testing.T) {
 	check(t, err)
 	err = EncJsonToFile(out, ajf)
 	check(t, err)
-	result, err := ioutil.ReadFile(out)
+	result, err := os.ReadFile(out)
 	check(t, err)
-	expected, err := ioutil.ReadFile(oracle)
+	expected, err := os.ReadFile(oracle)
 	check(t, err)
 	if !reflect.DeepEqual(result, expected) {
 		t.Fatalf("Unexpected result. Check the differences between %s and %s", out, oracle)
@@ -206,9 +206,9 @@ func TestFormulaFeatures(t *testing.T) {
 	check(t, err)
 	err = EncJsonToFile(out, ajf)
 	check(t, err)
-	result, err := ioutil.ReadFile(out)
+	result, err := os.ReadFile(out)
 	check(t, err)
-	expected, err := ioutil.ReadFile(oracle)
+	expected, err := os.ReadFile(oracle)
 	check(t, err)
 	if !reflect.DeepEqual(result, expected) {
 		t.Fatalf("Unexpected result. Check the differences between %s and %s", out, oracle)
@@ -216,46 +216,34 @@ func TestFormulaFeatures(t *testing.T) {
 }
 
 func TestListLanguages(t *testing.T) {
-	if l := ListLanguages(nil); len(l) != 0 {
-		t.Fatalf("ListLanguages(nil) expected to be empty, found %v", l)
+	if langs := langSet(nil); len(langs) != 0 {
+		t.Fatalf("langSet(nil) expected to be empty, found %v", langs)
 	}
-	rows := [][]string{
-		{"type", "label", "label::English (en)", "label::French (fr)", "label::Italian (it)"},
-	}
-	list := ListLanguages(rows)
-	expected := map[string]bool{"": true, "English": true, "French": true, "Italian": true}
-	if !reflect.DeepEqual(list, expected) {
-		t.Fatalf("Error listing languages of\n%v\nexpected: %v\nfound: %v", rows, list, expected)
+	head := []string{"type", "label", "label::ENG", "label::ESP", "label::ITA"}
+	langs := langSet(head)
+	expected := map[string]bool{"ENG": true, "ESP": true, "ITA": true}
+	if !reflect.DeepEqual(langs, expected) {
+		t.Fatalf("Error listing languages of\n%v\nexpected: %v\nfound: %v", head, langs, expected)
 	}
 }
 
-func TestTranslationIndex(t *testing.T) {
-	if i := translationIndex(nil, "foo", "bar"); i != -1 {
-		t.Fatalf("translationIndex(nil, \"foo\", \"bar\") expected to be -1, found %d", i)
-	}
-	row := []string{"type", "label", "label::English (en)", "label::French (fr)", "label::Italian (it)"}
-	if i := translationIndex(row, "label", "French"); i != 3 {
-		t.Fatalf("translationIndex(%v, \"label\", \"fr\")\nexpected to be 3, found %d", row, i)
-	}
-	if i := translationIndex(row, "type", "English"); i != -1 {
-		t.Fatalf("translationIndex(%v, \"type\", \"en\")\nexpected to be -1, found %d", row, i)
-	}
-}
+func TestLanguages(t *testing.T) {
+	in := "testdata/languages.xlsx"
+	out := "testdata/languages.json"
+	oracle := "testdata/languages_oracle.json"
 
-func TestTranslation(t *testing.T) {
-	if tr := Translation(nil, "", "English"); len(tr) != 0 {
-		t.Fatalf("Translation(nil, \"\", \"English\") expected to be empty, found %v", tr)
-	}
-	rows := [][]string{
-		{"", "", ""},
-		{"type", "label", "label::Italian (it)"},
-		{"text", "cheese", "formaggio"},
-		{"number", "bread", "pane"},
-	}
-	tr := Translation(rows, "", "Italian")
-	expected := map[string]string{"cheese": "formaggio", "bread": "pane"}
-	if !reflect.DeepEqual(tr, expected) {
-		t.Fatalf("Error translating %v\nexpected: %v\n got: %v", rows, expected, tr)
+	xls, err := DecXlsFromFile(in)
+	check(t, err)
+	ajf, err := Convert(xls)
+	check(t, err)
+	err = EncJsonToFile(out, ajf)
+	check(t, err)
+	result, err := os.ReadFile(out)
+	check(t, err)
+	expected, err := os.ReadFile(oracle)
+	check(t, err)
+	if !reflect.DeepEqual(result, expected) {
+		t.Fatalf("Unexpected result. Check the differences between %s and %s", out, oracle)
 	}
 }
 

@@ -16,6 +16,7 @@ type XlsForm struct {
 	Choices  []ChoicesRow
 	Settings []SettingsRow
 	Tables   map[string][][]string
+	LangSet  map[string]bool
 }
 
 type Row struct {
@@ -36,18 +37,11 @@ func makeRow(keyIsValid func(string) bool, keyVals ...string) Row {
 	return row
 }
 
-func (r Row) langCell(name string) string {
-	cell := r.cells[name]
-	if cell != "" {
-		return cell
+func (r Row) langCell(name, lang string) string {
+	if lang == "" {
+		return r.cells[name]
 	}
-	engName := name + "::English"
-	for n, cell := range r.cells {
-		if strings.HasPrefix(n, engName) {
-			return cell
-		}
-	}
-	return ""
+	return r.cells[name+"::"+lang]
 }
 
 type SurveyRow struct {
@@ -70,25 +64,26 @@ var surveyCols = map[string]bool{
 }
 
 func isSurveyCol(name string) bool {
-	return surveyCols[name] || strings.HasPrefix(name, "label") ||
+	return surveyCols[name] ||
+		strings.HasPrefix(name, "label") || strings.HasPrefix(name, "required_message") ||
 		strings.HasPrefix(name, "hint") || strings.HasPrefix(name, "constraint_message")
 }
 
-func (r SurveyRow) Name() string            { return r.cells["name"] }
-func (r SurveyRow) Label() string           { return r.langCell("label") }
-func (r SurveyRow) Hint() string            { return r.langCell("hint") }
-func (r SurveyRow) Relevant() string        { return r.cells["relevant"] }
-func (r SurveyRow) Default() string         { return r.cells["default"] }
-func (r SurveyRow) ReadOnly() string        { return r.cells["readonly"] }
-func (r SurveyRow) Constraint() string      { return r.cells["constraint"] }
-func (r SurveyRow) ConstraintMsg() string   { return r.langCell("constraint_message") }
-func (r SurveyRow) Calculation() string     { return r.cells["calculation"] }
-func (r SurveyRow) Required() string        { return r.cells["required"] }
-func (r SurveyRow) RequiredMessage() string { return r.cells["required_message"] }
-func (r SurveyRow) RepeatCount() string     { return r.cells["repeat_count"] }
-func (r SurveyRow) ChoiceFilter() string    { return r.cells["choice_filter"] }
-func (r SurveyRow) Parameters() string      { return r.cells["parameters"] }
-func (r SurveyRow) Appearance() string      { return r.cells["appearance"] }
+func (r SurveyRow) Name() string                       { return r.cells["name"] }
+func (r SurveyRow) Label(lang string) string           { return r.langCell("label", lang) }
+func (r SurveyRow) Hint(lang string) string            { return r.langCell("hint", lang) }
+func (r SurveyRow) Relevant() string                   { return r.cells["relevant"] }
+func (r SurveyRow) Default() string                    { return r.cells["default"] }
+func (r SurveyRow) ReadOnly() string                   { return r.cells["readonly"] }
+func (r SurveyRow) Constraint() string                 { return r.cells["constraint"] }
+func (r SurveyRow) ConstraintMsg(lang string) string   { return r.langCell("constraint_message", lang) }
+func (r SurveyRow) Calculation() string                { return r.cells["calculation"] }
+func (r SurveyRow) Required() string                   { return r.cells["required"] }
+func (r SurveyRow) RequiredMessage(lang string) string { return r.langCell("required_message", lang) }
+func (r SurveyRow) RepeatCount() string                { return r.cells["repeat_count"] }
+func (r SurveyRow) ChoiceFilter() string               { return r.cells["choice_filter"] }
+func (r SurveyRow) Parameters() string                 { return r.cells["parameters"] }
+func (r SurveyRow) Appearance() string                 { return r.cells["appearance"] }
 
 type ChoicesRow struct{ Row }
 
@@ -100,9 +95,9 @@ func isChoicesCol(name string) bool {
 	return name == "list name" || name == "name" || strings.HasPrefix(name, "label")
 }
 
-func (r ChoicesRow) ListName() string { return r.cells["list name"] }
-func (r ChoicesRow) Name() string     { return r.cells["name"] }
-func (r ChoicesRow) Label() string    { return r.langCell("label") }
+func (r ChoicesRow) ListName() string         { return r.cells["list name"] }
+func (r ChoicesRow) Name() string             { return r.cells["name"] }
+func (r ChoicesRow) Label(lang string) string { return r.langCell("label", lang) }
 func (r ChoicesRow) UserDefCells() map[string]string {
 	ud := make(map[string]string)
 	for k, v := range r.cells {
@@ -145,6 +140,9 @@ func DecXlsform(wb WorkBook) (*XlsForm, error) {
 			return nil, fmt.Errorf("Mandatory sheet %q missing or empty.", sheetName)
 		}
 		head := rows[headIndex]
+		if sheetName == "survey" || sheetName == "choices" {
+			form.LangSet = mergeSets(form.LangSet, langSet(head))
+		}
 		for i := headIndex + 1; i < len(rows); i++ {
 			if isEmpty(rows[i]) {
 				continue
@@ -337,102 +335,30 @@ func firstNonempty(rows [][]string) int {
 	return -1
 }
 
-func HasDefaultLang(rows [][]string) bool {
-	headIndex := firstNonempty(rows)
-	if headIndex == -1 {
-		return false
+func getLang(cell string) string {
+	i := strings.Index(cell, "::")
+	if i == -1 {
+		return ""
 	}
-	for _, cell := range rows[headIndex] {
-		// "label" is the only mandatory column that can have languages.
-		if cell == "label" {
-			return true
-		}
-	}
-	return false
+	return cell[i+2:]
 }
 
-func ListLanguages(rows [][]string) map[string]bool {
-	headIndex := firstNonempty(rows)
-	if headIndex == -1 {
-		return nil
-	}
+func langSet(head []string) map[string]bool {
 	langs := make(map[string]bool)
-	for _, cell := range rows[headIndex] {
-		_, lang := splitLang(cell)
+	for _, cell := range head {
+		lang := getLang(cell)
 		if lang != "" {
 			langs[lang] = true
 		}
 	}
-	if HasDefaultLang(rows) {
-		langs[""] = true
-	}
 	return langs
 }
 
-// splitLang retrieves the name and language as a cell.
-// "label::English"      -> ("label", "English")
-// "label::English (en)" -> ("label", "English")
-// "label"               -> ("label", "")
-func splitLang(cell string) (name, lang string) {
-	i := strings.Index(cell, "::")
-	if i == -1 {
-		return cell, ""
-	}
-	end := strings.LastIndexByte(cell, '(')
-	if end == -1 {
-		end = len(cell)
-	}
-	name = cell[0:i]
-	lang = strings.TrimSpace(cell[i+2 : end])
-	return
-}
-
-func Translation(rows [][]string, sourceLang, targetLang string) map[string]string {
-	headIndex := firstNonempty(rows)
-	if headIndex == -1 {
+func mergeSets(a, b map[string]bool) map[string]bool {
+	if len(a) == 0 && len(b) == 0 {
 		return nil
 	}
-	head := rows[headIndex]
-	translation := make(map[string]string)
-	for src := range head {
-		name, lang := splitLang(head[src])
-		if name == "" || lang != sourceLang {
-			continue
-		}
-		tr := translationIndex(head, name, targetLang)
-		if tr == -1 {
-			continue
-		}
-		for j := headIndex + 1; j < len(rows); j++ {
-			row := rows[j]
-			if row[src] != "" && row[src] != row[tr] {
-				translation[row[src]] = row[tr]
-			}
-		}
-	}
-	return translation
-}
-
-func translationIndex(head []string, name, lang string) int {
-	if lang == "" {
-		for i, cell := range head {
-			if cell == name {
-				return i
-			}
-		}
-		return -1
-	}
-	prefix := name + "::" + lang
-	for i, cell := range head {
-		if strings.HasPrefix(cell, prefix) {
-			return i
-		}
-	}
-	return -1
-}
-
-func MergeMaps(a, b map[string]string) map[string]string {
-	res := make(map[string]string)
+	res := make(map[string]bool)
 	for k, v := range a {
 		res[k] = v
 	}

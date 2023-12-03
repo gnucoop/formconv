@@ -54,29 +54,5 @@ func decXlsEncAjf(xlsName string) error {
 	if err != nil {
 		return fmt.Errorf("Error encoding file %s: %s", ajfName, err)
 	}
-
-	// Translation files in case of multiple languages:
-	survey := wb.Rows("survey")
-	langs := formats.ListLanguages(survey)
-	if len(langs) <= 1 {
-		return nil
-	}
-	choices := wb.Rows("choices")
-	sourceLang := "English"
-	if langs[""] {
-		sourceLang = ""
-	}
-	for targetLang := range langs {
-		if targetLang == sourceLang {
-			continue
-		}
-		surveyTr := formats.Translation(survey, sourceLang, targetLang)
-		choicesTr := formats.Translation(choices, sourceLang, targetLang)
-		tr := formats.MergeMaps(surveyTr, choicesTr)
-		err := formats.EncJsonToFile(name+"_"+targetLang+".json", tr)
-		if err != nil {
-			return err
-		}
-	}
 	return nil
 }

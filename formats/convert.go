@@ -49,6 +49,8 @@ func Convert(xls *XlsForm) (*AjfForm, error) {
 	if err != nil {
 		return nil, err
 	}
+
+	ajf.Translations = buildTranslations(xls)
 	return &ajf, nil
 }
 
@@ -57,7 +59,7 @@ func buildChoicesOrigins(rows []ChoicesRow) ([]ChoicesOrigin, map[string][]Choic
 	for _, row := range rows {
 		choice := row.UserDefCells()
 		choice["value"] = row.Name()
-		choice["label"] = row.Label()
+		choice["label"] = row.Label("")
 		choicesMap[row.ListName()] = append(choicesMap[row.ListName()], choice)
 	}
 	co := make(coSlice, 0, len(choicesMap))
@@ -248,7 +250,7 @@ func (b *nodeBuilder) buildGroup(survey []SurveyRow) (Node, error) {
 	}
 	group := Node{
 		Name:  row.Name(),
-		Label: row.Label(),
+		Label: row.Label(""),
 		Type:  NtGroup,
 		Nodes: make([]Node, 0, 8),
 	}
@@ -325,8 +327,8 @@ func groupEnd(survey []SurveyRow, groupStart int) int {
 func (b *nodeBuilder) buildField(row SurveyRow) (Node, error) {
 	field := Node{
 		Name:  row.Name(),
-		Label: row.Label(),
-		Hint:  row.Hint(),
+		Label: row.Label(""),
+		Hint:  row.Hint(""),
 		Type:  NtField,
 	}
 	if def := row.Default(); def != "" {
@@ -380,7 +382,7 @@ func (b *nodeBuilder) buildField(row SurveyRow) (Node, error) {
 	case row.Type == "note":
 		field.Label = ""
 		field.FieldType = &FtNote
-		field.HTML = row.Label()
+		field.HTML = row.Label("")
 	case row.Type == "date":
 		field.FieldType = &FtDate
 	case row.Type == "time":
@@ -448,7 +450,7 @@ func (b *nodeBuilder) fieldValidation(row SurveyRow) (*FieldValidation, error) {
 	}
 	if req == "yes" || req == "true" {
 		v.NotEmpty = true
-		v.NotEmptyMsg = row.RequiredMessage()
+		v.NotEmptyMsg = row.RequiredMessage("")
 	}
 
 	if row.Type == "integer" {
@@ -468,7 +470,7 @@ func (b *nodeBuilder) fieldValidation(row SurveyRow) (*FieldValidation, error) {
 	v.Conditions = append(v.Conditions, ValidationCondition{
 		Condition:        js,
 		ClientValidation: true,
-		ErrorMessage:     row.ConstraintMsg(),
+		ErrorMessage:     row.ConstraintMsg(""),
 	})
 	return v, nil
 }
@@ -603,6 +605,39 @@ func processSettings(settings []SettingsRow, ajf *AjfForm) error {
 		ajf.StringIdentifier = append(ajf.StringIdentifier, t)
 	}
 	return nil
+}
+
+func buildTranslations(xls *XlsForm) map[string]Translation {
+	if len(xls.LangSet) == 0 {
+		return nil
+	}
+	res := make(map[string]Translation)
+	for lang := range xls.LangSet {
+		res[lang] = buildTranslation(xls, lang)
+	}
+	return res
+}
+
+func buildTranslation(xls *XlsForm, lang string) Translation {
+	res := make(Translation)
+	for _, row := range xls.Survey {
+		cols := [](func(lang string) string){
+			row.Label, row.Hint, row.ConstraintMsg, row.RequiredMessage,
+		}
+		for _, col := range cols {
+			a, b := col(""), col(lang)
+			if a != "" && b != "" {
+				res[a] = b
+			}
+		}
+	}
+	for _, row := range xls.Choices {
+		a, b := row.Label(""), row.Label(lang)
+		if a != "" && b != "" {
+			res[a] = b
+		}
+	}
+	return res
 }
 
 const (

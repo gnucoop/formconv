@@ -8,10 +8,13 @@ import (
 )
 
 type AjfForm struct {
-	StringIdentifier []Tag           `json:"stringIdentifier,omitempty"`
-	ChoicesOrigins   []ChoicesOrigin `json:"choicesOrigins,omitempty"`
-	Slides           []Node          `json:"nodes"`
+	StringIdentifier []Tag                  `json:"stringIdentifier,omitempty"`
+	ChoicesOrigins   []ChoicesOrigin        `json:"choicesOrigins,omitempty"`
+	Slides           []Node                 `json:"nodes"`
+	Translations     map[string]Translation `json:"translations,omitempty"`
 }
+
+type Translation = map[string]string
 
 type Tag struct {
 	Label string    `json:"label"`
