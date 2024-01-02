@@ -64,7 +64,8 @@ type Node struct {
 	ColumnLabels     []string         `json:"columnLabels,omitempty"`
 	RowLabels        []string         `json:"rowLabels,omitempty"`
 	Validation       *FieldValidation `json:"validation,omitempty"`
-	Visibility       *NodeVisibility  `json:"visibility,omitempty"`
+	Visibility       *Condition       `json:"visibility,omitempty"`
+	ReadOnly         *Condition       `json:"readonly,omitempty"`
 	Rows             [][]interface{}  `json:"rows,omitempty"`
 	Nodes            []Node           `json:"nodes,omitempty"`
 }
@@ -119,7 +120,7 @@ type ValidationCondition struct {
 	ErrorMessage     string `json:"errorMessage,omitempty"`
 }
 
-type NodeVisibility struct {
+type Condition struct {
 	Condition string `json:"condition"`
 }
 

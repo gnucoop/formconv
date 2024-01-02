@@ -96,6 +96,9 @@ Fields can be made read-only using the "readonly" column, which translates to `e
 |----------|-----------|------------|----------|
 |date      |event_date |Event Date: |yes       |
 
+As an extension to the xlsform standard, an entire group can be made conditionally read-only,
+by providing a boolean [formula](#formulas) in the readonly column of the group.
+
 ## Grouping
 
 Questions can be grouped, as shown in the [introductory example](#introduction-to-xlsforms); groups can be nested.

@@ -259,6 +259,10 @@ func (b *nodeBuilder) buildGroup(survey []SurveyRow) (Node, error) {
 	if err != nil {
 		return Node{}, err
 	}
+	group.ReadOnly, err = b.groupReadonly(row)
+	if err != nil {
+		return Node{}, err
+	}
 	if row.Type == beginRepeat {
 		group.Type = NtRepeatingSlide
 		if row.RepeatCount() != "" {
@@ -324,6 +328,21 @@ func groupEnd(survey []SurveyRow, groupStart int) int {
 	panic("group end not found")
 }
 
+func (b *nodeBuilder) groupReadonly(row SurveyRow) (*Condition, error) {
+	ro := row.ReadOnly()
+	if ro == "" || ro == "no" || ro == "false" {
+		return nil, nil
+	}
+	if ro == "yes" {
+		ro = "js: true"
+	}
+	js, err := b.parser.Parse(ro, "readonly", row.Name())
+	if err != nil {
+		return nil, fmtSrcErr(row.LineNum, "%s", err)
+	}
+	return &Condition{Condition: js}, nil
+}
+
 func (b *nodeBuilder) buildField(row SurveyRow) (Node, error) {
 	field := Node{
 		Name:  row.Name(),
@@ -338,8 +357,11 @@ func (b *nodeBuilder) buildField(row SurveyRow) (Node, error) {
 		}
 		field.DefaultVal = &Formula{Formula: js}
 	}
-	if ro := row.ReadOnly(); ro == "yes" || ro == "true" {
+	ro := row.ReadOnly()
+	if ro == "yes" || ro == "true" {
 		field.Editable = new(bool) // &false
+	} else if ro != "" && ro != "no" && ro != "false" {
+		return Node{}, fmtSrcErr(row.LineNum, "readonly of field can't be a formula")
 	}
 	var err error
 	field.Visibility, err = b.nodeVisibility(row)
@@ -423,7 +445,7 @@ func (b *nodeBuilder) buildField(row SurveyRow) (Node, error) {
 	return field, nil
 }
 
-func (b *nodeBuilder) nodeVisibility(row SurveyRow) (*NodeVisibility, error) {
+func (b *nodeBuilder) nodeVisibility(row SurveyRow) (*Condition, error) {
 	rel := row.Relevant()
 	if rel == "" {
 		return nil, nil
@@ -432,7 +454,7 @@ func (b *nodeBuilder) nodeVisibility(row SurveyRow) (*NodeVisibility, error) {
 	if err != nil {
 		return nil, fmtSrcErr(row.LineNum, "%s", err)
 	}
-	return &NodeVisibility{Condition: js}, nil
+	return &Condition{Condition: js}, nil
 }
 
 var requiredVals = map[string]bool{"": true, "yes": true, "no": true, "true": true, "false": true}

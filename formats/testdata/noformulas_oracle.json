@@ -185,6 +185,9 @@
 			"name": "toplevel_group",
 			"label": "Toplevel Group",
 			"nodeType": 3,
+			"readonly": {
+				"condition": "true"
+			},
 			"nodes": [
 				{
 					"parent": 2,
