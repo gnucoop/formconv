@@ -58,7 +58,7 @@ func MakeSurveyRow(keyVals ...string) SurveyRow {
 
 var surveyCols = map[string]bool{
 	"type": true, "name": true, "label": true, "hint": true, "appearance": true,
-	"relevant": true, "constraint": true, "constraint_message": true,
+	"relevant": true, "permissions_relevant": true, "constraint": true, "constraint_message": true,
 	"calculation": true, "required": true, "required_message": true, "repeat_count": true,
 	"choice_filter": true, "default": true, "readonly": true, "parameters": true,
 }
@@ -73,6 +73,7 @@ func (r SurveyRow) Name() string                       { return r.cells["name"] 
 func (r SurveyRow) Label(lang string) string           { return r.langCell("label", lang) }
 func (r SurveyRow) Hint(lang string) string            { return r.langCell("hint", lang) }
 func (r SurveyRow) Relevant() string                   { return r.cells["relevant"] }
+func (r SurveyRow) PermissionsRelevant() string        { return r.cells["permissions_relevant"] }
 func (r SurveyRow) Default() string                    { return r.cells["default"] }
 func (r SurveyRow) ReadOnly() string                   { return r.cells["readonly"] }
 func (r SurveyRow) Constraint() string                 { return r.cells["constraint"] }

@@ -50,6 +50,9 @@
 			"name": "settings",
 			"label": "Settings",
 			"nodeType": 3,
+			"visibility": {
+				"condition": "dino_permissions_begin||(isUserInGroup(\"admin\"))||dino_permissions_end"
+			},
 			"nodes": [
 				{
 					"parent": 1,
@@ -57,7 +60,10 @@
 					"name": "show_slide",
 					"label": "show slide",
 					"nodeType": 0,
-					"fieldType": 3
+					"fieldType": 3,
+					"visibility": {
+						"condition": "(foo) && (dino_permissions_begin||(isUserInGroup(\"admin\"))||dino_permissions_end)"
+					}
 				},
 				{
 					"parent": 1001,

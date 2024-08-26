@@ -447,14 +447,35 @@ func (b *nodeBuilder) buildField(row SurveyRow) (Node, error) {
 
 func (b *nodeBuilder) nodeVisibility(row SurveyRow) (*Condition, error) {
 	rel := row.Relevant()
-	if rel == "" {
+	perm := row.PermissionsRelevant()
+	if rel == "" && perm == "" {
 		return nil, nil
 	}
-	js, err := b.parser.Parse(rel, "relevant", row.Name())
-	if err != nil {
-		return nil, fmtSrcErr(row.LineNum, "%s", err)
+	var relJs, permJs string
+	var err error
+	if rel != "" {
+		relJs, err = b.parser.Parse(rel, "relevant", row.Name())
+		if err != nil {
+			return nil, fmtSrcErr(row.LineNum, "%s", err)
+		}
 	}
-	return &Condition{Condition: js}, nil
+	if perm != "" {
+		permJs, err = b.parser.Parse(perm, "permissions_relevant", row.Name())
+		if err != nil {
+			return nil, fmtSrcErr(row.LineNum, "%s", err)
+		}
+		permJs = "dino_permissions_begin||(" + permJs + ")||dino_permissions_end"
+	}
+	if perm == "" {
+		return &Condition{Condition: relJs}, nil
+	}
+	if rel == "" {
+		return &Condition{Condition: permJs}, nil
+	}
+	if rel != "" && perm != "" {
+		return &Condition{Condition: "(" + relJs + ") && (" + permJs + ")"}, nil
+	}
+	panic("unreachable")
 }
 
 var requiredVals = map[string]bool{"": true, "yes": true, "no": true, "true": true, "false": true}
