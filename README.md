@@ -144,6 +144,12 @@ The relevant column allows skipping a question or making and additional question
 
 The feature can also be applied to groups.
 
+As an extension to the xlsform standard, the column permissions_relevant allows to specify if the current user has permission to see the question or group:
+
+|type      |name           |label               |relevant     |permissions_relevant |
+|----------|---------------|--------------------|-------------|---------------------|
+|text      |driver_license |Driver License Code |`${age} > 18`|`js: isUserInGroup('drivers', dino_form_info)`|
+
 ## Range
 
 A range input restricts a numeric input to a specific range.
