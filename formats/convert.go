@@ -50,7 +50,10 @@ func Convert(xls *XlsForm) (*AjfForm, error) {
 		return nil, err
 	}
 
-	ajf.Translations = buildTranslations(xls)
+	ajf.Translations, err = buildTranslations(xls)
+	if err != nil {
+		return nil, err
+	}
 	return &ajf, nil
 }
 
@@ -650,18 +653,22 @@ func processSettings(settings []SettingsRow, ajf *AjfForm) error {
 	return nil
 }
 
-func buildTranslations(xls *XlsForm) map[string]Translation {
+func buildTranslations(xls *XlsForm) (map[string]Translation, error) {
 	if len(xls.LangSet) == 0 {
-		return nil
+		return nil, nil
 	}
 	res := make(map[string]Translation)
 	for lang := range xls.LangSet {
-		res[lang] = buildTranslation(xls, lang)
+		var err error
+		res[lang], err = buildTranslation(xls, lang)
+		if err != nil {
+			return nil, err
+		}
 	}
-	return res
+	return res, nil
 }
 
-func buildTranslation(xls *XlsForm, lang string) Translation {
+func buildTranslation(xls *XlsForm, lang string) (Translation, error) {
 	res := make(Translation)
 	for _, row := range xls.Survey {
 		cols := [](func(lang string) string){
@@ -670,6 +677,9 @@ func buildTranslation(xls *XlsForm, lang string) Translation {
 		for _, col := range cols {
 			a, b := col(""), col(lang)
 			if a != "" && b != "" {
+				if strings.ContainsAny(a, "[]") {
+					return nil, fmtSrcErr(row.LineNum, "Translation key cannot contain square brackets")
+				}
 				res[a] = b
 			}
 		}
@@ -677,10 +687,13 @@ func buildTranslation(xls *XlsForm, lang string) Translation {
 	for _, row := range xls.Choices {
 		a, b := row.Label(""), row.Label(lang)
 		if a != "" && b != "" {
+			if strings.ContainsAny(a, "[]") {
+				return nil, fmtSrcErr(row.LineNum, "Translation key cannot contain square brackets (choices sheet)")
+			}
 			res[a] = b
 		}
 	}
-	return res
+	return res, nil
 }
 
 const (
