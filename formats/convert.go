@@ -23,7 +23,7 @@ func Convert(xls *XlsForm) (*AjfForm, error) {
 	var ajf AjfForm
 	var choicesMap map[string][]Choice
 	ajf.ChoicesOrigins, choicesMap = buildChoicesOrigins(xls.Choices)
-	err = checkChoicesRef(xls.Survey, choicesMap)
+	err = choicesError(xls.Survey, choicesMap)
 	if err != nil {
 		return nil, err
 	}
@@ -67,11 +67,6 @@ func buildChoicesOrigins(rows []ChoicesRow) ([]ChoicesOrigin, map[string][]Choic
 	}
 	co := make(coSlice, 0, len(choicesMap))
 	for name, list := range choicesMap {
-		// Skip empty choice lists; useful in case the choice list
-		// is to be omitted in the resulting json and defined later.
-		if len(list) == 1 && list[0]["value"] == "" && list[0]["label"] == "" {
-			continue
-		}
 		co = append(co, ChoicesOrigin{
 			Type:        OtFixed,
 			Name:        name,
@@ -89,7 +84,14 @@ func (co coSlice) Len() int           { return len(co) }
 func (co coSlice) Less(i, j int) bool { return co[i].Name < co[j].Name }
 func (co coSlice) Swap(i, j int)      { co[i], co[j] = co[j], co[i] }
 
-func checkChoicesRef(survey []SurveyRow, choicesMap map[string][]Choice) error {
+func choicesError(survey []SurveyRow, choicesMap map[string][]Choice) error {
+	for listName, choices := range choicesMap {
+		for _, c := range choices {
+			if c["label"] == "" {
+				return fmt.Errorf("Choice list %q contains a choice with no label", listName)
+			}
+		}
+	}
 	for _, row := range survey {
 		if isSelectOne(row.Type) || isSelectMultiple(row.Type) {
 			c := choiceName(row.Type)
