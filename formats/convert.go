@@ -229,9 +229,12 @@ func preprocessGroups(survey []SurveyRow) ([]SurveyRow, error) {
 		default:
 			if groupDepth == 0 && !grouping {
 				grouping = true
-				slideName := "slide" + strconv.Itoa(slideNum)
+				slideName := fmt.Sprintf("slide%d", slideNum)
+				slideLabel := fmt.Sprintf("Slide %d", slideNum)
 				slideNum++
-				newSurvey = append(newSurvey, MakeSurveyRow("type", beginGroup, "name", slideName))
+				newSurvey = append(newSurvey,
+					MakeSurveyRow("type", beginGroup, "name", slideName, "label", slideLabel),
+				)
 			}
 		}
 		newSurvey = append(newSurvey, row)

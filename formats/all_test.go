@@ -110,14 +110,14 @@ func TestPreprocessGroups(t *testing.T) {
 	check(t, err)
 	expected := []SurveyRow{
 		MakeSurveyRow("type", beginGroup, "name", "global"),
-		MakeSurveyRow("type", beginGroup, "name", "slide0"),
+		MakeSurveyRow("type", beginGroup, "name", "slide0", "label", "Slide 0"),
 		MakeSurveyRow("type", "decimal"),
 		MakeSurveyRow("type", "integer"),
 		MakeSurveyRow("type", endGroup),
 		MakeSurveyRow("type", beginGroup),
 		MakeSurveyRow("type", "text"),
 		MakeSurveyRow("type", endGroup),
-		MakeSurveyRow("type", beginGroup, "name", "slide1"),
+		MakeSurveyRow("type", beginGroup, "name", "slide1", "label", "Slide 1"),
 		MakeSurveyRow("type", "date"),
 		MakeSurveyRow("type", "time"),
 		MakeSurveyRow("type", endGroup),
