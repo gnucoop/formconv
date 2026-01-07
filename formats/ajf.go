@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"io"
 	"os"
+	"strings"
 )
 
 type AjfForm struct {
@@ -129,6 +130,12 @@ func EncIndentedJson(w io.Writer, e interface{}) error {
 	enc.SetIndent("", "\t")
 	enc.SetEscapeHTML(false)
 	return enc.Encode(e)
+}
+
+func DecodeJson(data []byte, v interface{}) error {
+	dec := json.NewDecoder(strings.NewReader(string(data)))
+	dec.DisallowUnknownFields()
+	return dec.Decode(v)
 }
 
 func EncJsonToFile(fileName string, e interface{}) (err error) {

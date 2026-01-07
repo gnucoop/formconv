@@ -561,7 +561,7 @@
 		{
 			"parent": 3,
 			"id": 4,
-			"name": "revenue information",
+			"name": "revenue_information",
 			"label": "Revenue Information",
 			"nodeType": 3,
 			"nodes": [

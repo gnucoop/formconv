@@ -2,3 +2,4 @@
 *.out
 ~$*.xls
 ~$*.xlsx
+.DS_Store

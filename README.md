@@ -7,6 +7,110 @@ and used as:
 
 ```formconv form1.xlsx form2.xls form3.xls```
 
+## Reverse Conversion (JSON to XLSX)
+
+A companion tool `xformconv` is available to convert AJF JSON schema files back to XLSX format:
+
+```go build -o xformconv xformconv.go```
+
+Usage:
+
+```xformconv form1.json form2.json```
+
+This will convert each JSON file to an XLSX file with the same base name.
+
+A server endpoint `/xresult.json` is also available for web-based conversion.
+
+### Server Endpoint
+
+The server includes a new endpoint `/xresult.json` that accepts JSON schema and returns the converted XLSX file.
+
+**Request:**
+```bash
+POST /xresult.json
+Content-Type: application/json
+
+{
+  "choicesOrigins": [...],
+  "nodes": [...]
+}
+```
+
+**Response:**
+The server returns the converted XLSX file with:
+- Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
+- Content-Disposition: attachment; filename=converted_form.xlsx
+
+### JSON Schema Format
+
+The tool expects AJF (Advanced JavaScript Form) JSON schema format with:
+
+- `choicesOrigins`: Array of choice lists
+- `nodes`: Array of form nodes (fields, groups, repeats)
+
+### Example
+
+```json
+{
+  "choicesOrigins": [
+    {
+      "type": "fixed",
+      "name": "yes_no",
+      "choicesType": "string",
+      "choices": [
+        {"value": "yes", "label": "Yes"},
+        {"value": "no", "label": "No"}
+      ]
+    }
+  ],
+  "nodes": [
+    {
+      "parent": 0,
+      "id": 1,
+      "name": "personal_info",
+      "label": "Personal Information",
+      "nodeType": 3,
+      "nodes": [
+        {
+          "parent": 1,
+          "id": 1001,
+          "name": "name",
+          "label": "Full Name",
+          "nodeType": 0,
+          "fieldType": 0
+        }
+      ]
+    }
+  ]
+}
+```
+
+### Supported Field Types
+
+The tool supports conversion of most common XLSForm field types:
+
+- Text fields (string, multiline)
+- Number fields (decimal, integer)
+- Boolean fields
+- Single and multiple choice fields
+- Date and time fields
+- Calculate fields (formulas)
+- Notes
+- Ranges
+- Tables
+- Geolocation
+- Barcode
+- File uploads
+- Images (including signatures)
+- Video URLs
+
+### Limitations
+
+- Some advanced XLSForm features may not be fully supported
+- Complex formulas and constraints are preserved but may need manual adjustment
+- Table fields are converted but may require manual review
+- Only fixed choice origins are currently supported
+
 formconv implements a (slightly customized) subset of the xlsform specification.
 Supported features are listed in this document.
 
