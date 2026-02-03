@@ -6,11 +6,10 @@ import (
 	"github.com/tealeg/xlsx"
 )
 
-// ConvertAjfToXlsform converts AJF JSON schema back to XLSX format
-func ConvertAjfToXlsform(ajf *AjfForm) (*XlsForm, error) {
+func Revert(ajf *AjfForm) (*XlsForm, error) {
 	var xls XlsForm
 
-	// Convert choices origins to choices rows
+	// Convert choices origins
 	for _, choiceOrigin := range ajf.ChoicesOrigins {
 		if choiceOrigin.Type != OtFixed {
 			continue // Skip non-fixed choice origins for now
@@ -23,8 +22,8 @@ func ConvertAjfToXlsform(ajf *AjfForm) (*XlsForm, error) {
 		}
 	}
 
-	// Convert nodes to survey rows
-	surveyRows, err := convertNodesToSurvey(ajf.Slides, 0)
+	// Convert nodes
+	surveyRows, err := nodesToSurvey(ajf.Slides)
 	if err != nil {
 		return nil, err
 	}
@@ -41,7 +40,7 @@ func ConvertAjfToXlsform(ajf *AjfForm) (*XlsForm, error) {
 	return &xls, nil
 }
 
-func convertNodesToSurvey(nodes []Node, parentID int) ([]SurveyRow, error) {
+func nodesToSurvey(nodes []Node) ([]SurveyRow, error) {
 	var surveyRows []SurveyRow
 
 	for _, node := range nodes {
@@ -59,7 +58,7 @@ func convertNodesToSurvey(nodes []Node, parentID int) ([]SurveyRow, error) {
 			surveyRows = append(surveyRows, beginRow)
 
 			// Convert child nodes
-			childRows, err := convertNodesToSurvey(node.Nodes, node.Id)
+			childRows, err := nodesToSurvey(node.Nodes)
 			if err != nil {
 				return nil, err
 			}
@@ -77,7 +76,7 @@ func convertNodesToSurvey(nodes []Node, parentID int) ([]SurveyRow, error) {
 
 		// Handle regular fields
 		if node.Type == 0 {
-			fieldRow, err := convertFieldToSurveyRow(node)
+			fieldRow, err := fieldToSurveyRow(node)
 			if err != nil {
 				return nil, err
 			}
@@ -88,7 +87,7 @@ func convertNodesToSurvey(nodes []Node, parentID int) ([]SurveyRow, error) {
 	return surveyRows, nil
 }
 
-func convertFieldToSurveyRow(node Node) (SurveyRow, error) {
+func fieldToSurveyRow(node Node) (SurveyRow, error) {
 	if node.FieldType == nil {
 		return SurveyRow{}, fmt.Errorf("Field %s has no field type", node.Name)
 	}
@@ -236,7 +235,7 @@ func convertFieldToSurveyRow(node Node) (SurveyRow, error) {
 	return row, nil
 }
 
-func getFieldTypeString(fieldType FieldType) string {
+func fieldTypeToString(fieldType FieldType) string {
 	switch fieldType {
 	case FtString:
 		return "text"
@@ -279,19 +278,15 @@ func getFieldTypeString(fieldType FieldType) string {
 	}
 }
 
-// ConvertXlsFormToExcel converts XlsForm back to Excel format
-func ConvertXlsFormToExcel(xls *XlsForm) (*xlsx.File, error) {
+func XlsFormToExcel(xls *XlsForm) *xlsx.File {
 	file := xlsx.NewFile()
 
 	// Create survey sheet
-	surveySheet, err := file.AddSheet("survey")
-	if err != nil {
-		return nil, err
-	}
+	surveySheet, _ := file.AddSheet("survey")
 
 	// Add survey headers
-	surveyHeaders := []string{"type", "name", "label", "hint", "required", "required_message", 
-		"relevant", "readonly", "default", "constraint", "constraint_message", 
+	surveyHeaders := []string{"type", "name", "label", "hint", "required", "required_message",
+		"relevant", "readonly", "default", "constraint", "constraint_message",
 		"calculation", "appearance", "choice_filter", "parameters", "repeat_count"}
 
 	surveyRow := surveySheet.AddRow()
@@ -307,74 +302,74 @@ func ConvertXlsFormToExcel(xls *XlsForm) (*xlsx.File, error) {
 		surveyDataRow.AddCell().Value = row.Name()
 		surveyDataRow.AddCell().Value = row.Label("")
 		surveyDataRow.AddCell().Value = row.Hint("")
-		
+
 		// Add other fields
 		if row.Required() != "" {
 			surveyDataRow.AddCell().Value = row.Required()
 		} else {
 			surveyDataRow.AddCell() // empty
 		}
-		
+
 		if row.RequiredMessage("") != "" {
 			surveyDataRow.AddCell().Value = row.RequiredMessage("")
 		} else {
 			surveyDataRow.AddCell() // empty
 		}
-		
+
 		if row.Relevant() != "" {
 			surveyDataRow.AddCell().Value = row.Relevant()
 		} else {
 			surveyDataRow.AddCell() // empty
 		}
-		
+
 		if row.ReadOnly() != "" {
 			surveyDataRow.AddCell().Value = row.ReadOnly()
 		} else {
 			surveyDataRow.AddCell() // empty
 		}
-		
+
 		if row.Default() != "" {
 			surveyDataRow.AddCell().Value = row.Default()
 		} else {
 			surveyDataRow.AddCell() // empty
 		}
-		
+
 		if row.Constraint() != "" {
 			surveyDataRow.AddCell().Value = row.Constraint()
 		} else {
 			surveyDataRow.AddCell() // empty
 		}
-		
+
 		if row.ConstraintMsg("") != "" {
 			surveyDataRow.AddCell().Value = row.ConstraintMsg("")
 		} else {
 			surveyDataRow.AddCell() // empty
 		}
-		
+
 		if row.Calculation() != "" {
 			surveyDataRow.AddCell().Value = row.Calculation()
 		} else {
 			surveyDataRow.AddCell() // empty
 		}
-		
+
 		if row.Appearance() != "" {
 			surveyDataRow.AddCell().Value = row.Appearance()
 		} else {
 			surveyDataRow.AddCell() // empty
 		}
-		
+
 		if row.ChoiceFilter() != "" {
 			surveyDataRow.AddCell().Value = row.ChoiceFilter()
 		} else {
 			surveyDataRow.AddCell() // empty
 		}
-		
+
 		if row.Parameters() != "" {
 			surveyDataRow.AddCell().Value = row.Parameters()
 		} else {
 			surveyDataRow.AddCell() // empty
 		}
-		
+
 		if row.RepeatCount() != "" {
 			surveyDataRow.AddCell().Value = row.RepeatCount()
 		} else {
@@ -383,10 +378,7 @@ func ConvertXlsFormToExcel(xls *XlsForm) (*xlsx.File, error) {
 	}
 
 	// Create choices sheet
-	choicesSheet, err := file.AddSheet("choices")
-	if err != nil {
-		return nil, err
-	}
+	choicesSheet, _ := file.AddSheet("choices")
 
 	// Add choices headers
 	choicesHeaders := []string{"list name", "name", "label"}
@@ -406,10 +398,7 @@ func ConvertXlsFormToExcel(xls *XlsForm) (*xlsx.File, error) {
 
 	// Create settings sheet if there are settings
 	if len(xls.Settings) > 0 {
-		settingsSheet, err := file.AddSheet("settings")
-		if err != nil {
-			return nil, err
-		}
+		settingsSheet, _ := file.AddSheet("settings")
 
 		// Add settings headers
 		settingsHeaders := []string{"tag label", "tag value"}
@@ -427,5 +416,5 @@ func ConvertXlsFormToExcel(xls *XlsForm) (*xlsx.File, error) {
 		}
 	}
 
-	return file, nil
+	return file
 }

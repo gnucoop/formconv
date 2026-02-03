@@ -111,7 +111,7 @@ func convertJsonPost(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Convert AJF to XLS form
-	xls, err := formats.ConvertAjfToXlsform(&ajf)
+	xls, err := formats.Revert(&ajf)
 	if err != nil {
 		w.WriteHeader(http.StatusUnprocessableEntity)
 		fmt.Fprintf(w, "Error converting JSON to XLS form: %s", err)

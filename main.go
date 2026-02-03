@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"os"
 	"path/filepath"
 
@@ -17,9 +18,18 @@ formconv form1.xlsx form2.xls`)
 	}
 
 	for _, fileName := range os.Args[1:] {
-		err := decXlsEncAjf(fileName)
+		var err error
+		ext := filepath.Ext(fileName)
+		switch ext {
+		case ".xls", ".xlsx":
+			err = decXlsEncAjf(fileName)
+		case ".json":
+			err = decAjfEncXls(fileName)
+		default:
+			err = fmt.Errorf("Unrecognized file format %s", ext)
+		}
 		if err != nil {
-			fmt.Fprintln(os.Stderr, err)
+			log.Fatal(fmt.Errorf("%s: %s", fileName, err))
 		}
 	}
 }
@@ -35,24 +45,51 @@ func decXlsEncAjf(xlsName string) error {
 	if err != nil {
 		return err
 	}
-	wb, err := formats.NewWorkBook(f, filepath.Ext(xlsName), stat.Size())
+	ext := filepath.Ext(xlsName)
+	wb, err := formats.NewWorkBook(f, ext, stat.Size())
 	if err != nil {
 		return fmt.Errorf("Error opening workbook: %s", err)
 	}
 	xls, err := formats.DecXlsform(wb)
 	if err != nil {
-		return fmt.Errorf("Error decoding file %s: %s", xlsName, err)
+		return fmt.Errorf("Error decoding xlsform: %s", err)
 	}
 	ajf, err := formats.Convert(xls)
 	if err != nil {
-		return fmt.Errorf("%s, %s", xlsName, err)
+		return err
 	}
-	ext := filepath.Ext(xlsName)
 	name := xlsName[0 : len(xlsName)-len(ext)]
 	ajfName := name + ".json"
 	err = formats.EncJsonToFile(ajfName, ajf)
 	if err != nil {
-		return fmt.Errorf("Error encoding file %s: %s", ajfName, err)
+		return fmt.Errorf("Error encoding json: %s", err)
+	}
+	return nil
+}
+
+func decAjfEncXls(ajfName string) error {
+	f, err := os.Open(ajfName)
+	if err != nil {
+		return err
+	}
+	defer f.Close()
+
+	var ajf formats.AjfForm
+	err = formats.DecJson(f, &ajf)
+	if err != nil {
+		return fmt.Errorf("Error decoding ajf form: %s", err)
+	}
+	xlsform, err := formats.Revert(&ajf)
+	if err != nil {
+		return err
+	}
+	excel := formats.XlsFormToExcel(xlsform)
+	ext := filepath.Ext(ajfName)
+	name := ajfName[0 : len(ajfName)-len(ext)]
+	excelName := name + ".xlsx"
+	err = excel.Save(excelName)
+	if err != nil {
+		return fmt.Errorf("Error saving file: %s", err)
 	}
 	return nil
 }
