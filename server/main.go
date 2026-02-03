@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"io/ioutil"
 	"log"
 	"net/http"
 	"os"
@@ -19,7 +18,7 @@ func main() {
 
 	http.Handle("/", http.FileServer(http.Dir("./server/static")))
 	http.HandleFunc("/result.json", convert)
-	http.HandleFunc("/xresult.json", convertJson)
+	http.HandleFunc("/result.xlsx", revert)
 
 	log.Fatal(http.ListenAndServe(":"+port, nil))
 }
@@ -42,7 +41,7 @@ func convert(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func convertJson(w http.ResponseWriter, r *http.Request) {
+func revert(w http.ResponseWriter, r *http.Request) {
 	setAllowOrigins(w.Header())
 
 	switch r.Method {
@@ -51,7 +50,7 @@ func convertJson(w http.ResponseWriter, r *http.Request) {
 	case http.MethodGet:
 		fmt.Fprintln(w, "You should POST a JSON file here.")
 	case http.MethodPost:
-		convertJsonPost(w, r)
+		revertPost(w, r)
 	default:
 		w.WriteHeader(http.StatusBadRequest)
 		fmt.Fprintf(w, "Unsupported method %s", r.Method)
@@ -92,44 +91,32 @@ func convertPost(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func convertJsonPost(w http.ResponseWriter, r *http.Request) {
-	// Read JSON from request body
-	body, err := ioutil.ReadAll(r.Body)
+func revertPost(w http.ResponseWriter, r *http.Request) {
+	f, _, err := r.FormFile("jsonFile")
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
-		fmt.Fprintf(w, "Error reading request body: %s", err)
+		fmt.Fprintf(w, "Error retrieving POST file: %s", err)
 		return
 	}
+	defer f.Close()
 
-	// Decode AJF form
 	var ajf formats.AjfForm
-	err = formats.DecodeJson(body, &ajf)
+	err = formats.DecJson(f, &ajf)
 	if err != nil {
-		w.WriteHeader(http.StatusBadRequest)
+		w.WriteHeader(http.StatusUnprocessableEntity)
 		fmt.Fprintf(w, "Error decoding JSON: %s", err)
 		return
 	}
-
-	// Convert AJF to XLS form
-	xls, err := formats.Revert(&ajf)
+	xlsform, err := formats.Revert(&ajf)
 	if err != nil {
 		w.WriteHeader(http.StatusUnprocessableEntity)
-		fmt.Fprintf(w, "Error converting JSON to XLS form: %s", err)
+		fmt.Fprintln(w, err)
 		return
 	}
-
-	// Convert XLS form to Excel file
-	excelFile, err := formats.ConvertXlsFormToExcel(xls)
-	if err != nil {
-		w.WriteHeader(http.StatusInternalServerError)
-		fmt.Fprintf(w, "Error creating Excel file: %s", err)
-		return
-	}
-
-	// Save Excel file to temporary location and send it back
+	excel := formats.XlsFormToExcel(xlsform)
 	w.Header().Set("Content-Type", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
 	w.Header().Set("Content-Disposition", "attachment; filename=converted_form.xlsx")
-	err = excelFile.Write(w)
+	err = excel.Write(w)
 	if err != nil {
 		log.Printf("Error writing excel response: %s", err)
 	}

@@ -7,10 +7,17 @@
 
 <body>
 Convert your xlsform to ajf:
-<br>
-<br>
+<br><br>
 <form enctype="multipart/form-data" action="/result.json" method="post">
 	<input type="file" accept=".xls,.xlsx" name="excelFile">
+	<input type="submit" value="Go!">
+</form>
+<br><br>
+or
+<br><br>
+Convert your ajf form to excel:
+<form enctype="multipart/form-data" action="/result.xlsx" method="post">
+	<input type="file" accept=".json" name="jsonFile">
 	<input type="submit" value="Go!">
 </form>
 </body>
