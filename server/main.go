@@ -115,7 +115,7 @@ func revertPost(w http.ResponseWriter, r *http.Request) {
 	}
 	excel := formats.XlsFormToExcel(xlsform)
 	w.Header().Set("Content-Type", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
-	w.Header().Set("Content-Disposition", "attachment; filename=converted_form.xlsx")
+	w.Header().Set("Content-Disposition", "attachment; filename=result.xlsx")
 	err = excel.Write(w)
 	if err != nil {
 		log.Printf("Error writing excel response: %s", err)
