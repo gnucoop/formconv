@@ -60,6 +60,7 @@ The following table lists the supported question types.
 |file            |file            |Upload a file   |
 |image           |image           |Take a picture or upload an image |
 |video           |video url       |The url of a video |
+|audio           |audio           |Record an audio file |
 |calculate       |formula         |Perform a [calculation](#calculation) |
 
 ## Hints

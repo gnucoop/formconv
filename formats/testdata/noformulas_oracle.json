@@ -176,6 +176,14 @@
 					"label": "Video",
 					"nodeType": 0,
 					"fieldType": 16
+				},
+				{
+					"parent": 1010,
+					"id": 1011,
+					"name": "audio",
+					"label": "Audio",
+					"nodeType": 0,
+					"fieldType": 19
 				}
 			]
 		},
