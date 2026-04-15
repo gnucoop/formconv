@@ -156,9 +156,9 @@ As an extension to the xlsform standard, the column permissions_relevant allows 
 A range input restricts a numeric input to a specific range.
 In this example form, the user can provide a rating from 1 to 5:
 
-|type      |name      |label                         |parameters           |
-|----------|----------|------------------------------|---------------------|
-|range     |rating    |How do you rate our services? |start=1 end=5 step=1 |
+|type      |name      |label                         |parameters           |appearance |
+|----------|----------|------------------------------|---------------------|-----------|
+|range     |rating    |How do you rate our services? |start=1 end=5 step=1 |rating     |
 
 The default values for the parameters are: start=0 end=10 step=1.
 

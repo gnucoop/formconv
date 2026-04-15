@@ -390,6 +390,7 @@ func (b *nodeBuilder) buildField(row SurveyRow) (Node, error) {
 			return Node{}, fmtSrcErr(row.LineNum, "%s", err)
 		}
 		field.RangeStart, field.RangeEnd, field.RangeStep = &start, &end, &step
+		field.Appearance = row.Appearance()
 	case row.Type == "text":
 		if row.Appearance() == "multiline" {
 			field.FieldType = &FtText

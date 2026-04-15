@@ -58,6 +58,7 @@ type Node struct {
 	ChoicesFilter    *Formula         `json:"choicesFilter,omitempty"`
 	ForceNarrow      bool             `json:"forceNarrow,omitempty"`
 	HTML             string           `json:"HTML,omitempty"`
+	Appearance       string           `json:"appearance,omitempty"`
 	MaxReps          *int             `json:"maxReps,omitempty"`
 	Formula          *Formula         `json:"formula,omitempty"`
 	ColumnTypes      []string         `json:"columnTypes,omitempty"`
