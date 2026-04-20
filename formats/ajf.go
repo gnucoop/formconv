@@ -58,6 +58,7 @@ type Node struct {
 	ChoicesFilter    *Formula         `json:"choicesFilter,omitempty"`
 	ForceNarrow      bool             `json:"forceNarrow,omitempty"`
 	HTML             string           `json:"HTML,omitempty"`
+	Appearance       string           `json:"appearance,omitempty"`
 	MaxReps          *int             `json:"maxReps,omitempty"`
 	Formula          *Formula         `json:"formula,omitempty"`
 	ColumnTypes      []string         `json:"columnTypes,omitempty"`
@@ -101,6 +102,7 @@ var (
 	FtVideoUrl       FieldType = 16
 	FtRange          FieldType = 17
 	FtSignature      FieldType = 18
+	FtAudio          FieldType = 19
 )
 
 type Formula struct {

@@ -82,7 +82,8 @@
 							"fieldType": 17,
 							"start": 3,
 							"end": 30,
-							"step": 6
+							"step": 6,
+							"appearance": "rating"
 						},
 						{
 							"parent": 1001003,
@@ -176,6 +177,14 @@
 					"label": "Video",
 					"nodeType": 0,
 					"fieldType": 16
+				},
+				{
+					"parent": 1010,
+					"id": 1011,
+					"name": "audio",
+					"label": "Audio",
+					"nodeType": 0,
+					"fieldType": 19
 				}
 			]
 		},

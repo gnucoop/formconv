@@ -390,6 +390,7 @@ func (b *nodeBuilder) buildField(row SurveyRow) (Node, error) {
 			return Node{}, fmtSrcErr(row.LineNum, "%s", err)
 		}
 		field.RangeStart, field.RangeEnd, field.RangeStep = &start, &end, &step
+		field.Appearance = row.Appearance()
 	case row.Type == "text":
 		if row.Appearance() == "multiline" {
 			field.FieldType = &FtText
@@ -447,6 +448,8 @@ func (b *nodeBuilder) buildField(row SurveyRow) (Node, error) {
 		}
 	case row.Type == "video":
 		field.FieldType = &FtVideoUrl
+	case row.Type == "audio":
+		field.FieldType = &FtAudio
 	default:
 		panic("unexpected row type")
 	}
@@ -711,7 +714,7 @@ const (
 var supportedFields = map[string]bool{
 	"decimal": true, "integer": true, "text": true, "boolean": true,
 	"note": true, "date": true, "time": true, "calculate": true, "range": true, "table": true,
-	"barcode": true, "geopoint": true, "file": true, "image": true, "video": true,
+	"barcode": true, "geopoint": true, "file": true, "image": true, "video": true, "audio": true,
 }
 
 func isSupportedField(typ string) bool {
@@ -728,8 +731,7 @@ var ignoredFields = map[string]bool{ // metadata:
 func isIgnoredField(typ string) bool { return ignoredFields[typ] }
 
 var unsupportedFields = map[string]bool{
-	"range": true, "geotrace": true, "geoshape": true,
-	"datetime": true, "audio": true,
+	"geotrace": true, "geoshape": true, "datetime": true,
 	"acknowledge": true, "hidden": true, "xml-external": true,
 }
 
