@@ -172,6 +172,7 @@ as described in the following table:
 |text                        |multiline  |Shows a bigger text box |
 |select_one, select_multiple |minimal    |Choices appear in a pull-down menu    |
 |image                       |signature  |Presents a canvas to draw a signature |
+|range                       |rating     |Clickable stars for rating            |
 
 ## Formulas
 
@@ -337,14 +338,9 @@ Tags can be specified in formconv using a "settings" sheet with the following sy
 
 Such tags will be added to the `stringIdentifier` list of tags in the resulting ajf form.
 
-## Reverse Conversion (JSON to XLSX)
+## Reverse Conversion
 
-A companion tool `formreverse` is available to convert AJF JSON schema files back to XLSX format:
-
-```go get github.com/gnucoop/formconv/formreverse```
-
-Usage:
-
-```formreverse form1.json form2.json```
-
-This will convert each JSON file to an XLSX file with the same base name.
+Formconv can also convert json forms back to xlsforms.
+The conversion is best-effort and is typically unable to recrate the original xlsform precisely.
+Some form features are not supported: multiple languages, choice filters, tables,
+multiple constraints per field.

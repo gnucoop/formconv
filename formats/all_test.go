@@ -247,6 +247,30 @@ func TestLanguages(t *testing.T) {
 	}
 }
 
+func TestReverse(t *testing.T) {
+	in := "testdata/reverse.xlsx"
+	out := "testdata/reverse.json"
+	oracle := "testdata/reverse_oracle.json"
+
+	xls, err := DecXlsFromFile(in)
+	check(t, err)
+	ajf, err := Convert(xls)
+	check(t, err)
+	xls, err = Revert(ajf)
+	check(t, err)
+	ajf, err = Convert(xls)
+	check(t, err)
+	err = EncJsonToFile(out, ajf)
+	check(t, err)
+	result, err := os.ReadFile(out)
+	check(t, err)
+	expected, err := os.ReadFile(oracle)
+	check(t, err)
+	if !reflect.DeepEqual(result, expected) {
+		t.Fatalf("Unexpected result. Check the differences between %s and %s", out, oracle)
+	}
+}
+
 func BenchmarkDecXls(b *testing.B) {
 	for n := 0; n < b.N; n++ {
 		_, err := DecXlsFromFile("testdata/Picaps_baseline_form.xls")

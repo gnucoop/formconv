@@ -1,0 +1,252 @@
+{
+	"stringIdentifier": [
+		{
+			"label": "label1",
+			"value": [
+				"value1"
+			]
+		},
+		{
+			"label": "label2",
+			"value": [
+				"value2"
+			]
+		}
+	],
+	"choicesOrigins": [
+		{
+			"type": "fixed",
+			"name": "mealtime",
+			"choicesType": "string",
+			"choices": [
+				{
+					"label": "Breakfast",
+					"value": "breakfast"
+				},
+				{
+					"label": "Lunch",
+					"value": "lunch"
+				},
+				{
+					"label": "Dinner",
+					"value": "dinner"
+				}
+			]
+		}
+	],
+	"nodes": [
+		{
+			"parent": 0,
+			"id": 1,
+			"name": "repeat",
+			"label": "Repeat",
+			"nodeType": 4,
+			"maxReps": 7,
+			"visibility": {
+				"condition": "true"
+			},
+			"nodes": [
+				{
+					"parent": 1,
+					"id": 1001,
+					"name": "nested_group",
+					"label": "Nested Group",
+					"nodeType": 2,
+					"nodes": [
+						{
+							"parent": 1001,
+							"id": 1001001,
+							"name": "decimal",
+							"label": "Decimal",
+							"defaultValue": {
+								"formula": "5"
+							},
+							"nodeType": 0,
+							"fieldType": 2,
+							"validation": {
+								"notEmpty": true,
+								"notEmptyMessage": "better not empto pls"
+							}
+						},
+						{
+							"parent": 1001001,
+							"id": 1001002,
+							"name": "boolean",
+							"label": "Boolean",
+							"nodeType": 0,
+							"fieldType": 3,
+							"validation": {
+								"notEmpty": true
+							}
+						},
+						{
+							"parent": 1001002,
+							"id": 1001003,
+							"name": "range",
+							"label": "Range",
+							"nodeType": 0,
+							"fieldType": 17,
+							"start": 3,
+							"end": 30,
+							"step": 6,
+							"appearance": "rating"
+						},
+						{
+							"parent": 1001003,
+							"id": 1001004,
+							"name": "text",
+							"label": "Text",
+							"hint": "type some text",
+							"nodeType": 0,
+							"fieldType": 0,
+							"validation": {
+								"conditions": [
+									{
+										"condition": "text.length > 2",
+										"clientValidation": true,
+										"errorMessage": "text must be longer"
+									}
+								]
+							}
+						},
+						{
+							"parent": 1001004,
+							"id": 1001005,
+							"name": "textarea",
+							"label": "Textarea",
+							"editable": false,
+							"nodeType": 0,
+							"fieldType": 1
+						}
+					]
+				},
+				{
+					"parent": 1001,
+					"id": 1002,
+					"name": "note",
+					"label": "",
+					"nodeType": 0,
+					"fieldType": 7,
+					"HTML": "Note"
+				},
+				{
+					"parent": 1002,
+					"id": 1003,
+					"name": "date",
+					"label": "Date",
+					"nodeType": 0,
+					"fieldType": 9
+				},
+				{
+					"parent": 1003,
+					"id": 1004,
+					"name": "time",
+					"label": "Time",
+					"nodeType": 0,
+					"fieldType": 10,
+					"visibility": {
+						"condition": "false"
+					}
+				},
+				{
+					"parent": 1004,
+					"id": 1005,
+					"name": "barcode",
+					"label": "Barcode",
+					"nodeType": 0,
+					"fieldType": 13
+				},
+				{
+					"parent": 1005,
+					"id": 1006,
+					"name": "geopoint",
+					"label": "Geopoint",
+					"nodeType": 0,
+					"fieldType": 12
+				},
+				{
+					"parent": 1006,
+					"id": 1007,
+					"name": "file",
+					"label": "File",
+					"nodeType": 0,
+					"fieldType": 14
+				},
+				{
+					"parent": 1007,
+					"id": 1008,
+					"name": "image",
+					"label": "Image",
+					"nodeType": 0,
+					"fieldType": 15
+				},
+				{
+					"parent": 1008,
+					"id": 1009,
+					"name": "signature",
+					"label": "Signature",
+					"nodeType": 0,
+					"fieldType": 18
+				},
+				{
+					"parent": 1009,
+					"id": 1010,
+					"name": "video",
+					"label": "Video",
+					"nodeType": 0,
+					"fieldType": 16
+				},
+				{
+					"parent": 1010,
+					"id": 1011,
+					"name": "audio",
+					"label": "Audio",
+					"nodeType": 0,
+					"fieldType": 19
+				},
+				{
+					"parent": 1011,
+					"id": 1012,
+					"name": "calc",
+					"label": "",
+					"nodeType": 0,
+					"fieldType": 6,
+					"formula": {
+						"formula": "2 + 4"
+					}
+				}
+			]
+		},
+		{
+			"parent": 1,
+			"id": 2,
+			"name": "toplevel_group",
+			"label": "Toplevel Group",
+			"nodeType": 3,
+			"readonly": {
+				"condition": "true"
+			},
+			"nodes": [
+				{
+					"parent": 2,
+					"id": 2001,
+					"name": "single_mealtime",
+					"label": "Single Mealtime",
+					"nodeType": 0,
+					"fieldType": 4,
+					"choicesOriginRef": "mealtime",
+					"forceNarrow": true
+				},
+				{
+					"parent": 2001,
+					"id": 2002,
+					"name": "multiple_mealtime",
+					"label": "Multiple Mealtime",
+					"nodeType": 0,
+					"fieldType": 5,
+					"choicesOriginRef": "mealtime"
+				}
+			]
+		}
+	]
+}
