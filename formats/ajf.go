@@ -160,6 +160,5 @@ func EncJsonToFile(fileName string, e interface{}) (err error) {
 
 func DecJson(r io.Reader, e interface{}) error {
 	dec := json.NewDecoder(r)
-	dec.DisallowUnknownFields()
 	return dec.Decode(e)
 }

@@ -341,6 +341,6 @@ Such tags will be added to the `stringIdentifier` list of tags in the resulting 
 ## Reverse Conversion
 
 Formconv can also convert json forms back to xlsforms.
-The conversion is best-effort and is typically unable to recrate the original xlsform precisely.
+The conversion is best-effort and is typically unable to recreate the original xlsform precisely.
 Some form features are not supported: multiple languages, choice filters, tables,
 multiple constraints per field.
