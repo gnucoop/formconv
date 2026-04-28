@@ -248,15 +248,13 @@ func TestLanguages(t *testing.T) {
 }
 
 func TestReverse(t *testing.T) {
-	in := "testdata/reverse.xlsx"
+	in := "testdata/reverse_oracle.json"
 	out := "testdata/reverse.json"
-	oracle := "testdata/reverse_oracle.json"
+	oracle := in
 
-	xls, err := DecXlsFromFile(in)
+	ajf, err := DecJsonFromFile(in)
 	check(t, err)
-	ajf, err := Convert(xls)
-	check(t, err)
-	xls, err = Revert(ajf)
+	xls, err := Revert(ajf)
 	check(t, err)
 	ajf, err = Convert(xls)
 	check(t, err)

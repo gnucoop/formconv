@@ -162,3 +162,15 @@ func DecJson(r io.Reader, e interface{}) error {
 	dec := json.NewDecoder(r)
 	return dec.Decode(e)
 }
+
+func DecJsonFromFile(name string) (*AjfForm, error) {
+	f, err := os.Open(name)
+	if err != nil {
+		return nil, err
+	}
+	defer f.Close()
+
+	var ajf AjfForm
+	err = DecJson(f, &ajf)
+	return &ajf, err
+}

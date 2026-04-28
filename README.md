@@ -263,6 +263,7 @@ Calculations can be performed using the values of other questions:
 |calculate |tip       |5% tip is:          |`${amount} * 0.05`|
 
 The results of calculations will appear as read-only fields in the form.
+If the label is left empty, the field will be hidden from the user.
 
 ## Choice filters
 
