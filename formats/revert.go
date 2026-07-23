@@ -54,10 +54,10 @@ func nodesToSurvey(nodes []Node) ([]SurveyRow, error) {
 		if node.Type == NtRepeatingSlide && node.MaxReps != nil {
 			beginRow.cells["repeat_count"] = fmt.Sprintf("%d", *node.MaxReps)
 		}
-		if node.Visibility != nil && node.Visibility.Condition != "" {
+		if node.Visibility != nil && node.Visibility.Condition != "" && node.Visibility.Condition != "true" {
 			beginRow.cells["relevant"] = "js: " + node.Visibility.Condition
 		}
-		if node.ReadOnly != nil && node.ReadOnly.Condition != "" {
+		if node.ReadOnly != nil && node.ReadOnly.Condition != "" && node.ReadOnly.Condition != "false" {
 			beginRow.cells["readonly"] = "js: " + node.ReadOnly.Condition
 		}
 		surveyRows = append(surveyRows, beginRow)
@@ -114,7 +114,7 @@ func fieldToSurveyRow(node Node) (SurveyRow, error) {
 		row.cells["appearance"] = "signature"
 	}
 
-	if node.Visibility != nil && node.Visibility.Condition != "" {
+	if node.Visibility != nil && node.Visibility.Condition != "" && node.Visibility.Condition != "true" {
 		row.cells["relevant"] = "js: " + node.Visibility.Condition
 	}
 	if node.Editable != nil && !*node.Editable {

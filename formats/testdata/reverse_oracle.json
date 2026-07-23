@@ -42,9 +42,6 @@
 			"label": "Repeat",
 			"nodeType": 4,
 			"maxReps": 7,
-			"visibility": {
-				"condition": "true"
-			},
 			"nodes": [
 				{
 					"parent": 1,
