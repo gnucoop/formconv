@@ -158,6 +158,9 @@ func checkNames(survey []SurveyRow) error {
 			}
 			fallthrough
 		default:
+			if strings.Contains(name, "__") {
+				return fmtSrcErr(row.LineNum, "Name %q cannot contain __.", name)
+			}
 			if !isIdentifier(name) {
 				return fmtSrcErr(row.LineNum, "Name %q is not a valid identifier.", name)
 			}
